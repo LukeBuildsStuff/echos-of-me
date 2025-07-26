@@ -3,6 +3,7 @@
 import { useSession, signOut } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import RoleSelector, { UserRoleProfile } from '@/components/RoleSelector'
@@ -112,7 +113,9 @@ export default function Dashboard() {
       <div className="min-h-screen bg-background">
         <header className="border-b">
           <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 className="text-2xl font-bold">Echos Of Me</h1>
+            <Link href="/" className="text-2xl font-bold hover:text-blue-600 transition-colors">
+              Echos Of Me
+            </Link>
             <div className="flex items-center gap-4">
               <span className="text-sm text-muted-foreground">
                 Welcome, {session.user?.name}
@@ -139,7 +142,9 @@ export default function Dashboard() {
       <div className="min-h-screen bg-background">
         <header className="border-b">
           <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 className="text-2xl font-bold">Echos Of Me</h1>
+            <Link href="/" className="text-2xl font-bold hover:text-blue-600 transition-colors">
+              Echos Of Me
+            </Link>
             <div className="flex items-center gap-4">
               <Button variant="ghost" onClick={() => setCurrentView('dashboard')}>
                 ← Back to Dashboard
@@ -166,7 +171,9 @@ export default function Dashboard() {
       <div className="min-h-screen bg-background">
         <header className="border-b">
           <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-            <h1 className="text-2xl font-bold">Echos Of Me</h1>
+            <Link href="/" className="text-2xl font-bold hover:text-blue-600 transition-colors">
+              Echos Of Me
+            </Link>
             <div className="flex items-center gap-4">
               <Button variant="ghost" onClick={() => setCurrentView('dashboard')}>
                 ← Back to Dashboard
