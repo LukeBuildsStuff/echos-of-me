@@ -4,13 +4,24 @@
 import { FamilyRole, RoleSpecificQuestion, getQuestionsByRole } from './family-role-questions'
 import { LegacyCategory, legacyQuestionTemplates } from './legacy-questions'
 
+// Helper function to calculate current ages from birthdays
+export function calculateAgesFromBirthdays(birthdays: string[]): number[] {
+  const today = new Date()
+  return birthdays.map(birthday => {
+    const birthDate = new Date(birthday)
+    const age = today.getFullYear() - birthDate.getFullYear()
+    const monthDiff = today.getMonth() - birthDate.getMonth()
+    return monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age
+  })
+}
+
 export interface UserProfile {
   userId: string
   primaryRole: FamilyRole
   secondaryRoles?: FamilyRole[]
   name?: string
   birthday?: string
-  childrenAges?: number[] // Ages of children/grandchildren
+  childrenBirthdays?: string[] // Birthdays of children/grandchildren
   importantPeople?: Array<{
     name: string
     relationship: string

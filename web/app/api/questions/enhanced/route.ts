@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
         birthday,
         primary_role,
         secondary_roles,
-        children_ages,
+        children_birthdays,
         important_people,
         cultural_background
       FROM users 
@@ -94,7 +94,7 @@ export async function GET(request: NextRequest) {
         languagePatterns: []
       },
       lifeStage: {
-        currentPhase: determineLifeStage(user.children_ages, user.birthday),
+        currentPhase: determineLifeStage(user.children_birthdays, user.birthday),
         majorTransitions: [],
         currentChallenges: [],
         futureAnticipations: []
@@ -320,7 +320,7 @@ function analyzeResponseDepth(text: string, wordCount: number): 1 | 2 | 3 | 4 | 
   return Math.min(depth, 5) as 1 | 2 | 3 | 4 | 5
 }
 
-function determineLifeStage(childrenAges?: number[], birthday?: string): UserContext['lifeStage']['currentPhase'] {
+function determineLifeStage(childrenBirthdays?: string[], birthday?: string): UserContext['lifeStage']['currentPhase'] {
   let userAge = 30 // default age if no birthday provided
   
   if (birthday) {
@@ -329,13 +329,22 @@ function determineLifeStage(childrenAges?: number[], birthday?: string): UserCon
     userAge = today.getFullYear() - birthDate.getFullYear()
   }
   
-  if (!childrenAges || childrenAges.length === 0) {
+  if (!childrenBirthdays || childrenBirthdays.length === 0) {
     if (userAge < 25) return 'young_adult'
     if (userAge < 40) return 'establishing'
     if (userAge < 55) return 'midlife'
     if (userAge < 70) return 'mature'
     return 'elder'
   }
+  
+  // Calculate current ages from birthdays
+  const today = new Date()
+  const childrenAges = childrenBirthdays.map(birthday => {
+    const birthDate = new Date(birthday)
+    const age = today.getFullYear() - birthDate.getFullYear()
+    const monthDiff = today.getMonth() - birthDate.getMonth()
+    return monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age
+  })
   
   const maxAge = Math.max(...childrenAges)
   const minAge = Math.min(...childrenAges)

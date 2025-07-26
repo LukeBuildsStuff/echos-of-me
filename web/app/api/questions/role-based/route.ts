@@ -5,7 +5,8 @@ import { db } from '@/lib/db'
 import { 
   createQuestionSelector, 
   UserProfile,
-  getQuestionPackage 
+  getQuestionPackage,
+  calculateAgesFromBirthdays 
 } from '@/lib/role-question-selector'
 
 // GET /api/questions/role-based - Get personalized questions based on family role
@@ -30,7 +31,7 @@ export async function GET(request: NextRequest) {
         birthday,
         primary_role,
         secondary_roles,
-        children_ages,
+        children_birthdays,
         important_people,
         significant_events,
         cultural_background
@@ -48,7 +49,7 @@ export async function GET(request: NextRequest) {
       secondaryRoles: user.rows[0].secondary_roles,
       name: user.rows[0].name,
       birthday: user.rows[0].birthday,
-      childrenAges: user.rows[0].children_ages,
+      childrenBirthdays: user.rows[0].children_birthdays,
       importantPeople: user.rows[0].important_people,
       significantEvents: user.rows[0].significant_events,
       culturalBackground: user.rows[0].cultural_background
@@ -121,7 +122,8 @@ export async function GET(request: NextRequest) {
       userProfile: {
         primaryRole: userProfile.primaryRole,
         name: userProfile.name,
-        hasChildren: (userProfile.childrenAges?.length || 0) > 0,
+        hasChildren: (userProfile.childrenBirthdays?.length || 0) > 0,
+        childrenAges: userProfile.childrenBirthdays ? calculateAgesFromBirthdays(userProfile.childrenBirthdays) : [],
         importantPeopleCount: userProfile.importantPeople?.length || 0
       },
       totalAnswered: sessionHistory.rows.reduce(
@@ -153,7 +155,7 @@ export async function POST(request: NextRequest) {
       secondaryRoles,
       name,
       birthday,
-      childrenAges,
+      childrenBirthdays,
       importantPeople,
       significantEvents,
       culturalBackground
@@ -167,7 +169,7 @@ export async function POST(request: NextRequest) {
         birthday = COALESCE($3, birthday),
         primary_role = COALESCE($4, primary_role),
         secondary_roles = COALESCE($5, secondary_roles),
-        children_ages = COALESCE($6, children_ages),
+        children_birthdays = COALESCE($6, children_birthdays),
         important_people = COALESCE($7, important_people),
         significant_events = COALESCE($8, significant_events),
         cultural_background = COALESCE($9, cultural_background),
@@ -180,7 +182,7 @@ export async function POST(request: NextRequest) {
       birthday,
       primaryRole,
       secondaryRoles,
-      childrenAges,
+      childrenBirthdays,
       importantPeople,
       significantEvents,
       culturalBackground

@@ -13,7 +13,7 @@ export interface UserRoleProfile {
   secondaryRoles: FamilyRole[]
   name?: string
   birthday?: string
-  childrenAges?: number[]
+  childrenBirthdays?: string[]
   importantPeople?: Array<{
     name: string
     relationship: string
@@ -64,7 +64,7 @@ export default function RoleSelector({ onComplete, initialProfile }: RoleSelecto
   const [step, setStep] = useState(1)
   const [profile, setProfile] = useState<Partial<UserRoleProfile>>(initialProfile || {})
   const [childCount, setChildCount] = useState(0)
-  const [tempChildAges, setTempChildAges] = useState<string[]>([])
+  const [tempChildBirthdays, setTempChildBirthdays] = useState<string[]>([])
   const [importantPeople, setImportantPeople] = useState<Array<{name: string, relationship: string}>>([{name: '', relationship: ''}])
 
   const handlePrimaryRoleSelect = (role: FamilyRole) => {
@@ -88,14 +88,13 @@ export default function RoleSelector({ onComplete, initialProfile }: RoleSelecto
   }
 
   const handleRelationshipDetails = () => {
-    // Convert child ages from strings to numbers
-    const childAges = tempChildAges
-      .map(age => parseInt(age))
-      .filter(age => !isNaN(age))
+    // Filter out empty birthdays
+    const childBirthdays = tempChildBirthdays
+      .filter(birthday => birthday.trim() !== '')
 
     setProfile({
       ...profile,
-      childrenAges: childAges.length > 0 ? childAges : undefined
+      childrenBirthdays: childBirthdays.length > 0 ? childBirthdays : undefined
     })
     setStep(4)
   }
@@ -112,7 +111,7 @@ export default function RoleSelector({ onComplete, initialProfile }: RoleSelecto
         secondaryRoles: profile.secondaryRoles || [],
         name: profile.name,
         birthday: profile.birthday,
-        childrenAges: profile.childrenAges,
+        childrenBirthdays: profile.childrenBirthdays,
         importantPeople: filteredImportantPeople.length > 0 ? filteredImportantPeople : undefined,
         significantEvents: profile.significantEvents,
         culturalBackground: profile.culturalBackground
@@ -253,7 +252,7 @@ export default function RoleSelector({ onComplete, initialProfile }: RoleSelecto
                   onChange={(e) => {
                     const count = parseInt(e.target.value)
                     setChildCount(count)
-                    setTempChildAges(new Array(count).fill(''))
+                    setTempChildBirthdays(new Array(count).fill(''))
                   }}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg"
                 >
@@ -265,21 +264,23 @@ export default function RoleSelector({ onComplete, initialProfile }: RoleSelecto
 
                 {childCount > 0 && (
                   <div className="mt-4 space-y-2">
-                    <p className="text-sm text-gray-600">Ages of your children:</p>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                      {tempChildAges.map((age, index) => (
-                        <input
-                          key={index}
-                          type="number"
-                          value={age}
-                          onChange={(e) => {
-                            const newAges = [...tempChildAges]
-                            newAges[index] = e.target.value
-                            setTempChildAges(newAges)
-                          }}
-                          placeholder={`Child ${index + 1}`}
-                          className="px-3 py-1 border border-gray-300 rounded"
-                        />
+                    <p className="text-sm text-gray-600">Birthdays of your children:</p>
+                    <p className="text-xs text-gray-500">This helps us ask age-appropriate questions as they grow</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {tempChildBirthdays.map((birthday, index) => (
+                        <div key={index} className="flex flex-col">
+                          <label className="text-xs text-gray-500 mb-1">Child {index + 1}</label>
+                          <input
+                            type="date"
+                            value={birthday}
+                            onChange={(e) => {
+                              const newBirthdays = [...tempChildBirthdays]
+                              newBirthdays[index] = e.target.value
+                              setTempChildBirthdays(newBirthdays)
+                            }}
+                            className="px-3 py-2 border border-gray-300 rounded-lg"
+                          />
+                        </div>
                       ))}
                     </div>
                   </div>
@@ -394,10 +395,24 @@ export default function RoleSelector({ onComplete, initialProfile }: RoleSelecto
                 </div>
               )}
 
-              {profile.childrenAges && profile.childrenAges.length > 0 && (
+              {profile.childrenBirthdays && profile.childrenBirthdays.length > 0 && (
                 <div>
-                  <span className="font-semibold">Children ages:</span>{' '}
-                  {profile.childrenAges.join(', ')}
+                  <span className="font-semibold">Children:</span>
+                  <div className="mt-2 ml-4">
+                    {profile.childrenBirthdays.map((birthday, index) => {
+                      const birthDate = new Date(birthday)
+                      const today = new Date()
+                      const age = today.getFullYear() - birthDate.getFullYear()
+                      const monthDiff = today.getMonth() - birthDate.getMonth()
+                      const actualAge = monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate()) ? age - 1 : age
+                      
+                      return (
+                        <div key={index} className="text-gray-700">
+                          Child {index + 1}: {actualAge} years old ({birthDate.toLocaleDateString()})
+                        </div>
+                      )
+                    })}
+                  </div>
                 </div>
               )}
 
