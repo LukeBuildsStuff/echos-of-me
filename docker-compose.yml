@@ -1,0 +1,85 @@
+
+services:
+  # Next.js Frontend + API
+  web:
+    build: 
+      context: ./web
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://personalai:personalai123@db:5432/personalai
+      - REDIS_URL=redis://redis:6379
+      - NEXTAUTH_URL=http://localhost:3001
+      - NEXTAUTH_SECRET=your-secret-key-here-change-in-production
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+      - /app/.next
+    depends_on:
+      - db
+      - redis
+    command: npm run dev
+
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=personalai
+      - POSTGRES_USER=personalai
+      - POSTGRES_PASSWORD=personalai123
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  # Redis for caching/sessions
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # pgAdmin for database management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    ports:
+      - "5050:80"
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@personalai.com
+      - PGADMIN_DEFAULT_PASSWORD=admin123
+    depends_on:
+      - db
+
+  # Python ML Training Container with GPU support
+  ml-trainer:
+    build:
+      context: ./ml
+      dockerfile: Dockerfile
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=0
+      - CUDA_VISIBLE_DEVICES=0
+      - DATABASE_URL=postgresql://personalai:personalai123@db:5432/personalai
+      - HF_HOME=/models/huggingface
+    volumes:
+      - ./ml:/workspace
+      - ./models:/models
+      - ./data:/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    stdin_open: true
+    tty: true
+    command: /bin/bash
+
+volumes:
+  postgres_data:
+  redis_data:
