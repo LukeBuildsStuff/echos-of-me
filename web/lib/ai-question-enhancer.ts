@@ -49,7 +49,6 @@ export interface RelationshipDynamics {
 export interface CulturalContext {
   culturalBackground: string[]
   valueSystem: string[]
-  spiritualOrientation: string
   generationalPerspective: 'traditional' | 'transitional' | 'modern'
   languagePatterns: string[]
 }

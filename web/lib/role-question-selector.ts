@@ -8,11 +8,15 @@ export interface UserProfile {
   userId: string
   primaryRole: FamilyRole
   secondaryRoles?: FamilyRole[]
-  relationshipYears?: number // How long in the relationship
+  name?: string
+  birthday?: string
   childrenAges?: number[] // Ages of children/grandchildren
+  importantPeople?: Array<{
+    name: string
+    relationship: string
+  }>
   significantEvents?: string[] // marriage, divorce, loss, illness
   culturalBackground?: string[]
-  spiritualOrientation?: 'religious' | 'spiritual' | 'secular' | 'mixed'
 }
 
 export interface QuestionSession {

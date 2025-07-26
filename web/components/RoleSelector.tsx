@@ -11,11 +11,15 @@ interface RoleSelectorProps {
 export interface UserRoleProfile {
   primaryRole: FamilyRole
   secondaryRoles: FamilyRole[]
-  relationshipYears?: number
+  name?: string
+  birthday?: string
   childrenAges?: number[]
+  importantPeople?: Array<{
+    name: string
+    relationship: string
+  }>
   significantEvents?: string[]
   culturalBackground?: string[]
-  spiritualOrientation?: 'religious' | 'spiritual' | 'secular' | 'mixed'
 }
 
 const roleDescriptions: Record<FamilyRole, { title: string; description: string; icon: string }> = {
@@ -61,6 +65,7 @@ export default function RoleSelector({ onComplete, initialProfile }: RoleSelecto
   const [profile, setProfile] = useState<Partial<UserRoleProfile>>(initialProfile || {})
   const [childCount, setChildCount] = useState(0)
   const [tempChildAges, setTempChildAges] = useState<string[]>([])
+  const [importantPeople, setImportantPeople] = useState<Array<{name: string, relationship: string}>>([{name: '', relationship: ''}])
 
   const handlePrimaryRoleSelect = (role: FamilyRole) => {
     setProfile({ ...profile, primaryRole: role, secondaryRoles: [] })
@@ -97,14 +102,20 @@ export default function RoleSelector({ onComplete, initialProfile }: RoleSelecto
 
   const handleComplete = () => {
     if (profile.primaryRole) {
+      // Filter out empty important people entries
+      const filteredImportantPeople = importantPeople.filter(person => 
+        person.name.trim() && person.relationship.trim()
+      )
+      
       onComplete({
         primaryRole: profile.primaryRole,
         secondaryRoles: profile.secondaryRoles || [],
-        relationshipYears: profile.relationshipYears,
+        name: profile.name,
+        birthday: profile.birthday,
         childrenAges: profile.childrenAges,
+        importantPeople: filteredImportantPeople.length > 0 ? filteredImportantPeople : undefined,
         significantEvents: profile.significantEvents,
-        culturalBackground: profile.culturalBackground,
-        spiritualOrientation: profile.spiritualOrientation
+        culturalBackground: profile.culturalBackground
       })
     }
   }
@@ -189,33 +200,47 @@ export default function RoleSelector({ onComplete, initialProfile }: RoleSelecto
         </div>
       )}
 
-      {/* Step 3: Relationship Details */}
+      {/* Step 3: Personal Information */}
       {step === 3 && (
         <div className="space-y-6">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold mb-4">Tell Us More About Your Journey</h2>
-            <p className="text-gray-600">This helps us ask the most meaningful questions</p>
+            <h2 className="text-3xl font-bold mb-4">Tell Us About Yourself</h2>
+            <p className="text-gray-600">This helps us personalize your legacy preservation</p>
           </div>
 
           <div className="space-y-6 max-w-2xl mx-auto">
-            {/* Relationship Years */}
-            {(profile.primaryRole === 'spouse' || profile.primaryRole === 'parent') && (
-              <div>
-                <label className="block text-sm font-medium mb-2">
-                  How many years have you been in this relationship?
-                </label>
-                <input
-                  type="number"
-                  value={profile.relationshipYears || ''}
-                  onChange={(e) => setProfile({
-                    ...profile,
-                    relationshipYears: parseInt(e.target.value) || undefined
-                  })}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg"
-                  placeholder="Years"
-                />
-              </div>
-            )}
+            {/* Name */}
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                What name would you like to be remembered by?
+              </label>
+              <input
+                type="text"
+                value={profile.name || ''}
+                onChange={(e) => setProfile({
+                  ...profile,
+                  name: e.target.value
+                })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+                placeholder="Your preferred name"
+              />
+            </div>
+
+            {/* Birthday */}
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                When is your birthday?
+              </label>
+              <input
+                type="date"
+                value={profile.birthday || ''}
+                onChange={(e) => setProfile({
+                  ...profile,
+                  birthday: e.target.value
+                })}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+              />
+            </div>
 
             {/* Children Information */}
             {(profile.primaryRole === 'parent' || profile.primaryRole === 'grandparent') && (
@@ -262,25 +287,57 @@ export default function RoleSelector({ onComplete, initialProfile }: RoleSelecto
               </div>
             )}
 
-            {/* Spiritual Orientation */}
+            {/* Important People */}
             <div>
               <label className="block text-sm font-medium mb-2">
-                How would you describe your spiritual or religious orientation?
+                Who are the most important people in your life?
               </label>
-              <select
-                value={profile.spiritualOrientation || ''}
-                onChange={(e) => setProfile({
-                  ...profile,
-                  spiritualOrientation: e.target.value as UserRoleProfile['spiritualOrientation']
-                })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg"
+              <p className="text-sm text-gray-500 mb-3">
+                Tell us about the people your legacy will touch most deeply
+              </p>
+              {importantPeople.map((person, index) => (
+                <div key={index} className="flex gap-3 mb-3">
+                  <input
+                    type="text"
+                    value={person.name}
+                    onChange={(e) => {
+                      const updated = [...importantPeople]
+                      updated[index].name = e.target.value
+                      setImportantPeople(updated)
+                    }}
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg"
+                    placeholder="Name"
+                  />
+                  <input
+                    type="text"
+                    value={person.relationship}
+                    onChange={(e) => {
+                      const updated = [...importantPeople]
+                      updated[index].relationship = e.target.value
+                      setImportantPeople(updated)
+                    }}
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg"
+                    placeholder="Relationship (e.g., daughter, son, spouse)"
+                  />
+                  {importantPeople.length > 1 && (
+                    <button
+                      onClick={() => {
+                        const updated = importantPeople.filter((_, i) => i !== index)
+                        setImportantPeople(updated)
+                      }}
+                      className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg"
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
+              ))}
+              <button
+                onClick={() => setImportantPeople([...importantPeople, {name: '', relationship: ''}])}
+                className="text-blue-600 hover:text-blue-700 text-sm font-medium"
               >
-                <option value="">Prefer not to say</option>
-                <option value="religious">Religious</option>
-                <option value="spiritual">Spiritual but not religious</option>
-                <option value="secular">Secular/Non-religious</option>
-                <option value="mixed">Mixed/Complex</option>
-              </select>
+                + Add another person
+              </button>
             </div>
           </div>
 
@@ -311,6 +368,20 @@ export default function RoleSelector({ onComplete, initialProfile }: RoleSelecto
 
           <div className="bg-gray-50 rounded-lg p-6 max-w-2xl mx-auto">
             <div className="space-y-4">
+              {profile.name && (
+                <div>
+                  <span className="font-semibold">Name:</span>{' '}
+                  {profile.name}
+                </div>
+              )}
+
+              {profile.birthday && (
+                <div>
+                  <span className="font-semibold">Birthday:</span>{' '}
+                  {new Date(profile.birthday).toLocaleDateString()}
+                </div>
+              )}
+
               <div>
                 <span className="font-semibold">Primary Role:</span>{' '}
                 {roleDescriptions[profile.primaryRole!].title}
@@ -323,13 +394,6 @@ export default function RoleSelector({ onComplete, initialProfile }: RoleSelecto
                 </div>
               )}
 
-              {profile.relationshipYears && (
-                <div>
-                  <span className="font-semibold">Years in relationship:</span>{' '}
-                  {profile.relationshipYears}
-                </div>
-              )}
-
               {profile.childrenAges && profile.childrenAges.length > 0 && (
                 <div>
                   <span className="font-semibold">Children ages:</span>{' '}
@@ -337,10 +401,19 @@ export default function RoleSelector({ onComplete, initialProfile }: RoleSelecto
                 </div>
               )}
 
-              {profile.spiritualOrientation && (
+              {importantPeople.filter(p => p.name.trim() && p.relationship.trim()).length > 0 && (
                 <div>
-                  <span className="font-semibold">Spiritual orientation:</span>{' '}
-                  {profile.spiritualOrientation}
+                  <span className="font-semibold">Important people:</span>
+                  <div className="mt-2 ml-4">
+                    {importantPeople
+                      .filter(p => p.name.trim() && p.relationship.trim())
+                      .map((person, index) => (
+                        <div key={index} className="text-gray-700">
+                          {person.name} ({person.relationship})
+                        </div>
+                      ))
+                    }
+                  </div>
                 </div>
               )}
             </div>

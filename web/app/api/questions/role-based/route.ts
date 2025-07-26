@@ -26,13 +26,14 @@ export async function GET(request: NextRequest) {
     const user = await db.query(`
       SELECT 
         id,
+        name,
+        birthday,
         primary_role,
         secondary_roles,
-        relationship_years,
         children_ages,
+        important_people,
         significant_events,
-        cultural_background,
-        spiritual_orientation
+        cultural_background
       FROM users 
       WHERE email = $1
     `, [session.user.email])
@@ -45,11 +46,12 @@ export async function GET(request: NextRequest) {
       userId: user.rows[0].id,
       primaryRole: user.rows[0].primary_role || 'parent',
       secondaryRoles: user.rows[0].secondary_roles,
-      relationshipYears: user.rows[0].relationship_years,
+      name: user.rows[0].name,
+      birthday: user.rows[0].birthday,
       childrenAges: user.rows[0].children_ages,
+      importantPeople: user.rows[0].important_people,
       significantEvents: user.rows[0].significant_events,
-      culturalBackground: user.rows[0].cultural_background,
-      spiritualOrientation: user.rows[0].spiritual_orientation
+      culturalBackground: user.rows[0].cultural_background
     }
 
     // Get session history
@@ -118,8 +120,9 @@ export async function GET(request: NextRequest) {
       questions: questionDetails.rows,
       userProfile: {
         primaryRole: userProfile.primaryRole,
+        name: userProfile.name,
         hasChildren: (userProfile.childrenAges?.length || 0) > 0,
-        relationshipStage: getRelationshipStage(userProfile.relationshipYears)
+        importantPeopleCount: userProfile.importantPeople?.length || 0
       },
       totalAnswered: sessionHistory.rows.reduce(
         (sum, session) => sum + (session.questionsAnswered?.length || 0), 
@@ -148,36 +151,39 @@ export async function POST(request: NextRequest) {
     const {
       primaryRole,
       secondaryRoles,
-      relationshipYears,
+      name,
+      birthday,
       childrenAges,
+      importantPeople,
       significantEvents,
-      culturalBackground,
-      spiritualOrientation
+      culturalBackground
     } = body
 
     // Update user profile
     const result = await db.query(`
       UPDATE users 
       SET 
-        primary_role = COALESCE($2, primary_role),
-        secondary_roles = COALESCE($3, secondary_roles),
-        relationship_years = COALESCE($4, relationship_years),
-        children_ages = COALESCE($5, children_ages),
-        significant_events = COALESCE($6, significant_events),
-        cultural_background = COALESCE($7, cultural_background),
-        spiritual_orientation = COALESCE($8, spiritual_orientation),
+        name = COALESCE($2, name),
+        birthday = COALESCE($3, birthday),
+        primary_role = COALESCE($4, primary_role),
+        secondary_roles = COALESCE($5, secondary_roles),
+        children_ages = COALESCE($6, children_ages),
+        important_people = COALESCE($7, important_people),
+        significant_events = COALESCE($8, significant_events),
+        cultural_background = COALESCE($9, cultural_background),
         updated_at = CURRENT_TIMESTAMP
       WHERE email = $1
       RETURNING id
     `, [
       session.user.email,
+      name,
+      birthday,
       primaryRole,
       secondaryRoles,
-      relationshipYears,
       childrenAges,
+      importantPeople,
       significantEvents,
-      culturalBackground,
-      spiritualOrientation
+      culturalBackground
     ])
 
     if (!result.rows[0]) {
@@ -199,12 +205,3 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Helper function to categorize relationship stages
-function getRelationshipStage(years?: number): string {
-  if (!years) return 'unknown'
-  if (years < 2) return 'new'
-  if (years < 7) return 'building'
-  if (years < 15) return 'established'
-  if (years < 25) return 'mature'
-  return 'enduring'
-}

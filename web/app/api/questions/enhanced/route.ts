@@ -22,12 +22,12 @@ export async function GET(request: NextRequest) {
       SELECT 
         id,
         name,
+        birthday,
         primary_role,
         secondary_roles,
-        relationship_years,
         children_ages,
-        cultural_background,
-        spiritual_orientation
+        important_people,
+        cultural_background
       FROM users 
       WHERE email = $1
     `, [session.user.email])
@@ -90,12 +90,11 @@ export async function GET(request: NextRequest) {
       culturalContext: {
         culturalBackground: user.cultural_background || [],
         valueSystem: [],
-        spiritualOrientation: user.spiritual_orientation || 'mixed',
         generationalPerspective: 'modern',
         languagePatterns: []
       },
       lifeStage: {
-        currentPhase: determineLifeStage(user.children_ages, user.relationship_years),
+        currentPhase: determineLifeStage(user.children_ages, user.birthday),
         majorTransitions: [],
         currentChallenges: [],
         futureAnticipations: []
@@ -321,10 +320,21 @@ function analyzeResponseDepth(text: string, wordCount: number): 1 | 2 | 3 | 4 | 
   return Math.min(depth, 5) as 1 | 2 | 3 | 4 | 5
 }
 
-function determineLifeStage(childrenAges?: number[], relationshipYears?: number): UserContext['lifeStage']['currentPhase'] {
+function determineLifeStage(childrenAges?: number[], birthday?: string): UserContext['lifeStage']['currentPhase'] {
+  let userAge = 30 // default age if no birthday provided
+  
+  if (birthday) {
+    const birthDate = new Date(birthday)
+    const today = new Date()
+    userAge = today.getFullYear() - birthDate.getFullYear()
+  }
+  
   if (!childrenAges || childrenAges.length === 0) {
-    if (!relationshipYears || relationshipYears < 5) return 'young_adult'
-    return 'establishing'
+    if (userAge < 25) return 'young_adult'
+    if (userAge < 40) return 'establishing'
+    if (userAge < 55) return 'midlife'
+    if (userAge < 70) return 'mature'
+    return 'elder'
   }
   
   const maxAge = Math.max(...childrenAges)
