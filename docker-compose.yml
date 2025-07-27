@@ -11,8 +11,10 @@ services:
       - NODE_ENV=development
       - DATABASE_URL=postgresql://personalai:personalai123@db:5432/personalai
       - REDIS_URL=redis://redis:6379
-      - NEXTAUTH_URL=http://localhost:3001
+      - NEXTAUTH_URL=https://echosofme.io
       - NEXTAUTH_SECRET=your-secret-key-here-change-in-production
+      - SMTP_USER=your-gmail@gmail.com
+      - SMTP_APP_PASSWORD=your-gmail-app-password
     volumes:
       - ./web:/app
       - /app/node_modules
@@ -65,10 +67,12 @@ services:
       - CUDA_VISIBLE_DEVICES=0
       - DATABASE_URL=postgresql://personalai:personalai123@db:5432/personalai
       - HF_HOME=/models/huggingface
+      - PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:512
     volumes:
       - ./ml:/workspace
       - ./models:/models
       - ./data:/data
+      - ./web:/web
     deploy:
       resources:
         reservations:
@@ -79,6 +83,64 @@ services:
     stdin_open: true
     tty: true
     command: /bin/bash
+
+  # Ollama Service for Mistral-7B
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=0
+    volumes:
+      - ./models/ollama:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+
+  # ML Inference Server
+  ml-inference:
+    build:
+      context: ./ml
+      dockerfile: Dockerfile
+    runtime: nvidia
+    ports:
+      - "8000:8000"
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=0
+      - CUDA_VISIBLE_DEVICES=0
+      - PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:512
+      - HF_HOME=/models/huggingface
+      - OLLAMA_URL=http://ollama:11434
+    volumes:
+      - ./models:/models
+      - ./ml:/workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    depends_on:
+      - db
+      - ollama
+    restart: unless-stopped
+    command: python /workspace/inference_server.py
+
+  # Cloudflare Tunnel for echosofme.io
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run --token eyJhIjoiN2MzMTI2NzdiZjUzYzMwYmJjZjkwNWVjMWFlZGZkMDIiLCJ0IjoiN2ZiNWY3NDMtOTFjNS00Mzk2LThhZGMtYjBlYzU5NjA0NDU5IiwicyI6Ik56RTNNRFZsTTJVdE1HSTNZUzAwT0daa0xXRXhOamt0TERFNU5UWTBaakkwTldReiJ9
+    depends_on:
+      - web
+    restart: unless-stopped
+    networks:
+      - default
 
 volumes:
   postgres_data:

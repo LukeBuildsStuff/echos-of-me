@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { MilestoneType, milestoneTemplates } from '@/lib/milestone-messages'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 interface MilestoneCreatorProps {
   onSave: (milestone: any) => void
@@ -99,17 +100,21 @@ export default function MilestoneCreator({ onSave, onCancel, initialData }: Mile
             {/* Milestone Type Selection */}
             <div>
               <label className="block text-sm font-medium mb-2">Milestone Type</label>
-              <select
+              <Select
                 value={milestoneType}
-                onChange={(e) => setMilestoneType(e.target.value as MilestoneType)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                onValueChange={(value) => setMilestoneType(value as MilestoneType)}
               >
-                {Object.entries(milestoneTemplates).map(([type, template]) => (
-                  <option key={type} value={type}>
-                    {template.title}
-                  </option>
-                ))}
-              </select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Choose milestone type" />
+                </SelectTrigger>
+                <SelectContent>
+                  {Object.entries(milestoneTemplates).map(([type, template]) => (
+                    <SelectItem key={type} value={type}>
+                      {template.title}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <p className="mt-1 text-sm text-gray-600">{currentTemplate.description}</p>
             </div>
 
@@ -201,17 +206,21 @@ export default function MilestoneCreator({ onSave, onCancel, initialData }: Mile
             {/* Emotional Tone */}
             <div>
               <label className="block text-sm font-medium mb-2">Emotional Tone</label>
-              <select
+              <Select
                 value={formData.emotionalTone}
-                onChange={(e) => setFormData({ ...formData, emotionalTone: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                onValueChange={(value) => setFormData({ ...formData, emotionalTone: value })}
               >
-                <option value="celebratory">Celebratory</option>
-                <option value="supportive">Supportive</option>
-                <option value="guiding">Guiding</option>
-                <option value="loving">Loving</option>
-                <option value="reflective">Reflective</option>
-              </select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Choose emotional tone" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="celebratory">🎉 Celebratory</SelectItem>
+                  <SelectItem value="supportive">🤗 Supportive</SelectItem>
+                  <SelectItem value="guiding">🧭 Guiding</SelectItem>
+                  <SelectItem value="loving">💝 Loving</SelectItem>
+                  <SelectItem value="reflective">🤔 Reflective</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </>
         ) : (
@@ -231,18 +240,22 @@ export default function MilestoneCreator({ onSave, onCancel, initialData }: Mile
 
             <div>
               <label className="block text-sm font-medium mb-2">Category</label>
-              <select
+              <Select
                 value={formData.entryCategory}
-                onChange={(e) => setFormData({ ...formData, entryCategory: e.target.value })}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                onValueChange={(value) => setFormData({ ...formData, entryCategory: value })}
               >
-                <option value="memory">Memory</option>
-                <option value="reflection">Reflection</option>
-                <option value="advice">Advice</option>
-                <option value="story">Story</option>
-                <option value="feeling">Feeling</option>
-                <option value="observation">Observation</option>
-              </select>
+                <SelectTrigger>
+                  <SelectValue placeholder="Choose entry category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="memory">📷 Memory</SelectItem>
+                  <SelectItem value="reflection">💭 Reflection</SelectItem>
+                  <SelectItem value="advice">💡 Advice</SelectItem>
+                  <SelectItem value="story">📚 Story</SelectItem>
+                  <SelectItem value="feeling">❤️ Feeling</SelectItem>
+                  <SelectItem value="observation">👁️ Observation</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div>

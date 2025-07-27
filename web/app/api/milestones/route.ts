@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import { db } from '@/lib/db'
+import { authOptions } from '@/lib/auth'
+import { query } from '@/lib/db'
 import { MilestoneMessage, LifeDetailEntry } from '@/lib/milestone-messages'
 
 // GET /api/milestones - Get user's milestone messages and life entries
@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
     const offset = parseInt(searchParams.get('offset') || '0')
 
     // Get user ID
-    const userResult = await db.query(
+    const userResult = await query(
       'SELECT id FROM users WHERE email = $1',
       [session.user.email]
     )
@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
 
     if (type === 'entries') {
       // Get life detail entries
-      let query = `
+      let queryText = `
         SELECT 
           id,
           entry_date,
@@ -56,13 +56,13 @@ export async function GET(request: NextRequest) {
 
       if (category) {
         paramCount++
-        query += ` AND category = $${paramCount}`
+        queryText += ` AND category = $${paramCount}`
         params.push(category)
       }
 
       if (search) {
         paramCount++
-        query += ` AND (
+        queryText += ` AND (
           title ILIKE $${paramCount} OR 
           content ILIKE $${paramCount} OR
           $${paramCount} = ANY(tags)
@@ -70,10 +70,10 @@ export async function GET(request: NextRequest) {
         params.push(`%${search}%`)
       }
 
-      query += ` ORDER BY entry_date DESC, created_at DESC LIMIT $${++paramCount} OFFSET $${++paramCount}`
+      queryText += ` ORDER BY entry_date DESC, created_at DESC LIMIT $${++paramCount} OFFSET $${++paramCount}`
       params.push(limit, offset)
 
-      const entries = await db.query(query, params)
+      const entries = await query(queryText, params)
 
       // Get total count
       let countQuery = `
@@ -86,7 +86,7 @@ export async function GET(request: NextRequest) {
         countParams.push(category)
       }
 
-      const countResult = await db.query(countQuery, countParams)
+      const countResult = await query(countQuery, countParams)
 
       return NextResponse.json({
         entries: entries.rows,
@@ -97,7 +97,7 @@ export async function GET(request: NextRequest) {
 
     } else {
       // Get milestone messages
-      let query = `
+      let queryText = `
         SELECT 
           id,
           milestone_type,
@@ -121,26 +121,26 @@ export async function GET(request: NextRequest) {
 
       if (recipient) {
         paramCount++
-        query += ` AND (recipient_name = $${paramCount} OR recipient_name IS NULL)`
+        queryText += ` AND (recipient_name = $${paramCount} OR recipient_name IS NULL)`
         params.push(recipient)
       }
 
       if (search) {
         paramCount++
-        query += ` AND (
+        queryText += ` AND (
           message_title ILIKE $${paramCount} OR 
           message_content ILIKE $${paramCount}
         )`
         params.push(`%${search}%`)
       }
 
-      query += ` ORDER BY created_at DESC LIMIT $${++paramCount} OFFSET $${++paramCount}`
+      queryText += ` ORDER BY created_at DESC LIMIT $${++paramCount} OFFSET $${++paramCount}`
       params.push(limit, offset)
 
-      const milestones = await db.query(query, params)
+      const milestones = await query(queryText, params)
 
       // Get total count
-      const countResult = await db.query(
+      const countResult = await query(
         'SELECT COUNT(*) FROM milestone_messages WHERE user_id = $1',
         [userId]
       )
@@ -174,7 +174,7 @@ export async function POST(request: NextRequest) {
     const { type } = body
 
     // Get user ID
-    const userResult = await db.query(
+    const userResult = await query(
       'SELECT id FROM users WHERE email = $1',
       [session.user.email]
     )
@@ -199,7 +199,7 @@ export async function POST(request: NextRequest) {
         entryDate = new Date()
       } = body
 
-      const result = await db.query(`
+      const result = await query(`
         INSERT INTO life_detail_entries (
           user_id,
           entry_date,
@@ -247,7 +247,7 @@ export async function POST(request: NextRequest) {
         isPrivate = false
       } = body
 
-      const result = await db.query(`
+      const result = await query(`
         INSERT INTO milestone_messages (
           user_id,
           milestone_type,
@@ -305,7 +305,7 @@ export async function PUT(request: NextRequest) {
     const { id, type, ...updates } = body
 
     // Get user ID
-    const userResult = await db.query(
+    const userResult = await query(
       'SELECT id FROM users WHERE email = $1',
       [session.user.email]
     )
@@ -336,7 +336,7 @@ export async function PUT(request: NextRequest) {
         return NextResponse.json({ error: 'No valid fields to update' }, { status: 400 })
       }
 
-      const result = await db.query(`
+      const result = await query(`
         UPDATE life_detail_entries
         SET ${updateFields}, updated_at = CURRENT_TIMESTAMP
         WHERE id = $1 AND user_id = $2
@@ -373,7 +373,7 @@ export async function PUT(request: NextRequest) {
         return NextResponse.json({ error: 'No valid fields to update' }, { status: 400 })
       }
 
-      const result = await db.query(`
+      const result = await query(`
         UPDATE milestone_messages
         SET ${updateFields}, updated_at = CURRENT_TIMESTAMP
         WHERE id = $1 AND user_id = $2
@@ -416,7 +416,7 @@ export async function DELETE(request: NextRequest) {
     }
 
     // Get user ID
-    const userResult = await db.query(
+    const userResult = await query(
       'SELECT id FROM users WHERE email = $1',
       [session.user.email]
     )
@@ -429,7 +429,7 @@ export async function DELETE(request: NextRequest) {
 
     const table = type === 'entry' ? 'life_detail_entries' : 'milestone_messages'
     
-    const result = await db.query(
+    const result = await query(
       `DELETE FROM ${table} WHERE id = $1 AND user_id = $2 RETURNING id`,
       [id, userId]
     )

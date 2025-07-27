@@ -10,8 +10,13 @@ const config: Config = {
   theme: {
     container: {
       center: true,
-      padding: "2rem",
+      padding: "1rem",
       screens: {
+        xs: "450px",
+        sm: "575px",
+        md: "768px",
+        lg: "992px",
+        xl: "1200px",
         "2xl": "1400px",
       },
     },
@@ -23,7 +28,7 @@ const config: Config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "#3B82F6", // More vibrant blue
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
@@ -50,7 +55,36 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Grief-sensitive color palette
+        // Vibrant startup colors adapted for grief-sensitive branding
+        current: "currentColor",
+        transparent: "transparent",
+        white: "#FFFFFF",
+        black: "#0F172A", // Deeper slate
+        dark: "#1E293B", // Modern slate
+        yellow: "#F59E0B", // More vibrant amber
+        orange: "#F97316", // Vibrant orange
+        purple: "#8B5CF6", // Vibrant purple  
+        green: "#10B981", // Vibrant emerald
+        "body-color": "#64748B", // Modern slate-500
+        "body-color-dark": "#94A3B8", // Modern slate-400
+        "gray-dark": "#0F172A", // Slate-900
+        "gray-light": "#F1F5F9", // Slate-50
+        stroke: "#E2E8F0", // Slate-200
+        "stroke-dark": "#334155", // Slate-700
+        "bg-color-dark": "#0F172A", // Deep slate
+        // Ethereal, heavenly colors for grief-sensitive design
+        hope: {
+          50: '#f0f9ff',
+          100: '#e0f2fe',
+          200: '#bae6fd',
+          300: '#7dd3fc',
+          400: '#38bdf8',
+          500: '#0ea5e9',
+          600: '#0284c7',
+          700: '#0369a1',
+          800: '#075985',
+          900: '#0c4a6e',
+        },
         comfort: {
           50: '#faf5ff',
           100: '#f3e8ff',
@@ -63,82 +97,69 @@ const config: Config = {
           800: '#6b21a8',
           900: '#581c87',
         },
-        hope: {
-          50: '#f0fdf4',
-          100: '#dcfce7',
-          200: '#bbf7d0',
-          300: '#86efac',
-          400: '#4ade80',
-          500: '#22c55e',
-          600: '#16a34a',
-          700: '#15803d',
-          800: '#166534',
-          900: '#14532d',
+        peace: {
+          50: '#f8fafc',
+          100: '#f1f5f9',
+          200: '#e2e8f0',
+          300: '#cbd5e1',
+          400: '#94a3b8',
+          500: '#64748b',
+          600: '#475569',
+          700: '#334155',
+          800: '#1e293b',
+          900: '#0f172a',
         },
         memory: {
-          50: '#fffbeb',
-          100: '#fef3c7',
-          200: '#fde68a',
-          300: '#fcd34d',
-          400: '#fbbf24',
-          500: '#f59e0b',
-          600: '#d97706',
-          700: '#b45309',
-          800: '#92400e',
-          900: '#78350f',
-        },
-        peace: {
-          50: '#f9fafb',
-          100: '#f3f4f6',
-          200: '#e5e7eb',
-          300: '#d1d5db',
-          400: '#9ca3af',
-          500: '#6b7280',
-          600: '#4b5563',
-          700: '#374151',
-          800: '#1f2937',
-          900: '#111827',
-        },
+          50: '#fef3c7',
+          100: '#fde68a',
+          200: '#fcd34d',
+          300: '#fbbf24',
+          400: '#f59e0b',
+          500: '#d97706',
+          600: '#b45309',
+          700: '#92400e',
+          800: '#78350f',
+          900: '#451a03',
+        }
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
-        // Grief-sensitive border radius
-        gentle: '8px',
-        embrace: '12px',
-        sanctuary: '16px',
-      },
-      fontSize: {
-        // Grief-sensitive typography scale
-        whisper: ['0.75rem', { lineHeight: '1.2' }],
-        gentle: ['0.875rem', { lineHeight: '1.5' }],
-        comfort: ['1rem', { lineHeight: '1.5' }],
-        presence: ['1.125rem', { lineHeight: '1.5' }],
-        embrace: ['1.25rem', { lineHeight: '1.4' }],
-        love: ['1.5rem', { lineHeight: '1.4' }],
-        legacy: ['2rem', { lineHeight: '1.3' }],
-        eternal: ['3rem', { lineHeight: '1.2' }],
-      },
-      spacing: {
-        // Grief-sensitive spacing scale
-        whisper: '0.25rem',
-        gentle: '0.5rem',
-        comfort: '1rem',
-        embrace: '1.5rem',
-        sanctuary: '2rem',
-        sacred: '3rem',
-        breath: '0.5rem',
-        pause: '1rem',
-        reflection: '1.5rem',
-        contemplation: '2rem',
-        reverence: '3rem',
+        'sanctuary': '1rem',
+        'embrace': '0.75rem',
+        'comfort': '0.5rem',
       },
       fontFamily: {
-        // Grief-sensitive font families
-        compassionate: ['"Inter"', '"Segoe UI"', 'system-ui', 'sans-serif'],
-        gentle: ['"Source Serif Pro"', 'Georgia', 'serif'],
-        supportive: ['"Inter"', 'system-ui', 'sans-serif'],
+        gentle: ['Inter', 'system-ui', 'sans-serif'],
+        compassionate: ['Georgia', 'serif'],
+        supportive: ['Open Sans', 'sans-serif'],
+      },
+      spacing: {
+        'comfort': '1.5rem',
+        'embrace': '2rem',
+        'sanctuary': '3rem',
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'heaven-gradient': 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 25%, #faf5ff 50%, #f3e8ff 75%, #f0f9ff 100%)',
+      },
+      boxShadow: {
+        signUp: "0px 5px 10px rgba(4, 10, 34, 0.2)",
+        one: "0px 2px 3px rgba(7, 7, 77, 0.05)",
+        two: "0px 5px 10px rgba(6, 8, 15, 0.1)",
+        three: "0px 5px 15px rgba(6, 8, 15, 0.05)",
+        sticky: "inset 0 -1px 0 0 rgba(0, 0, 0, 0.1)",
+        "sticky-dark": "inset 0 -1px 0 0 rgba(255, 255, 255, 0.1)",
+        "feature-2": "0px 10px 40px rgba(48, 86, 211, 0.12)",
+        submit: "0px 5px 20px rgba(4, 10, 34, 0.1)",
+        "submit-dark": "0px 5px 20px rgba(4, 10, 34, 0.1)",
+        btn: "0px 1px 2px rgba(4, 10, 34, 0.15)",
+        "btn-hover": "0px 1px 2px rgba(0, 0, 0, 0.15)",
+        "btn-light": "0px 1px 2px rgba(0, 0, 0, 0.1)",
+      },
+      dropShadow: {
+        three: "0px 5px 15px rgba(6, 8, 15, 0.05)",
       },
       keyframes: {
         "accordion-down": {
@@ -149,32 +170,30 @@ const config: Config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        // Grief-sensitive animations
-        "gentle-fade-in": {
-          from: { opacity: "0", transform: "translateY(10px)" },
-          to: { opacity: "1", transform: "translateY(0px)" },
+        float: {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-10px)' },
         },
-        "soft-scale": {
-          from: { transform: "scale(0.98)" },
-          to: { transform: "scale(1)" },
+        glow: {
+          '0%, 100%': { opacity: '0.8' },
+          '50%': { opacity: '1' },
         },
-        "breathing": {
-          "0%, 100%": { transform: "scale(1)" },
-          "50%": { transform: "scale(1.02)" },
+        fadeIn: {
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        "gentle-pulse": {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0.8" },
-        },
+        'gentle-pulse': {
+          '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+          '50%': { transform: 'scale(1.05)', opacity: '0.95' },
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        // Grief-sensitive animations
-        "gentle-fade-in": "gentle-fade-in 0.3s ease-out",
-        "soft-scale": "soft-scale 0.2s ease-out",
-        "breathing": "breathing 2s ease-in-out infinite",
-        "gentle-pulse": "gentle-pulse 2s ease-in-out infinite",
+        'float': 'float 6s ease-in-out infinite',
+        'glow': 'glow 3s ease-in-out infinite',
+        'fade-in': 'fadeIn 0.8s ease-out',
+        'gentle-pulse': 'gentle-pulse 2s ease-in-out infinite',
       },
     },
   },

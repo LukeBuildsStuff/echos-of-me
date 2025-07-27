@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import { db } from '@/lib/db'
+import { authOptions } from '@/lib/auth'
+import { query } from '@/lib/db'
 import { AIQuestionEnhancer, UserContext, ResponseAnalysis } from '@/lib/ai-question-enhancer'
 
 // GET /api/questions/enhanced - Get AI-enhanced questions based on user's response history
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     const lastQuestionId = searchParams.get('lastQuestionId')
 
     // Get user and their profile
-    const userResult = await db.query(`
+    const userResult = await query(`
       SELECT 
         id,
         name,
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
     const user = userResult.rows[0]
 
     // Get user's response history for analysis
-    const responseHistory = await db.query(`
+    const responseHistory = await query(`
       SELECT 
         r.id,
         r.question_id,

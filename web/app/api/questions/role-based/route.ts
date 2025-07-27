@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
-import { db } from '@/lib/db'
+import { authOptions } from '@/lib/auth'
+import { query } from '@/lib/db'
 import { 
   createQuestionSelector, 
   UserProfile,
@@ -9,7 +9,7 @@ import {
   calculateAgesFromBirthdays 
 } from '@/lib/role-question-selector'
 
-// GET /api/questions/role-based - Get personalized questions based on family role
+// GET /api/questions/role-based - Get user profile for dashboard
 export async function GET(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions)
@@ -17,125 +17,35 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const searchParams = request.nextUrl.searchParams
-    const count = parseInt(searchParams.get('count') || '5')
-    const targetDepth = searchParams.get('depth') ? parseInt(searchParams.get('depth')!) : undefined
-    const mood = searchParams.get('mood') as 'reflective' | 'celebratory' | 'sorrowful' | 'practical' | undefined
-    const scenario = searchParams.get('scenario') as 'daily' | 'milestone' | 'legacy' | 'crisis' | undefined
-
-    // Get user profile from database
-    const user = await db.query(`
+    // Simple profile check - just get what dashboard needs
+    const user = await query(`
       SELECT 
         id,
         name,
-        birthday,
         primary_role,
         secondary_roles,
-        children_birthdays,
-        important_people,
-        significant_events,
-        cultural_background
+        important_people
       FROM users 
       WHERE email = $1
     `, [session.user.email])
 
     if (!user.rows[0]) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 })
+      return NextResponse.json({ userProfile: null }, { status: 200 })
     }
-
-    const userProfile: UserProfile = {
-      userId: user.rows[0].id,
-      primaryRole: user.rows[0].primary_role || 'parent',
-      secondaryRoles: user.rows[0].secondary_roles,
+    
+    const userProfile = {
+      primaryRole: user.rows[0].primary_role,
       name: user.rows[0].name,
-      birthday: user.rows[0].birthday,
-      childrenBirthdays: user.rows[0].children_birthdays,
-      importantPeople: user.rows[0].important_people,
-      significantEvents: user.rows[0].significant_events,
-      culturalBackground: user.rows[0].cultural_background
+      secondaryRoles: user.rows[0].secondary_roles,
+      importantPeople: user.rows[0].important_people
     }
-
-    // Get session history
-    const sessionHistory = await db.query(`
-      SELECT 
-        id as "sessionId",
-        user_id as "userId",
-        session_mood as "sessionMood",
-        questions_delivered as "questionsDelivered",
-        questions_answered as "questionsAnswered",
-        emotional_depth_progression as "emotionalDepthProgression"
-      FROM question_sessions
-      WHERE user_id = $1
-      ORDER BY session_number DESC
-      LIMIT 10
-    `, [userProfile.userId])
-
-    // Create question selector
-    const selector = createQuestionSelector(userProfile)
-
-    let questions: string[] = []
-
-    // Get questions based on request parameters
-    if (scenario) {
-      questions = getQuestionPackage(userProfile.primaryRole, scenario)
-    } else if (mood) {
-      questions = selector.getQuestionsForMood(mood)
-    } else {
-      questions = selector.getPersonalizedQuestions(count, targetDepth)
-    }
-
-    // Get question details from database
-    const questionDetails = await db.query(`
-      SELECT 
-        q.id,
-        q.question_text,
-        q.category,
-        COALESCE(rq.emotional_depth, 5) as emotional_depth,
-        rq.context_note,
-        CASE WHEN r.id IS NOT NULL THEN true ELSE false END as answered
-      FROM questions q
-      LEFT JOIN role_questions rq ON q.question_text = rq.question_text
-      LEFT JOIN responses r ON r.question_id = q.id AND r.user_id = $1
-      WHERE q.question_text = ANY($2)
-      LIMIT $3
-    `, [userProfile.userId, questions, count])
-
-    // If we don't have enough questions in DB, get from selector
-    if (questionDetails.rows.length < count) {
-      const additionalQuestions = selector.getPersonalizedQuestions(
-        count - questionDetails.rows.length, 
-        targetDepth
-      ).map(q => ({
-        id: null,
-        question_text: q,
-        category: 'dynamic',
-        emotional_depth: targetDepth || 5,
-        context_note: 'Dynamically generated based on your profile',
-        answered: false
-      }))
-
-      questionDetails.rows.push(...additionalQuestions)
-    }
-
-    return NextResponse.json({
-      questions: questionDetails.rows,
-      userProfile: {
-        primaryRole: userProfile.primaryRole,
-        name: userProfile.name,
-        hasChildren: (userProfile.childrenBirthdays?.length || 0) > 0,
-        childrenAges: userProfile.childrenBirthdays ? calculateAgesFromBirthdays(userProfile.childrenBirthdays) : [],
-        importantPeopleCount: userProfile.importantPeople?.length || 0
-      },
-      totalAnswered: sessionHistory.rows.reduce(
-        (sum, session) => sum + (session.questionsAnswered?.length || 0), 
-        0
-      )
-    })
+    
+    return NextResponse.json({ userProfile })
 
   } catch (error) {
-    console.error('Error fetching role-based questions:', error)
+    console.error('Error fetching user profile:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch questions' },
+      { error: 'Failed to fetch profile' },
       { status: 500 }
     )
   }
@@ -143,50 +53,57 @@ export async function GET(request: NextRequest) {
 
 // POST /api/questions/role-based - Update user role and preferences
 export async function POST(request: NextRequest) {
+  console.log('🚨 POST /api/questions/role-based HANDLER CALLED!')
   try {
     const session = await getServerSession(authOptions)
+    console.log('🔑 Session check:', { hasSession: !!session, email: session?.user?.email })
     if (!session?.user?.email) {
+      console.log('❌ No session or email, returning 401')
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
     const body = await request.json()
+    console.log('API received body:', JSON.stringify(body, null, 2))
+    
     const {
       primaryRole,
       secondaryRoles,
       name,
       birthday,
-      childrenBirthdays,
-      importantPeople,
-      significantEvents,
-      culturalBackground
+      importantPeople
     } = body
 
+    console.log('Updating user with email:', session.user.email)
+    console.log('Data to save:', {
+      name,
+      birthday,
+      primaryRole,
+      secondaryRoles,
+      importantPeople
+    })
+
     // Update user profile
-    const result = await db.query(`
+    const result = await query(`
       UPDATE users 
       SET 
-        name = COALESCE($2, name),
-        birthday = COALESCE($3, birthday),
-        primary_role = COALESCE($4, primary_role),
-        secondary_roles = COALESCE($5, secondary_roles),
-        children_birthdays = COALESCE($6, children_birthdays),
-        important_people = COALESCE($7, important_people),
-        significant_events = COALESCE($8, significant_events),
-        cultural_background = COALESCE($9, cultural_background),
+        name = $2,
+        birthday = $3,
+        primary_role = $4,
+        secondary_roles = $5,
+        important_people = $6,
         updated_at = CURRENT_TIMESTAMP
       WHERE email = $1
       RETURNING id
     `, [
       session.user.email,
       name,
-      birthday,
+      birthday, 
       primaryRole,
-      secondaryRoles,
-      childrenBirthdays,
-      importantPeople,
-      significantEvents,
-      culturalBackground
+      secondaryRoles || [], // PostgreSQL array format
+      JSON.stringify(importantPeople || []) // JSON format
     ])
+    
+    console.log('Update result:', result.rows)
 
     if (!result.rows[0]) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 })
@@ -199,7 +116,12 @@ export async function POST(request: NextRequest) {
     })
 
   } catch (error) {
+    console.error('=== DATABASE ERROR ===')
     console.error('Error updating user profile:', error)
+    console.error('Error message:', error.message)
+    console.error('Error code:', error.code)
+    console.error('Error detail:', error.detail)
+    console.error('======================')
     return NextResponse.json(
       { error: 'Failed to update profile' },
       { status: 500 }

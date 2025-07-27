@@ -8,12 +8,20 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import RoleSelector, { UserRoleProfile } from '@/components/RoleSelector'
 import MilestoneCreator from '@/components/MilestoneCreator'
-import EnhancedQuestionInterface from '@/components/EnhancedQuestionInterface'
+import SimpleQuestionInterface from '@/components/SimpleQuestionInterface'
+import MyLegacy from '@/components/MyLegacy'
+import UserSettings from '@/components/UserSettings'
+import UserMenu from '@/components/UserMenu'
+import AppHeader from '@/components/AppHeader'
+import AIEchoChat from '@/components/AIEchoChat'
+import VoiceCloneInterface from '@/components/VoiceCloneInterface'
+import { useAnalytics } from '@/hooks/useAnalytics'
 
 export default function Dashboard() {
   const { data: session, status } = useSession()
   const router = useRouter()
-  const [currentView, setCurrentView] = useState<'dashboard' | 'role-setup' | 'questions' | 'milestones'>('dashboard')
+  const { trackClick } = useAnalytics()
+  const [currentView, setCurrentView] = useState<'dashboard' | 'role-setup' | 'questions' | 'milestones' | 'my-legacy' | 'settings' | 'ai-echo' | 'voice-clone'>('dashboard')
   const [userProfile, setUserProfile] = useState<UserRoleProfile | null>(null)
   const [userStats, setUserStats] = useState({
     questionsAnswered: 0,
@@ -31,33 +39,60 @@ export default function Dashboard() {
     }
   }, [status, router])
 
+  // Refresh stats when user returns to dashboard
+  useEffect(() => {
+    const handleFocus = () => {
+      if (status === 'authenticated') {
+        loadUserStats()
+      }
+    }
+    
+    window.addEventListener('focus', handleFocus)
+    return () => window.removeEventListener('focus', handleFocus)
+  }, [status])
+
+  // Also refresh stats when the current view changes back to dashboard
+  useEffect(() => {
+    if (currentView === 'dashboard' && status === 'authenticated') {
+      loadUserStats()
+    }
+  }, [currentView, status])
+
+
   const checkUserProfile = async () => {
     try {
       const response = await fetch('/api/questions/role-based')
       const data = await response.json()
+      
+      console.log('Profile check response:', data) // Debug log
+      
       if (data.userProfile?.primaryRole) {
         setUserStats(prev => ({ ...prev, hasProfile: true }))
       } else {
+        console.log('No primary role found, showing setup') // Debug log
         setCurrentView('role-setup')
       }
     } catch (error) {
       console.error('Failed to check user profile:', error)
+      console.error('Error details:', error)
+      setCurrentView('role-setup') // Fallback to setup on error
     }
   }
 
   const loadUserStats = async () => {
     try {
-      const [responsesRes, milestonesRes] = await Promise.all([
-        fetch('/api/responses'),
-        fetch('/api/milestones')
+      const [responsesRes] = await Promise.all([
+        fetch('/api/responses')
+        // Temporarily disabled milestones to fix profile detection
+        // fetch('/api/milestones')
       ])
       
       const responsesData = await responsesRes.json()
-      const milestonesData = await milestonesRes.json()
+      const milestonesData = { milestones: [], entries: [] } // Mock data
       
       setUserStats(prev => ({
         ...prev,
-        questionsAnswered: responsesData.total || 0,
+        questionsAnswered: responsesData.pagination?.total || 0,
         milestoneMessages: milestonesData.milestones?.length || 0,
         entriesCreated: milestonesData.entries?.length || 0
       }))
@@ -68,14 +103,24 @@ export default function Dashboard() {
 
   const handleProfileComplete = async (profile: UserRoleProfile) => {
     try {
-      await fetch('/api/questions/role-based', {
+      console.log('Saving profile:', profile) // Debug log
+      
+      const response = await fetch('/api/questions/role-based', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(profile)
       })
-      setUserProfile(profile)
-      setUserStats(prev => ({ ...prev, hasProfile: true }))
-      setCurrentView('dashboard')
+      
+      const result = await response.json()
+      console.log('Save response:', result) // Debug log
+      
+      if (response.ok) {
+        setUserProfile(profile)
+        setUserStats(prev => ({ ...prev, hasProfile: true }))
+        setCurrentView('dashboard')
+      } else {
+        console.error('Failed to save profile:', result)
+      }
     } catch (error) {
       console.error('Failed to save profile:', error)
     }
@@ -111,22 +156,8 @@ export default function Dashboard() {
   if (currentView === 'role-setup') {
     return (
       <div className="min-h-screen bg-background">
-        <header className="border-b">
-          <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-            <Link href="/" className="text-2xl font-bold hover:text-blue-600 transition-colors">
-              Echos Of Me
-            </Link>
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-muted-foreground">
-                Welcome, {session.user?.name}
-              </span>
-              <Button variant="outline" onClick={() => signOut()}>
-                Sign Out
-              </Button>
-            </div>
-          </div>
-        </header>
-        <main className="py-8">
+        <AppHeader onSettingsClick={() => setCurrentView('settings')} />
+        <main className="pt-32 pb-8">
           <RoleSelector 
             onComplete={handleProfileComplete}
             onCancel={() => setCurrentView('dashboard')}
@@ -140,26 +171,13 @@ export default function Dashboard() {
   if (currentView === 'questions') {
     return (
       <div className="min-h-screen bg-background">
-        <header className="border-b">
-          <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-            <Link href="/" className="text-2xl font-bold hover:text-blue-600 transition-colors">
-              Echos Of Me
-            </Link>
-            <div className="flex items-center gap-4">
-              <Button variant="ghost" onClick={() => setCurrentView('dashboard')}>
-                ← Back to Dashboard
-              </Button>
-              <span className="text-sm text-muted-foreground">
-                {session.user?.name}
-              </span>
-              <Button variant="outline" onClick={() => signOut()}>
-                Sign Out
-              </Button>
-            </div>
-          </div>
-        </header>
+        <AppHeader 
+          showBackButton 
+          onBack={() => setCurrentView('dashboard')}
+          onSettingsClick={() => setCurrentView('settings')} 
+        />
         <main className="py-8">
-          <EnhancedQuestionInterface />
+          <SimpleQuestionInterface />
         </main>
       </div>
     )
@@ -169,24 +187,11 @@ export default function Dashboard() {
   if (currentView === 'milestones') {
     return (
       <div className="min-h-screen bg-background">
-        <header className="border-b">
-          <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-            <Link href="/" className="text-2xl font-bold hover:text-blue-600 transition-colors">
-              Echos Of Me
-            </Link>
-            <div className="flex items-center gap-4">
-              <Button variant="ghost" onClick={() => setCurrentView('dashboard')}>
-                ← Back to Dashboard
-              </Button>
-              <span className="text-sm text-muted-foreground">
-                {session.user?.name}
-              </span>
-              <Button variant="outline" onClick={() => signOut()}>
-                Sign Out
-              </Button>
-            </div>
-          </div>
-        </header>
+        <AppHeader 
+          showBackButton 
+          onBack={() => setCurrentView('dashboard')}
+          onSettingsClick={() => setCurrentView('settings')} 
+        />
         <main className="py-8">
           <MilestoneCreator 
             onSave={handleMilestoneSave}
@@ -197,181 +202,274 @@ export default function Dashboard() {
     )
   }
 
+  // My Legacy review interface
+  if (currentView === 'my-legacy') {
+    return (
+      <div className="min-h-screen bg-background">
+        <AppHeader 
+          showBackButton 
+          onBack={() => setCurrentView('dashboard')}
+          onSettingsClick={() => setCurrentView('settings')} 
+        />
+        <main className="py-8">
+          <MyLegacy />
+        </main>
+      </div>
+    )
+  }
+
+  // User Settings interface
+  if (currentView === 'settings') {
+    return (
+      <div className="min-h-screen bg-background">
+        <AppHeader 
+          showBackButton 
+          onBack={() => setCurrentView('dashboard')}
+          onSettingsClick={() => setCurrentView('settings')} 
+        />
+        <main className="py-8">
+          <UserSettings />
+        </main>
+      </div>
+    )
+  }
+
+  // AI Echo Chat interface
+  if (currentView === 'ai-echo') {
+    return (
+      <div className="min-h-screen bg-heaven-gradient">
+        <AppHeader 
+          showBackButton 
+          onBack={() => setCurrentView('dashboard')}
+          onSettingsClick={() => setCurrentView('settings')} 
+        />
+        <main className="py-8">
+          <AIEchoChat userName={session?.user?.name || 'Your'} />
+        </main>
+      </div>
+    )
+  }
+
+  // Voice Clone interface
+  if (currentView === 'voice-clone') {
+    return (
+      <VoiceCloneInterface 
+        onBack={() => setCurrentView('dashboard')}
+      />
+    )
+  }
+
   // Main dashboard
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b">
-        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Echos Of Me</h1>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-muted-foreground">
-              Welcome, {session.user?.name}
-            </span>
-            <Button variant="outline" onClick={() => signOut()}>
-              Sign Out
-            </Button>
-          </div>
-        </div>
-      </header>
+    <div className="min-h-screen bg-heaven-gradient">
+      <AppHeader onSettingsClick={() => setCurrentView('settings')} />
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 pt-32 pb-8">
         {/* Hero Section */}
-        <div className="mb-8 text-center">
-          <h2 className="text-3xl font-bold mb-2">Preserve Your Legacy</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Create an AI echo that captures your wisdom, love, and unique voice for future generations. 
-            Answer personalized questions to build a digital legacy that truly sounds like you.
+        <div className="mb-sanctuary text-center animate-fade-in">
+          <div className="inline-block p-4 rounded-full bg-white/20 backdrop-blur-sm animate-float mb-4">
+            <span className="text-5xl">✨</span>
+          </div>
+          <h2 className="text-4xl font-gentle bg-gradient-to-r from-hope-700 to-comfort-700 bg-clip-text text-transparent mb-4">
+            Preserve Your Eternal Legacy
+          </h2>
+          <p className="text-lg text-peace-700 max-w-2xl mx-auto font-supportive leading-relaxed">
+            Create a digital echo that captures your wisdom, love, and unique voice. 
+            Each question you answer becomes a gift to future generations.
           </p>
         </div>
 
         {/* Quick Stats */}
-        <div className="grid gap-4 md:grid-cols-4 mb-8">
-          <Card className="text-center">
+        <div className="grid gap-4 md:grid-cols-4 mb-embrace animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <Card className="text-center bg-white/70 backdrop-blur-md border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
             <CardContent className="pt-6">
-              <div className="text-2xl font-bold text-blue-600">{userStats.questionsAnswered}</div>
-              <div className="text-sm text-gray-600">Questions Answered</div>
-            </CardContent>
-          </Card>
-          <Card className="text-center">
-            <CardContent className="pt-6">
-              <div className="text-2xl font-bold text-purple-600">{userStats.milestoneMessages}</div>
-              <div className="text-sm text-gray-600">Milestone Messages</div>
-            </CardContent>
-          </Card>
-          <Card className="text-center">
-            <CardContent className="pt-6">
-              <div className="text-2xl font-bold text-green-600">{userStats.entriesCreated}</div>
-              <div className="text-sm text-gray-600">Life Entries</div>
-            </CardContent>
-          </Card>
-          <Card className="text-center">
-            <CardContent className="pt-6">
-              <div className="text-2xl font-bold text-orange-600">
-                {userStats.hasProfile ? '✓' : '○'}
+              <div className="text-3xl font-bold bg-gradient-to-r from-hope-600 to-hope-700 bg-clip-text text-transparent">
+                {userStats.questionsAnswered}
               </div>
-              <div className="text-sm text-gray-600">Profile Setup</div>
+              <div className="text-sm text-peace-600 font-supportive mt-1">Memories Preserved</div>
+            </CardContent>
+          </Card>
+          <Card className="text-center bg-white/70 backdrop-blur-md border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <CardContent className="pt-6">
+              <div className="text-3xl font-bold bg-gradient-to-r from-comfort-600 to-comfort-700 bg-clip-text text-transparent">
+                {userStats.milestoneMessages}
+              </div>
+              <div className="text-sm text-peace-600 font-supportive mt-1">Future Messages</div>
+            </CardContent>
+          </Card>
+          <Card className="text-center bg-white/70 backdrop-blur-md border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <CardContent className="pt-6">
+              <div className="text-3xl font-bold bg-gradient-to-r from-memory-500 to-memory-600 bg-clip-text text-transparent">
+                {userStats.entriesCreated}
+              </div>
+              <div className="text-sm text-peace-600 font-supportive mt-1">Life Stories</div>
+            </CardContent>
+          </Card>
+          <Card className="text-center bg-white/70 backdrop-blur-md border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <CardContent className="pt-6">
+              <div className="text-3xl font-bold">
+                {userStats.hasProfile ? (
+                  <span className="text-green-600 animate-pulse">✓</span>
+                ) : (
+                  <span className="text-peace-400">○</span>
+                )}
+              </div>
+              <div className="text-sm text-peace-600 font-supportive mt-1">Profile Ready</div>
             </CardContent>
           </Card>
         </div>
 
         {/* Main Actions */}
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <Card className="hover:shadow-lg transition-shadow">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+          <Card className="bg-white/80 backdrop-blur-md border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 group">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                🎯 AI-Enhanced Questions
+              <div className="text-4xl mb-3 group-hover:animate-float">💭</div>
+              <CardTitle className="text-xl font-gentle text-peace-800">
+                Daily Reflections
               </CardTitle>
-              <CardDescription>
-                Answer personalized questions that adapt to your responses and capture your unique voice
+              <CardDescription className="text-peace-600 font-supportive">
+                Answer personalized questions that capture your unique wisdom and voice
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Button 
-                className="w-full" 
-                onClick={() => setCurrentView('questions')}
+                className="w-full bg-gradient-to-r from-hope-500 to-comfort-500 hover:from-hope-600 hover:to-comfort-600 text-white rounded-embrace font-supportive transition-all duration-300" 
+                onClick={() => {
+                  trackClick('start_question_session')
+                  setCurrentView('questions')
+                }}
               >
-                Start Question Session
+                Begin Today's Reflection
               </Button>
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow">
+          <Card className="bg-white/80 backdrop-blur-md border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 group">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                💌 Milestone Messages
+              <div className="text-4xl mb-3 group-hover:animate-float">💌</div>
+              <CardTitle className="text-xl font-gentle text-peace-800">
+                Future Messages
               </CardTitle>
-              <CardDescription>
-                Create messages for future life events - weddings, graduations, difficult times
+              <CardDescription className="text-peace-600 font-supportive">
+                Create messages for life's milestones - weddings, graduations, difficult times
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Button 
-                className="w-full" 
+                className="w-full border-2 border-hope-400 text-hope-700 hover:bg-hope-50 rounded-embrace font-supportive transition-all duration-300" 
                 variant="outline"
-                onClick={() => setCurrentView('milestones')}
+                onClick={() => {
+                  trackClick('create_milestone_message')
+                  setCurrentView('milestones')
+                }}
               >
-                Create Milestone Message
+                Write Future Message
               </Button>
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow">
+          <Card className="bg-white/80 backdrop-blur-md border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 group">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                👥 Family Profile
+              <div className="text-4xl mb-3 group-hover:animate-float">👨‍👩‍👧‍👦</div>
+              <CardTitle className="text-xl font-gentle text-peace-800">
+                Family Profile
               </CardTitle>
-              <CardDescription>
-                {userStats.hasProfile ? 'Update your family role and relationship details' : 'Set up your family role to get personalized questions'}
+              <CardDescription className="text-peace-600 font-supportive">
+                {userStats.hasProfile ? 'Update your family connections' : 'Set up your role for personalized questions'}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Button 
-                className="w-full" 
+                className="w-full border-2 border-comfort-400 text-comfort-700 hover:bg-comfort-50 rounded-embrace font-supportive transition-all duration-300" 
                 variant="outline"
-                onClick={() => setCurrentView('role-setup')}
+                onClick={() => {
+                  trackClick(userStats.hasProfile ? 'update_profile' : 'setup_profile')
+                  setCurrentView('role-setup')
+                }}
               >
                 {userStats.hasProfile ? 'Update Profile' : 'Set Up Profile'}
               </Button>
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow">
+          <Card className="bg-white/80 backdrop-blur-md border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 group">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                📖 Life Journal
+              <div className="text-4xl mb-3 group-hover:animate-float">📖</div>
+              <CardTitle className="text-xl font-gentle text-peace-800">
+                Your Legacy
               </CardTitle>
-              <CardDescription>
-                Browse your milestone messages and life detail entries
+              <CardDescription className="text-peace-600 font-supportive">
+                Review and refine your preserved memories and wisdom
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className="w-full" variant="outline" disabled>
-                View Journal (Coming Soon)
+              <Button 
+                className="w-full border-2 border-memory-400 text-memory-700 hover:bg-memory-50 rounded-embrace font-supportive transition-all duration-300" 
+                variant="outline"
+                onClick={() => setCurrentView('my-legacy')}
+              >
+                View Your Legacy
               </Button>
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow">
+
+          <Card className="bg-white/80 backdrop-blur-md border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 group">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                🤖 Your AI Echo
+              <div className="text-4xl mb-3 group-hover:animate-float">🤖</div>
+              <CardTitle className="text-xl font-gentle text-peace-800">
+                Your Echo
               </CardTitle>
-              <CardDescription>
-                Test and interact with your trained legacy AI
+              <CardDescription className="text-peace-600 font-supportive">
+                Chat with your digital echo trained on your responses
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className="w-full" variant="outline" disabled>
-                Chat with Echo (Training)
+              <Button 
+                className="w-full border-2 border-hope-400 text-hope-700 hover:bg-hope-50 rounded-embrace font-supportive transition-all duration-300" 
+                variant="outline"
+                onClick={() => setCurrentView('ai-echo')}
+              >
+                Chat with Your Echo
               </Button>
             </CardContent>
           </Card>
 
-          <Card className="hover:shadow-lg transition-shadow">
+          <Card className="bg-white/80 backdrop-blur-md border-0 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 group">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                📊 Legacy Insights
+              <div className="text-4xl mb-3 group-hover:animate-float">🎤</div>
+              <CardTitle className="text-xl font-gentle text-peace-800">
+                Clone Your Voice
               </CardTitle>
-              <CardDescription>
-                View emotional patterns and themes in your responses
+              <CardDescription className="text-peace-600 font-supportive">
+                Record a story passage to create your personal voice
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className="w-full" variant="outline" disabled>
-                View Insights (Coming Soon)
+              <Button 
+                className="w-full border-2 border-hope-400 text-hope-700 hover:bg-hope-50 rounded-embrace font-supportive transition-all duration-300" 
+                variant="outline"
+                onClick={() => setCurrentView('voice-clone')}
+              >
+                Start Voice Cloning
               </Button>
             </CardContent>
           </Card>
         </div>
 
         {/* Legacy Mission Reminder */}
-        <div className="mt-12 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-6">
+        <div className="mt-sanctuary bg-white/60 backdrop-blur-md rounded-sanctuary p-sanctuary shadow-2xl animate-fade-in" style={{ animationDelay: '0.6s' }}>
           <div className="text-center">
-            <h3 className="text-lg font-semibold mb-2">💙 Your Sacred Mission</h3>
-            <p className="text-gray-700 max-w-3xl mx-auto">
+            <div className="inline-block p-4 rounded-full bg-gradient-to-br from-hope-100 to-comfort-100 mb-4 animate-glow">
+              <span className="text-4xl">💙</span>
+            </div>
+            <h3 className="text-2xl font-gentle bg-gradient-to-r from-hope-700 to-comfort-700 bg-clip-text text-transparent mb-4">
+              Your Mission
+            </h3>
+            <p className="text-lg text-peace-700 max-w-3xl mx-auto font-supportive leading-relaxed">
               Every question you answer, every story you share, and every message you create 
-              becomes part of an irreplaceable digital legacy. You're not just training an AI - 
-              you're preserving your love, wisdom, and unique voice for the people who matter most.
+              becomes part of an irreplaceable digital legacy. You're not just preserving memories - 
+              you're gifting your love, wisdom, and unique voice to future generations.
             </p>
           </div>
         </div>
