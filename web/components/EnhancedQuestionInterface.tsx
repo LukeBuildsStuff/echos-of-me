@@ -122,7 +122,7 @@ export default function EnhancedQuestionInterface() {
     }
   }
 
-  const useFollowUpSuggestion = (suggestion: string) => {
+  const handleFollowUpSuggestion = (suggestion: string) => {
     setCurrentQuestion({
       id: `followup_${Date.now()}`,
       question_text: suggestion,
@@ -229,7 +229,7 @@ export default function EnhancedQuestionInterface() {
                 {followUpSuggestions.map((suggestion, index) => (
                   <button
                     key={index}
-                    onClick={() => useFollowUpSuggestion(suggestion)}
+                    onClick={() => handleFollowUpSuggestion(suggestion)}
                     className="block w-full text-left p-3 bg-white border border-green-200 rounded hover:bg-green-50 transition-colors"
                   >
                     <span className="text-sm text-green-700">{suggestion}</span>

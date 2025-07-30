@@ -14,24 +14,24 @@ const Hero = () => {
                 className="wow fadeInUp mx-auto max-w-[800px] text-center"
                 data-wow-delay=".2s"
               >
-                <h1 className="mb-5 text-3xl font-bold leading-tight bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent dark:text-white sm:text-4xl sm:leading-tight md:text-5xl md:leading-tight">
+                <h1 className="mb-6 text-2xl font-bold leading-tight bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent dark:text-white sm:text-3xl sm:leading-tight md:text-4xl md:leading-tight lg:text-5xl lg:leading-tight px-2 sm:px-0">
                   Preserve Your Love, Wisdom, and Voice for Future Generations
                 </h1>
-                <p className="dark:text-body-color-dark mb-12 text-base !leading-relaxed text-body-color sm:text-lg md:text-xl">
-                  Echos Of Me captures the irreplaceable essence of parents, grandparents, and loved ones — 
-                  so their children and family can still feel their presence, seek their guidance, 
-                  and hear their voice even after they're gone.
+                <p className="dark:text-body-color-dark mb-8 text-sm !leading-relaxed text-body-color sm:text-base md:text-lg lg:text-xl px-4 sm:px-0 max-w-3xl mx-auto">
+                  Create a living legacy that captures your essence — your stories, values, and voice — 
+                  so your family can always feel your presence, seek your guidance, 
+                  and remember the love that connects you across time.
                 </p>
-                <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
+                <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0 px-4 sm:px-0 w-full">
                   <Link
                     href="/auth/register"
-                    className="rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-8 py-4 text-base font-semibold text-white duration-300 ease-in-out hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                    className="w-full sm:w-auto min-h-[48px] rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base font-semibold text-white duration-300 ease-in-out hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-center flex items-center justify-center"
                   >
-                    💝 Begin Your Legacy
+                    Begin Your Legacy
                   </Link>
                   <Link
                     href="/auth/signin"
-                    className="inline-block rounded-lg bg-white px-8 py-4 text-base font-semibold text-gray-800 duration-300 ease-in-out hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
+                    className="w-full sm:w-auto min-h-[48px] inline-flex items-center justify-center rounded-lg bg-white px-6 py-3 sm:px-8 sm:py-4 text-sm sm:text-base font-semibold text-gray-800 duration-300 ease-in-out hover:bg-gray-50 border-2 border-gray-200 hover:border-gray-300 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
                   >
                     Continue Your Journey
                   </Link>

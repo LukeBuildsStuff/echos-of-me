@@ -4,8 +4,9 @@ import { query } from '@/lib/db'
 import { TrainingExample } from '@/lib/ai-training-config'
 
 /**
- * Prepares training data from user responses
- * Formats responses into instruction-following format for Mistral 7B
+ * Enhanced Training Data Preparation API
+ * Prepares comprehensive training data from user responses, life entries, and milestone messages
+ * Optimized for personalized model fine-tuning with improved context and formatting
  */
 export const GET = withAdminAuth(async (request: NextRequest) => {
   try {
@@ -13,7 +14,7 @@ export const GET = withAdminAuth(async (request: NextRequest) => {
     const userId = searchParams.get('userId')
     const minWordCount = parseInt(searchParams.get('minWordCount') || '20')
     
-    // Get user's responses with question details
+    // Get comprehensive training data from multiple sources
     const responses = await query(`
       SELECT 
         r.id,
@@ -24,7 +25,9 @@ export const GET = withAdminAuth(async (request: NextRequest) => {
         q.category,
         u.name as user_name,
         u.primary_role,
-        u.important_people
+        u.important_people,
+        u.cultural_background,
+        u.significant_events
       FROM responses r
       JOIN questions q ON r.question_id = q.id
       JOIN users u ON r.user_id = u.id
@@ -36,22 +39,55 @@ export const GET = withAdminAuth(async (request: NextRequest) => {
       ORDER BY r.created_at ASC
     `, [userId, minWordCount])
 
-    // Format responses into training examples
-    const trainingExamples: TrainingExample[] = responses.rows.map(row => {
-      // Parse important people if stored as JSON
-      let importantPeople: string[] = []
-      try {
-        if (row.important_people) {
-          const parsed = JSON.parse(row.important_people)
-          importantPeople = parsed.map((p: any) => p.name).filter(Boolean)
-        }
-      } catch (e) {
-        console.error('Failed to parse important_people:', e)
-      }
+    // Get life detail entries for additional training context
+    const lifeEntries = await query(`
+      SELECT 
+        id,
+        title,
+        content,
+        category,
+        tags,
+        related_people,
+        emotional_depth,
+        created_at,
+        u.name as user_name,
+        u.primary_role,
+        u.important_people
+      FROM life_detail_entries lde
+      JOIN users u ON lde.user_id = u.id
+      WHERE 
+        ($1::uuid IS NULL OR lde.user_id = $1)
+        AND LENGTH(content) > 100
+        AND is_private = false
+      ORDER BY created_at ASC
+    `, [userId])
 
-      // Create context for the instruction
-      const context = buildContext(row)
-      
+    // Get milestone messages for future-focused training
+    const milestones = await query(`
+      SELECT 
+        id,
+        milestone_type,
+        recipient_name,
+        message_title,
+        message_content,
+        trigger_date,
+        trigger_age,
+        emotional_tone,
+        created_at,
+        u.name as user_name,
+        u.primary_role
+      FROM milestone_messages mm
+      JOIN users u ON mm.user_id = u.id
+      WHERE 
+        ($1::uuid IS NULL OR mm.user_id = $1)
+        AND LENGTH(message_content) > 50
+        AND is_private = false
+      ORDER BY created_at ASC
+    `, [userId])
+
+    // Format all data sources into comprehensive training examples
+    const responseExamples: TrainingExample[] = responses.rows.map(row => {
+      const context = buildEnhancedContext(row)
       return {
         instruction: row.question_text,
         input: context,
@@ -62,10 +98,54 @@ export const GET = withAdminAuth(async (request: NextRequest) => {
           questionCategory: row.category,
           responseWordCount: row.word_count,
           emotionalTone: detectEmotionalTone(row.response_text),
-          importantPeople
+          importantPeople: parseImportantPeople(row.important_people),
+          dataSource: 'response'
         }
       }
     })
+
+    // Format life entries as conversational training examples
+    const lifeEntryExamples: TrainingExample[] = lifeEntries.rows.map(row => {
+      const instruction = generateLifeEntryInstruction(row)
+      const context = buildEnhancedContext(row)
+      return {
+        instruction,
+        input: context,
+        output: row.content,
+        metadata: {
+          userId: row.user_id || userId,
+          timestamp: row.created_at,
+          questionCategory: row.category || 'life_story',
+          responseWordCount: row.content.split(' ').length,
+          emotionalTone: detectEmotionalTone(row.content),
+          importantPeople: row.related_people || [],
+          dataSource: 'life_entry'
+        }
+      }
+    })
+
+    // Format milestone messages as legacy-focused training examples
+    const milestoneExamples: TrainingExample[] = milestones.rows.map(row => {
+      const instruction = generateMilestoneInstruction(row)
+      const context = buildMilestoneContext(row)
+      return {
+        instruction,
+        input: context,
+        output: row.message_content,
+        metadata: {
+          userId: row.user_id || userId,
+          timestamp: row.created_at,
+          questionCategory: 'milestone_message',
+          responseWordCount: row.message_content.split(' ').length,
+          emotionalTone: row.emotional_tone || detectEmotionalTone(row.message_content),
+          importantPeople: row.recipient_name ? [row.recipient_name] : [],
+          dataSource: 'milestone'
+        }
+      }
+    })
+
+    // Combine all training examples
+    const trainingExamples = [...responseExamples, ...lifeEntryExamples, ...milestoneExamples]
 
     // Calculate statistics
     const stats = {
@@ -131,28 +211,91 @@ export const GET = withAdminAuth(async (request: NextRequest) => {
   }
 })
 
-function buildContext(row: any): string {
+function buildEnhancedContext(row: any): string {
   const contexts = []
   
   if (row.primary_role) {
     contexts.push(`You are a ${row.primary_role}`)
   }
   
-  if (row.important_people) {
-    try {
-      const people = JSON.parse(row.important_people)
-      if (people.length > 0) {
-        const names = people.map((p: any) => p.name).filter(Boolean).join(', ')
-        if (names) {
-          contexts.push(`speaking to ${names}`)
-        }
-      }
-    } catch (e) {}
+  // Add cultural background if available
+  if (row.cultural_background && Array.isArray(row.cultural_background)) {
+    contexts.push(`with ${row.cultural_background.join(' and ')} heritage`)
   }
   
-  contexts.push('sharing your wisdom and memories')
+  // Add important relationships
+  const importantPeople = parseImportantPeople(row.important_people)
+  if (importantPeople.length > 0) {
+    contexts.push(`speaking about your relationships with ${importantPeople.slice(0, 3).join(', ')}`)
+  }
+  
+  // Add context about sharing legacy
+  contexts.push('sharing your wisdom, memories, and life experiences for future generations')
   
   return contexts.join(', ') + '.'
+}
+
+function buildMilestoneContext(row: any): string {
+  const contexts = []
+  
+  if (row.primary_role) {
+    contexts.push(`You are a ${row.primary_role}`)
+  }
+  
+  if (row.recipient_name) {
+    contexts.push(`writing a heartfelt message to ${row.recipient_name}`)
+  }
+  
+  if (row.milestone_type) {
+    contexts.push(`for their ${row.milestone_type.replace('_', ' ')}`)
+  }
+  
+  if (row.emotional_tone) {
+    contexts.push(`with a ${row.emotional_tone} tone`)
+  }
+  
+  contexts.push('sharing your love, wisdom, and hopes for their future')
+  
+  return contexts.join(', ') + '.'
+}
+
+function generateLifeEntryInstruction(row: any): string {
+  const instructions = [
+    `Tell me about ${row.title.toLowerCase()}`,
+    `Share your memories about ${row.title.toLowerCase()}`,
+    `What can you tell me about ${row.title.toLowerCase()}?`,
+    `Describe your experience with ${row.title.toLowerCase()}`,
+    `What was significant about ${row.title.toLowerCase()}?`
+  ]
+  
+  return instructions[Math.floor(Math.random() * instructions.length)]
+}
+
+function generateMilestoneInstruction(row: any): string {
+  const milestoneType = row.milestone_type || 'milestone'
+  const recipient = row.recipient_name || 'your loved one'
+  
+  const instructions = [
+    `Write a ${milestoneType.replace('_', ' ')} message for ${recipient}`,
+    `Share your thoughts for ${recipient}'s ${milestoneType.replace('_', ' ')}`,
+    `What would you want to say to ${recipient} on their ${milestoneType.replace('_', ' ')}?`,
+    `Create a meaningful message for ${recipient}'s ${milestoneType.replace('_', ' ')}`,
+    `Express your feelings about ${recipient}'s ${milestoneType.replace('_', ' ')}`
+  ]
+  
+  return instructions[Math.floor(Math.random() * instructions.length)]
+}
+
+function parseImportantPeople(importantPeopleJson: string): string[] {
+  try {
+    if (importantPeopleJson) {
+      const parsed = JSON.parse(importantPeopleJson)
+      return parsed.map((p: any) => p.name).filter(Boolean)
+    }
+  } catch (e) {
+    // Ignore parsing errors
+  }
+  return []
 }
 
 function detectEmotionalTone(text: string): string {

@@ -1,0 +1,174 @@
+{
+  "summary": {
+    "total": 23,
+    "passed": 22,
+    "failed": 1,
+    "warnings": 0,
+    "critical_failures": 1,
+    "success_rate": 95.65217391304348
+  },
+  "test_results": [
+    {
+      "test": "Web Application",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Application accessible and loading",
+      "timestamp": "2025-07-29T10:37:10.817651"
+    },
+    {
+      "test": "ML Inference Service",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "GPU: rtx5090",
+      "timestamp": "2025-07-29T10:37:10.819520"
+    },
+    {
+      "test": "Voice System Status",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "TTS available, GPU ready, 2 voice profiles",
+      "timestamp": "2025-07-29T10:37:10.821121"
+    },
+    {
+      "test": "Voice Recordings",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Found 7 voice files",
+      "timestamp": "2025-07-29T10:37:10.821324"
+    },
+    {
+      "test": "Trained Voice Model",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Latest voice model available",
+      "timestamp": "2025-07-29T10:37:10.821348"
+    },
+    {
+      "test": "Model Versions",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Found 2 model versions",
+      "timestamp": "2025-07-29T10:37:10.821366"
+    },
+    {
+      "test": "Voice Synthesis Files",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Found 33 synthesis samples",
+      "timestamp": "2025-07-29T10:37:10.821470"
+    },
+    {
+      "test": "Security Check /api/voice/health",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Properly requires authentication",
+      "timestamp": "2025-07-29T10:37:10.859903"
+    },
+    {
+      "test": "Security Check /api/voice/upload",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Properly requires authentication",
+      "timestamp": "2025-07-29T10:37:11.489633"
+    },
+    {
+      "test": "Security Check /api/voice/train",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Properly requires authentication",
+      "timestamp": "2025-07-29T10:37:11.724386"
+    },
+    {
+      "test": "Security Check /api/voice/synthesize",
+      "status": "FAIL",
+      "severity": "CRITICAL",
+      "details": "Should return 401, got 405",
+      "timestamp": "2025-07-29T10:37:11.828703"
+    },
+    {
+      "test": "Direct ML Synthesis",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Generated audio in 0.28639817237854004s",
+      "timestamp": "2025-07-29T10:37:12.117483"
+    },
+    {
+      "test": "Audio File Generation",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Audio file created: synthesis_voice_lukemoeller_yahoo_com_latest_1753799831.wav",
+      "timestamp": "2025-07-29T10:37:12.117541"
+    },
+    {
+      "test": "Quality Test: Short phrase",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Generated in 0.07647490501403809s, quality: unknown",
+      "timestamp": "2025-07-29T10:37:12.196277"
+    },
+    {
+      "test": "Quality Test: Medium sentence",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Generated in 0.2793722152709961s, quality: unknown",
+      "timestamp": "2025-07-29T10:37:13.479721"
+    },
+    {
+      "test": "Quality Test: Long paragraph",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Generated in 0.9249365329742432s, quality: unknown",
+      "timestamp": "2025-07-29T10:37:15.408355"
+    },
+    {
+      "test": "Quality Test: Technical terms",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Generated in 0.35468292236328125s, quality: unknown",
+      "timestamp": "2025-07-29T10:37:16.766822"
+    },
+    {
+      "test": "Quality Test: Emotional content",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Generated in 0.3472418785095215s, quality: unknown",
+      "timestamp": "2025-07-29T10:37:18.117616"
+    },
+    {
+      "test": "Invalid Voice ID Handling",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Properly rejected invalid voice ID: 404",
+      "timestamp": "2025-07-29T10:37:19.120960"
+    },
+    {
+      "test": "Empty Text Handling",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Properly rejected empty text: 400",
+      "timestamp": "2025-07-29T10:37:19.122392"
+    },
+    {
+      "test": "Long Text Handling",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Handled 2600 chars in 14.886177778244019s",
+      "timestamp": "2025-07-29T10:37:34.010366"
+    },
+    {
+      "test": "Concurrent Processing",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "3/3 requests succeeded, avg: 0.49s",
+      "timestamp": "2025-07-29T10:37:34.746191"
+    },
+    {
+      "test": "GPU Memory Usage",
+      "status": "PASS",
+      "severity": "INFO",
+      "details": "Allocated: 0.41GB, Reserved: 0.54GB",
+      "timestamp": "2025-07-29T10:37:34.748518"
+    }
+  ],
+  "timestamp": "2025-07-29T10:37:34.748725"
+}

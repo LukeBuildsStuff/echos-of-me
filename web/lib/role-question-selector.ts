@@ -22,6 +22,8 @@ export interface UserProfile {
   name?: string
   birthday?: string
   childrenBirthdays?: string[] // Birthdays of children/grandchildren
+  childrenAges?: number[] // Current ages of children/grandchildren
+  relationshipYears?: number // Years in relationship/marriage
   importantPeople?: Array<{
     name: string
     relationship: string

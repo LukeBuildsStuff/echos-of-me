@@ -44,6 +44,21 @@ const Header = () => {
             </div>
             <div className="flex w-full items-center justify-end px-4">
               <div className="flex items-center justify-end pr-0 lg:pr-0">
+                {/* Mobile Navigation Buttons */}
+                <Link
+                  href="/auth/signin"
+                  className="px-4 py-2 text-sm font-medium text-dark hover:opacity-70 dark:text-white md:hidden mr-2"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  href="/auth/register"
+                  className="ease-in-up shadow-btn hover:shadow-btn-hover rounded-sm bg-primary px-4 py-2 text-sm font-medium text-white transition duration-300 hover:bg-opacity-90 md:hidden"
+                >
+                  Begin Legacy
+                </Link>
+                
+                {/* Desktop Navigation Buttons */}
                 <Link
                   href="/auth/signin"
                   className="hidden px-7 py-3 text-base font-medium text-dark hover:opacity-70 dark:text-white md:block"

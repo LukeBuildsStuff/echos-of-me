@@ -50,23 +50,24 @@ export default function UserMenu({ onSettingsClick }: UserMenuProps) {
           e.stopPropagation()
           setShowUserMenu(!showUserMenu)
         }}
-        className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors mobile-tap-target rounded-md"
       >
-        <span>Welcome, {session?.user?.name}</span>
-        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <span className="hidden sm:inline">Welcome, {session?.user?.name}</span>
+        <span className="sm:hidden text-lg">👤</span>
+        <svg className="h-3 w-3 sm:h-4 sm:w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </button>
       
       {showUserMenu && (
-        <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
+        <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-[60] mobile-safe-content">
           <div className="py-1">
             <button
               onClick={() => {
                 onSettingsClick()
                 setShowUserMenu(false)
               }}
-              className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              className="flex items-center gap-2 w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 mobile-tap-target"
             >
               ⚙️ Account Settings
             </button>
@@ -76,7 +77,7 @@ export default function UserMenu({ onSettingsClick }: UserMenuProps) {
                   router.push('/admin')
                   setShowUserMenu(false)
                 }}
-                className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                className="flex items-center gap-2 w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 mobile-tap-target"
               >
                 🔧 Admin Dashboard
               </button>
@@ -84,7 +85,7 @@ export default function UserMenu({ onSettingsClick }: UserMenuProps) {
             <hr className="my-1" />
             <button
               onClick={() => signOut()}
-              className="flex items-center gap-2 w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              className="flex items-center gap-2 w-full px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 mobile-tap-target"
             >
               🚪 Sign Out
             </button>

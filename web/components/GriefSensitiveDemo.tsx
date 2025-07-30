@@ -25,7 +25,7 @@ export default function GriefSensitiveDemo() {
           Grief-Sensitive Design Patterns
         </h1>
         <p className="text-presence text-peace-600 font-compassionate leading-relaxed max-w-2xl mx-auto">
-          These design patterns honor the sacred nature of preserving family legacy with 
+          These design patterns honor the meaningful nature of preserving family legacy with 
           compassionate, gentle interfaces that respect the vulnerability of sharing precious memories.
         </p>
       </div>
@@ -219,7 +219,7 @@ export default function GriefSensitiveDemo() {
             </ul>
           </div>
           <div>
-            <h4 className="text-embrace font-supportive text-peace-700 mb-breath">Sacred Honor</h4>
+            <h4 className="text-embrace font-supportive text-peace-700 mb-breath">Heartfelt Honor</h4>
             <ul className="text-comfort text-peace-600 space-y-breath leading-relaxed">
               <li>• Warm colors that convey love</li>
               <li>• Typography that feels personal</li>

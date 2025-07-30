@@ -12,7 +12,8 @@ services:
       - DATABASE_URL=postgresql://personalai:personalai123@db:5432/personalai
       - REDIS_URL=redis://redis:6379
       - NEXTAUTH_URL=https://echosofme.io
-      - NEXTAUTH_SECRET=your-secret-key-here-change-in-production
+      - NEXTAUTH_SECRET=f29c73c05bc1ea75e0afacb0f85478af4443659cdb6bd6bb83f81330a226dbb0
+      - ML_INFERENCE_URL=http://ml-inference:8000
       - SMTP_USER=your-gmail@gmail.com
       - SMTP_APP_PASSWORD=your-gmail-app-password
     volumes:
@@ -104,9 +105,7 @@ services:
 
   # ML Inference Server
   ml-inference:
-    build:
-      context: ./ml
-      dockerfile: Dockerfile
+    image: nvcr.io/nvidia/pytorch:25.04-py3  # RTX 5090 compatible
     runtime: nvidia
     ports:
       - "8000:8000"
@@ -116,9 +115,12 @@ services:
       - PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:512
       - HF_HOME=/models/huggingface
       - OLLAMA_URL=http://ollama:11434
+      - COQUI_TOS_AGREED=1
     volumes:
       - ./models:/models
       - ./ml:/workspace
+      - ./web:/web
+    working_dir: /workspace
     deploy:
       resources:
         reservations:
@@ -130,15 +132,17 @@ services:
       - db
       - ollama
     restart: unless-stopped
-    command: python /workspace/inference_server.py
+    command: /workspace/start_rtx5090_voice_service.sh
 
   # Cloudflare Tunnel for echosofme.io
   tunnel:
     image: cloudflare/cloudflared:latest
-    command: tunnel --no-autoupdate run --token eyJhIjoiN2MzMTI2NzdiZjUzYzMwYmJjZjkwNWVjMWFlZGZkMDIiLCJ0IjoiN2ZiNWY3NDMtOTFjNS00Mzk2LThhZGMtYjBlYzU5NjA0NDU5IiwicyI6Ik56RTNNRFZsTTJVdE1HSTNZUzAwT0daa0xXRXhOamt0TERFNU5UWTBaakkwTldReiJ9
+    command: tunnel --no-autoupdate --protocol http2 run --token eyJhIjoiN2MzMTI2NzdiZjUzYzMwYmJjZjkwNWVjMWFlZGZkMDIiLCJ0IjoiN2ZiNWY3NDMtOTFjNS00Mzk2LThhZGMtYjBlYzU5NjA0NDU5IiwicyI6Ik1UZ3hNR0ZpTkdNdFpqRmpNQzAwTnpjNUxXRTFOekl0WlRsa1pHRXdaVGMwWkdWayJ9
     depends_on:
       - web
-    restart: unless-stopped
+    restart: on-failure:3
+    environment:
+      - TUNNEL_METRICS=0.0.0.0:20241
     networks:
       - default
 

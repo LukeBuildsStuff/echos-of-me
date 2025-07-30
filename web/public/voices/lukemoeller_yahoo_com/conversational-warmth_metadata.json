@@ -1,0 +1,24 @@
+{
+  "passageId": "conversational-warmth",
+  "passageText": "Hello there! I'm so genuinely glad we have this precious moment to connect together. You know, I've been thinking deeply about how absolutely sacred these conversations are—the beautiful way we share our heartfelt thoughts, our spontaneous laughter, our genuine concerns. There's something truly magical about really listening carefully to someone and feeling completely heard in return.\r\n\r\nI absolutely love how we can talk about literally anything—from the wonderfully silly little things that make us smile brightly to the profoundly deep questions that keep us thoughtfully awake at night. Sometimes we're incredibly excited and speaking quite quickly, other times we're beautifully gentle and deeply reflective. But through it all, there's this amazing warmth between us, this incredible understanding.\r\n\r\nWhat I truly want you to remember is that every single conversation we have is an extraordinary gift. Whether we're solving challenging problems together, sharing tremendously good news, or just lovingly checking in on each other, these precious moments matter deeply. They're the golden threads that weave the tapestry of our relationship, creating something absolutely beautiful and eternally lasting.",
+  "audioFile": "voice_conversational-warmth_1753804319632.webm",
+  "timestamp": 1753804319632,
+  "duration": 71,
+  "quality": {
+    "overall": 15,
+    "volume": 0,
+    "clarity": 0,
+    "consistency": 0,
+    "emotional": 0,
+    "phonetic": 100,
+    "duration": 0
+  },
+  "phoneticFocus": "Warm vowels, natural rhythm, connected speech patterns",
+  "requirements": {
+    "minDuration": 45,
+    "optimalDuration": 60,
+    "meetsTrainingRequirements": false
+  },
+  "processingStatus": "pending",
+  "processed": false
+}

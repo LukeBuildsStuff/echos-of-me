@@ -118,9 +118,9 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('=== DATABASE ERROR ===')
     console.error('Error updating user profile:', error)
-    console.error('Error message:', error.message)
-    console.error('Error code:', error.code)
-    console.error('Error detail:', error.detail)
+    console.error('Error message:', error instanceof Error ? error.message : 'Unknown error')
+    console.error('Error code:', (error as any)?.code)
+    console.error('Error detail:', (error as any)?.detail)
     console.error('======================')
     return NextResponse.json(
       { error: 'Failed to update profile' },

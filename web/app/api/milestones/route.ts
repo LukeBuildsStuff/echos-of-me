@@ -73,6 +73,8 @@ export async function GET(request: NextRequest) {
       queryText += ` ORDER BY entry_date DESC, created_at DESC LIMIT $${++paramCount} OFFSET $${++paramCount}`
       params.push(limit, offset)
 
+      console.log('Executing life entries query:', { queryText, params, userId }) // Debug log
+
       const entries = await query(queryText, params)
 
       // Get total count
@@ -88,9 +90,15 @@ export async function GET(request: NextRequest) {
 
       const countResult = await query(countQuery, countParams)
 
+      console.log('Life entries result:', { 
+        entriesCount: entries.rows.length, 
+        totalCount: countResult.rows[0]?.count,
+        userId 
+      }) // Debug log
+
       return NextResponse.json({
         entries: entries.rows,
-        total: parseInt(countResult.rows[0].count),
+        total: parseInt(countResult.rows[0]?.count || '0'),
         limit,
         offset
       })
@@ -155,9 +163,29 @@ export async function GET(request: NextRequest) {
 
   } catch (error) {
     console.error('Error fetching milestones:', error)
+    
+    // Provide more specific error messages based on the error
+    let errorMessage = 'Failed to fetch milestones'
+    let statusCode = 500
+    
+    if ((error as any)?.code === '42P01') {
+      errorMessage = 'Database table not found - please run database migration'
+      statusCode = 503
+    } else if ((error as any)?.message?.includes('relation') && (error as any)?.message?.includes('does not exist')) {
+      errorMessage = 'Database table missing - please contact administrator'
+      statusCode = 503
+    }
+    
     return NextResponse.json(
-      { error: 'Failed to fetch milestones' },
-      { status: 500 }
+      { 
+        error: errorMessage,
+        debug: {
+          code: (error as any)?.code,
+          detail: (error as any)?.detail,
+          message: (error as any)?.message
+        }
+      },
+      { status: statusCode }
     )
   }
 }
@@ -199,6 +227,18 @@ export async function POST(request: NextRequest) {
         entryDate = new Date()
       } = body
 
+      console.log('Creating life detail entry:', { 
+        userId, title, content: content?.substring(0, 100), category, tags, relatedPeople 
+      }) // Debug log
+
+      // Validate required fields
+      if (!title || !content) {
+        return NextResponse.json({ 
+          error: 'Title and content are required',
+          received: { title: !!title, content: !!content }
+        }, { status: 400 })
+      }
+
       const result = await query(`
         INSERT INTO life_detail_entries (
           user_id,
@@ -225,6 +265,8 @@ export async function POST(request: NextRequest) {
         attachedQuestionId,
         isPrivate
       ])
+
+      console.log('Life detail entry created:', { entryId: result.rows[0]?.id, userId }) // Debug log
 
       return NextResponse.json({
         success: true,
@@ -286,9 +328,32 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Error creating milestone/entry:', error)
+    
+    // Provide more specific error messages based on the error
+    let errorMessage = 'Failed to create milestone/entry'
+    let statusCode = 500
+    
+    if ((error as any)?.code === '42P01') {
+      errorMessage = 'Database table not found - please run database migration'
+      statusCode = 503
+    } else if ((error as any)?.code === '23505') {
+      errorMessage = 'Duplicate entry'
+      statusCode = 409
+    } else if ((error as any)?.message?.includes('relation') && (error as any)?.message?.includes('does not exist')) {
+      errorMessage = 'Database table missing - please contact administrator'
+      statusCode = 503
+    }
+    
     return NextResponse.json(
-      { error: 'Failed to create milestone/entry' },
-      { status: 500 }
+      { 
+        error: errorMessage,
+        debug: {
+          code: (error as any)?.code,
+          detail: (error as any)?.detail,
+          message: (error as any)?.message
+        }
+      },
+      { status: statusCode }
     )
   }
 }

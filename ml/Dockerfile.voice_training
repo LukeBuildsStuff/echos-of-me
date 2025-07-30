@@ -1,0 +1,59 @@
+# RTX 5090 Voice Training Container
+# Based on NVIDIA's PyTorch container with sm_120 support
+FROM nvcr.io/nvidia/pytorch:25.04-py3
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    libsndfile1 \
+    libsox-dev \
+    sox \
+    git \
+    wget \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies for voice training
+RUN pip install --no-cache-dir \
+    TTS==0.22.0 \
+    librosa==0.10.1 \
+    soundfile==0.12.1 \
+    datasets==2.16.1 \
+    accelerate==0.25.0 \
+    transformers==4.36.2 \
+    tensorboard==2.15.1 \
+    wandb==0.16.1 \
+    scipy==1.11.4 \
+    matplotlib==3.8.2 \
+    seaborn==0.13.0 \
+    tqdm==4.66.1
+
+# Set TOS agreement for Coqui TTS
+ENV COQUI_TOS_AGREED=1
+
+# Set CUDA environment for RTX 5090
+ENV CUDA_VISIBLE_DEVICES=0
+ENV TORCH_CUDA_ARCH_LIST="9.0"
+
+# Create required directories
+RUN mkdir -p /models/voices \
+    && mkdir -p /models/checkpoints \
+    && mkdir -p /web/public/voices \
+    && mkdir -p /app/logs
+
+# Copy training scripts
+COPY rtx5090_voice_trainer.py /app/
+COPY voice_training_pipeline.py /app/
+COPY requirements_voice_training.txt /app/
+
+# Install additional requirements if present
+RUN if [ -f requirements_voice_training.txt ]; then pip install --no-cache-dir -r requirements_voice_training.txt; fi
+
+# Set proper permissions
+RUN chmod +x /app/*.py
+
+# Default command
+CMD ["python", "rtx5090_voice_trainer.py", "--help"]

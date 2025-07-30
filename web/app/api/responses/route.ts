@@ -286,6 +286,75 @@ async function generateTrainingData(userId: string, responseId: string, question
   }
 }
 
+// DELETE /api/responses - Delete a specific response
+export async function DELETE(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions)
+    
+    if (!session?.user?.id) {
+      return NextResponse.json({
+        success: false,
+        error: 'Unauthorized'
+      }, { status: 401 })
+    }
+
+    const { searchParams } = new URL(request.url)
+    const responseId = searchParams.get('id')
+
+    if (!responseId) {
+      return NextResponse.json({
+        success: false,
+        error: 'Response ID is required'
+      }, { status: 400 })
+    }
+
+    // Verify the response belongs to the current user before deleting
+    const verifyResult = await query(`
+      SELECT id FROM responses 
+      WHERE id = $1 AND user_id = $2
+    `, [responseId, session.user.id])
+
+    if (verifyResult.rows.length === 0) {
+      return NextResponse.json({
+        success: false,
+        error: 'Response not found or access denied'
+      }, { status: 404 })
+    }
+
+    // Delete the response
+    const deleteResult = await query(`
+      DELETE FROM responses 
+      WHERE id = $1 AND user_id = $2
+      RETURNING id
+    `, [responseId, session.user.id])
+
+    if (deleteResult.rows.length === 0) {
+      return NextResponse.json({
+        success: false,
+        error: 'Failed to delete response'
+      }, { status: 500 })
+    }
+
+    // Also delete associated training data if it exists
+    await query(`
+      DELETE FROM training_data 
+      WHERE source_response_id = $1 AND user_id = $2
+    `, [responseId, session.user.id])
+
+    return NextResponse.json({
+      success: true,
+      message: 'Response deleted successfully'
+    }, { status: 200 })
+
+  } catch (error: any) {
+    console.error('Error deleting response:', error)
+    return NextResponse.json({
+      success: false,
+      error: 'Failed to delete response'
+    }, { status: 500 })
+  }
+}
+
 // Enhance response to be more conversational and persona-rich
 function enhanceResponseForTraining(responseText: string, userName: string, userRole: string): string {
   // If response is very short, add some conversational context

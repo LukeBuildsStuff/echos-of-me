@@ -1,0 +1,53 @@
+# RTX 5090 ML Inference Server Requirements
+# Optimized for PyTorch 2.7.0a0+ with CUDA sm_120 support
+
+# Core ML Framework (RTX 5090 requires PyTorch 2.7.0a0+)
+torch>=2.7.0a0
+torchvision>=0.19.0a0
+torchaudio>=2.4.0a0
+
+# Transformers and Model Support
+transformers>=4.36.0
+accelerate>=0.25.0
+tokenizers>=0.15.0
+sentencepiece>=0.1.99
+protobuf>=3.20.0
+
+# Quantization and Fine-tuning
+bitsandbytes>=0.41.0
+peft>=0.7.0
+datasets>=2.14.0
+
+# Web Server Framework
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+pydantic>=2.5.0
+
+# Voice Synthesis (TTS)
+coqui-tts>=0.22.0
+librosa>=0.10.0
+soundfile>=0.12.0
+numpy>=1.24.0
+scipy>=1.11.0
+
+# System Monitoring
+psutil>=5.9.0
+gpustat>=1.1.0
+
+# Optional: Additional ML utilities
+scikit-learn>=1.3.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+
+# Development and Testing
+pytest>=7.4.0
+black>=23.0.0
+flake8>=6.0.0
+
+# Note: The base nvcr.io/nvidia/pytorch:25.04-py3 container includes:
+# - Python 3.12
+# - PyTorch 2.7.0a0+ with RTX 5090 sm_120 support
+# - CUDA 12.4+ libraries
+# - cuDNN 8.9+
+# - NCCL 2.20+
+# - OpenMPI 4.1.5+

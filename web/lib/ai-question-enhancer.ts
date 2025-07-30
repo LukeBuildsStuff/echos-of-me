@@ -73,7 +73,7 @@ export const emotionalResonancePrompts = {
     "When you think about {person}'s future, what prayer or wish fills your heart?",
     "What unspoken understanding exists between you and {person} that others might not see?",
     "If {person} could feel your love across time and space, what would that love tell them?",
-    "What sacred moments with {person} do you return to when you need comfort?"
+    "What cherished moments with {person} do you return to when you need comfort?"
   ],
 
   // For users processing grief or loss
@@ -271,7 +271,7 @@ The enhanced question should:
 1. Feel naturally connected to what they just shared
 2. Invite deeper emotional exploration
 3. Be specific to their family situation
-4. Honor the sacred nature of legacy preservation
+4. Honor the meaningful nature of legacy preservation
 
 Enhanced question:`
 

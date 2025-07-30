@@ -95,7 +95,7 @@ export const finalLegacyQuestions: LegacyQuestionTemplate[] = [
       "What daily spiritual or contemplative practices bring you the most peace?",
       "How do you connect with something greater than yourself in ordinary moments?",
       "What's your approach to prayer or meditation that works best for you?",
-      "How do you find sacred time and space in your busy daily life?",
+      "How do you find meaningful time and space in your busy daily life?",
       "What spiritual books, texts, or teachings resonate most deeply with you?",
       "How do you handle spiritual doubt or questions without losing your faith?",
       "What's your practice for finding inner calm during stressful periods?",

@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
 
 async function sendResetEmail(email: string, name: string, resetToken: string) {
   // Configure nodemailer transporter
-  const transporter = nodemailer.createTransporter({
+  const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
       user: process.env.SMTP_USER,

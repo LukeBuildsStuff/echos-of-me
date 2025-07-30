@@ -8,11 +8,13 @@ interface MilestoneCreatorProps {
   onSave: (milestone: any) => void
   onCancel: () => void
   initialData?: any
+  defaultTab?: 'milestone' | 'diary'
 }
 
-export default function MilestoneCreator({ onSave, onCancel, initialData }: MilestoneCreatorProps) {
-  const [activeTab, setActiveTab] = useState<'milestone' | 'diary'>('milestone')
+export default function MilestoneCreator({ onSave, onCancel, initialData, defaultTab = 'milestone' }: MilestoneCreatorProps) {
+  const [activeTab, setActiveTab] = useState<'milestone' | 'diary'>(defaultTab)
   const [milestoneType, setMilestoneType] = useState<MilestoneType>('wedding')
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({
     // Milestone fields
     recipientName: initialData?.recipientName || '',
@@ -35,34 +37,39 @@ export default function MilestoneCreator({ onSave, onCancel, initialData }: Mile
     isPrivate: initialData?.isPrivate || false
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setIsSubmitting(true)
     
-    if (activeTab === 'milestone') {
-      onSave({
-        type: 'milestone',
-        milestoneType,
-        recipientName: formData.recipientName,
-        messageTitle: formData.messageTitle,
-        messageContent: formData.messageContent,
-        triggerDate: formData.triggerDate || null,
-        triggerAge: formData.triggerAge ? parseInt(formData.triggerAge) : null,
-        triggerEvent: formData.triggerEvent || null,
-        emotionalTone: formData.emotionalTone,
-        tags: formData.tags.split(',').map(t => t.trim()).filter(t => t),
-        isPrivate: formData.isPrivate
-      })
-    } else {
-      onSave({
-        type: 'entry',
-        title: formData.entryTitle,
-        content: formData.entryContent,
-        category: formData.entryCategory,
-        emotionalDepth: formData.emotionalDepth,
-        relatedPeople: formData.relatedPeople.split(',').map(p => p.trim()).filter(p => p),
-        tags: formData.tags.split(',').map(t => t.trim()).filter(t => t),
-        isPrivate: formData.isPrivate
-      })
+    try {
+      if (activeTab === 'milestone') {
+        await onSave({
+          type: 'milestone',
+          milestoneType,
+          recipientName: formData.recipientName,
+          messageTitle: formData.messageTitle,
+          messageContent: formData.messageContent,
+          triggerDate: formData.triggerDate || null,
+          triggerAge: formData.triggerAge ? parseInt(formData.triggerAge) : null,
+          triggerEvent: formData.triggerEvent || null,
+          emotionalTone: formData.emotionalTone,
+          tags: formData.tags.split(',').map((t: string) => t.trim()).filter((t: string) => t),
+          isPrivate: formData.isPrivate
+        })
+      } else {
+        await onSave({
+          type: 'entry',
+          title: formData.entryTitle,
+          content: formData.entryContent,
+          category: formData.entryCategory,
+          emotionalDepth: formData.emotionalDepth,
+          relatedPeople: formData.relatedPeople.split(',').map((p: string) => p.trim()).filter((p: string) => p),
+          tags: formData.tags.split(',').map((t: string) => t.trim()).filter((t: string) => t),
+          isPrivate: formData.isPrivate
+        })
+      }
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -342,9 +349,10 @@ export default function MilestoneCreator({ onSave, onCancel, initialData }: Mile
           </button>
           <button
             type="submit"
-            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            disabled={isSubmitting}
+            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Save {activeTab === 'milestone' ? 'Milestone' : 'Entry'}
+            {isSubmitting ? 'Saving...' : `Save ${activeTab === 'milestone' ? 'Milestone' : 'Entry'}`}
           </button>
         </div>
       </form>

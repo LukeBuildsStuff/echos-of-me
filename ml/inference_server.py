@@ -55,11 +55,73 @@ class MistralInferenceServer:
         self.ollama_url = os.getenv('OLLAMA_URL', 'http://ollama:11434')
         self.use_ollama = True  # Default to Ollama for Mistral-7B
         
+        # Initialize voice cloner on startup
+        self.voice_cloner = None
+        self.init_voice_cloner()
+        
         # Setup routes
         self.setup_routes()
         
         # Initialize Ollama model
         self.init_ollama_model()
+
+    def init_voice_cloner(self):
+        """Initialize voice cloner and pre-load XTTS-v2 model."""
+        try:
+            logger.info("Initializing voice cloning system...")
+            self.voice_cloner = get_voice_cloner()
+            
+            # Check if voice cloner initialized successfully
+            if self.voice_cloner and self.voice_cloner.tts:
+                logger.info("✓ Voice cloning system ready with XTTS-v2 model")
+                
+                # Log discovered voice profiles
+                profiles = self.voice_cloner.list_voice_profiles()
+                if profiles.get("success"):
+                    profile_count = profiles.get("count", 0)
+                    logger.info(f"✓ Found {profile_count} voice profiles ready for synthesis")
+                    
+                    # Log specific profiles for debugging
+                    for voice_id, profile in profiles.get("profiles", {}).items():
+                        logger.info(f"  - {voice_id}: {profile.get('source_file', 'unknown')} ({profile.get('user_id', 'unknown')})")
+                else:
+                    logger.warning("Voice profiles discovery failed")
+            else:
+                logger.warning("⚠ Voice cloning system not available (TTS model failed to load)")
+                
+        except Exception as e:
+            logger.error(f"Failed to initialize voice cloning: {e}")
+            self.voice_cloner = None
+
+    def check_voice_health(self):
+        """Perform health checks on voice cloning system."""
+        try:
+            if not self.voice_cloner:
+                return {"status": "unhealthy", "reason": "voice cloner not initialized"}
+                
+            if not self.voice_cloner.tts:
+                return {"status": "unhealthy", "reason": "TTS model not loaded"}
+                
+            # Check GPU memory if available
+            if torch.cuda.is_available():
+                memory_allocated = torch.cuda.memory_allocated() / 1e9
+                memory_reserved = torch.cuda.memory_reserved() / 1e9
+                
+                if memory_allocated > 20:  # More than 20GB used might indicate memory leak
+                    return {
+                        "status": "warning", 
+                        "reason": f"high GPU memory usage: {memory_allocated:.1f}GB"
+                    }
+            
+            # Check if voice profiles are available
+            profiles = self.voice_cloner.list_voice_profiles()
+            if not profiles.get("success") or profiles.get("count", 0) == 0:
+                return {"status": "warning", "reason": "no voice profiles available"}
+                
+            return {"status": "healthy", "profiles_count": profiles.get("count", 0)}
+            
+        except Exception as e:
+            return {"status": "unhealthy", "reason": f"health check failed: {str(e)}"}
     
     def init_ollama_model(self):
         """Initialize Ollama with Mistral-7B model."""
@@ -186,8 +248,10 @@ class MistralInferenceServer:
         async def process_voice(request: dict):
             """Process voice recording for cloning."""
             try:
-                voice_cloner = get_voice_cloner()
-                result = voice_cloner.process_voice_recording(
+                if not self.voice_cloner:
+                    return {"success": False, "error": "Voice cloning system not available"}
+                
+                result = self.voice_cloner.process_voice_recording(
                     audio_path=request.get("audioPath"),
                     voice_id=request.get("voiceId"),
                     user_id=request.get("userId")
@@ -201,8 +265,13 @@ class MistralInferenceServer:
         async def synthesize_voice(request: dict):
             """Synthesize speech using cloned voice."""
             try:
-                voice_cloner = get_voice_cloner()
-                result = voice_cloner.synthesize_speech(
+                if not self.voice_cloner:
+                    return {"success": False, "error": "TTS model not available"}
+                
+                if not self.voice_cloner.tts:
+                    return {"success": False, "error": "TTS model not loaded"}
+                
+                result = self.voice_cloner.synthesize_speech(
                     text=request.get("text"),
                     voice_id=request.get("voiceId"),
                     output_path=request.get("outputPath"),
@@ -215,22 +284,126 @@ class MistralInferenceServer:
 
         @self.app.get("/voice/status")
         async def voice_status():
-            """Get voice cloning system status."""
+            """Get voice cloning system status with health checks."""
             try:
-                voice_cloner = get_voice_cloner()
-                return voice_cloner.get_model_status()
+                if not self.voice_cloner:
+                    return {
+                        "tts_available": False,
+                        "model_loaded": False,
+                        "error": "Voice cloning system not initialized"
+                    }
+                
+                status = self.voice_cloner.get_model_status()
+                
+                # Add health check information
+                status["health_status"] = self.check_voice_health()
+                
+                return status
             except Exception as e:
                 logger.error(f"Voice status check failed: {e}")
                 return {"error": str(e)}
+
+        @self.app.post("/voice/health/recover")
+        async def recover_voice_system():
+            """Attempt to recover voice cloning system."""
+            try:
+                logger.info("Attempting voice system recovery...")
+                self.init_voice_cloner()
+                
+                if self.voice_cloner and self.voice_cloner.tts:
+                    return {"success": True, "message": "Voice system recovered successfully"}
+                else:
+                    return {"success": False, "error": "Failed to recover voice system"}
+                    
+            except Exception as e:
+                logger.error(f"Voice recovery failed: {e}")
+                return {"success": False, "error": str(e)}
 
         @self.app.get("/voice/profiles/{user_id}")
         async def list_voice_profiles(user_id: str):
             """List voice profiles for a user."""
             try:
-                voice_cloner = get_voice_cloner()
-                return voice_cloner.list_voice_profiles(user_id)
+                if not self.voice_cloner:
+                    return {"success": False, "error": "Voice cloning system not available"}
+                    
+                return self.voice_cloner.list_voice_profiles(user_id)
             except Exception as e:
                 logger.error(f"Failed to list voice profiles: {e}")
+                return {"success": False, "error": str(e)}
+
+        # External model management endpoints
+        @self.app.get("/voice/models")
+        async def list_external_models():
+            """List all available external models."""
+            try:
+                if not self.voice_cloner:
+                    return {"success": False, "error": "Voice cloning system not available"}
+                    
+                return self.voice_cloner.list_external_models()
+            except Exception as e:
+                logger.error(f"Failed to list external models: {e}")
+                return {"success": False, "error": str(e)}
+
+        @self.app.get("/voice/models/{user_id}")
+        async def list_user_models(user_id: str):
+            """List external models for a specific user."""
+            try:
+                if not self.voice_cloner:
+                    return {"success": False, "error": "Voice cloning system not available"}
+                    
+                return self.voice_cloner.list_external_models(user_id)
+            except Exception as e:
+                logger.error(f"Failed to list user models: {e}")
+                return {"success": False, "error": str(e)}
+
+        @self.app.post("/voice/models/load")
+        async def load_external_model(request: dict):
+            """Load a specific external model."""
+            try:
+                if not self.voice_cloner:
+                    return {"success": False, "error": "Voice cloning system not available"}
+                
+                model_id = request.get("model_id")
+                if not model_id:
+                    return {"success": False, "error": "model_id required"}
+                
+                result = self.voice_cloner.load_external_model(model_id)
+                return result
+            except Exception as e:
+                logger.error(f"Failed to load external model: {e}")
+                return {"success": False, "error": str(e)}
+
+        @self.app.post("/voice/models/reload-base")
+        async def reload_base_model():
+            """Reload the base XTTS-v2 model."""
+            try:
+                if not self.voice_cloner:
+                    return {"success": False, "error": "Voice cloning system not available"}
+                
+                result = self.voice_cloner.reload_base_model()
+                return result
+            except Exception as e:
+                logger.error(f"Failed to reload base model: {e}")
+                return {"success": False, "error": str(e)}
+
+        @self.app.post("/voice/models/refresh")
+        async def refresh_external_models():
+            """Refresh the external models discovery."""
+            try:
+                if not self.voice_cloner:
+                    return {"success": False, "error": "Voice cloning system not available"}
+                
+                logger.info("Refreshing external models...")
+                self.voice_cloner.discover_external_models()
+                
+                models = self.voice_cloner.list_external_models()
+                return {
+                    "success": True,
+                    "message": "External models refreshed",
+                    "models_found": models.get("count", 0)
+                }
+            except Exception as e:
+                logger.error(f"Failed to refresh external models: {e}")
                 return {"success": False, "error": str(e)}
 
     def find_latest_model(self) -> Optional[str]:

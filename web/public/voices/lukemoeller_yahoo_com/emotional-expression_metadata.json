@@ -1,0 +1,24 @@
+{
+  "passageId": "emotional-expression",
+  "passageText": "Life is such an incredible mix of emotions, isn't it? There are those wonderful days when I feel absolutely joyful—like when I see a breathtakingly beautiful sunset or receive unexpectedly fantastic news. My voice gets so much lighter, more animated, and I simply can't help but share that pure excitement with everyone around me! It's like electricity running through my words!\r\n\r\nBut then there are those quieter moments too. Times when I'm deeply contemplative, maybe a little sad or genuinely worried about something important. In those tender moments, I speak much more softly, more slowly, choosing my words extremely carefully. And that's perfectly okay too—it's all part of being authentically human.\r\n\r\nSometimes I do get frustrated or need to be quite firm about something critically important. Other times I'm incredibly gentle and nurturing, offering sincere comfort when it's desperately needed. The truly beautiful thing is that all these different sides of me, all these wonderfully varied tones and genuine emotions, they're completely authentic. They make up the full, complex picture of who I really am, and I deeply hope you'll hear that incredible richness in every single word I speak to you.",
+  "audioFile": "voice_emotional-expression_1753804406207.webm",
+  "timestamp": 1753804406207,
+  "duration": 74,
+  "quality": {
+    "overall": 17,
+    "volume": 4,
+    "clarity": 0,
+    "consistency": 2,
+    "emotional": 4,
+    "phonetic": 100,
+    "duration": 0
+  },
+  "phoneticFocus": "Emotional prosody, pitch variation, expressive consonants",
+  "requirements": {
+    "minDuration": 50,
+    "optimalDuration": 65,
+    "meetsTrainingRequirements": false
+  },
+  "processingStatus": "pending",
+  "processed": false
+}

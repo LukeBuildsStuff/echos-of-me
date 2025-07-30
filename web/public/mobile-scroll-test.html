@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <title>Mobile Scrolling Test - Echos Of Me</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html {
+            /* Prevent horizontal scrolling */
+            overflow-x: hidden;
+            /* Smooth scrolling */
+            scroll-behavior: smooth;
+            /* Support for mobile viewport units */
+            height: -webkit-fill-available;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            /* Prevent horizontal scrolling */
+            overflow-x: hidden;
+            /* Support for mobile viewport */
+            min-height: -webkit-fill-available;
+            /* Enable touch scrolling on all mobile devices */
+            touch-action: manipulation;
+            /* Smooth scrolling for mobile */
+            -webkit-overflow-scrolling: touch;
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 1rem;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .content {
+            margin-top: 100px;
+            padding: 20px;
+        }
+        
+        .test-section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .scrollable-box {
+            height: 200px;
+            overflow-y: auto;
+            border: 2px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f9f9f9;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-y;
+        }
+        
+        .long-content {
+            height: 150vh;
+            background: linear-gradient(to bottom, #ff6b6b, #4ecdc4, #95e1d3, #fce38a);
+            padding: 20px;
+            border-radius: 8px;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .touch-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            margin: 10px 5px;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            min-height: 48px;
+            min-width: 48px;
+        }
+        
+        .touch-button:active {
+            background: #0056b3;
+            transform: scale(0.98);
+        }
+        
+        .status {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 14px;
+            z-index: 1000;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .test-section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 style="margin: 0; font-size: 1.5rem;">Mobile Scroll Test</h1>
+        <p style="margin: 5px 0 0 0; font-size: 0.9rem; opacity: 0.7;">Testing scrolling on mobile devices</p>
+    </div>
+    
+    <div class="content">
+        <div class="test-section">
+            <h2>Test 1: Page Scrolling</h2>
+            <p>This page should scroll smoothly without any interruptions. Scroll down to see more tests.</p>
+            <div class="long-content">
+                <h3>Long scrollable content</h3>
+                <p>This section has a height of 150vh to test long page scrolling.</p>
+                <p>Scroll through this section and verify that:</p>
+                <ul>
+                    <li>Scrolling is smooth and responsive</li>
+                    <li>No random stops or jerky behavior</li>
+                    <li>Momentum scrolling works on iOS</li>
+                    <li>No horizontal scrolling occurs</li>
+                </ul>
+                <div style="height: 50px; background: rgba(255,255,255,0.2); margin: 20px 0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                    <p>Middle marker</p>
+                </div>
+                <p>Keep scrolling to test the full height...</p>
+                <div style="height: 300px; background: rgba(255,255,255,0.1); margin: 20px 0; border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+                    <p>You're getting close to the bottom!</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Test 2: Scrollable Container</h2>
+            <p>This box should scroll independently from the page:</p>
+            <div class="scrollable-box">
+                <h4>Scrollable Box Content</h4>
+                <p>This content is inside a scrollable container.</p>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+                <p>This should scroll smoothly within its container while the page remains stationary.</p>
+                <div style="height: 200px; background: linear-gradient(45deg, #ff9a9e, #fecfef); border-radius: 8px; margin: 20px 0; display: flex; align-items: center; justify-content: center;">
+                    <p style="color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.5);">End of scrollable content</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Test 3: Touch Interactions</h2>
+            <p>These buttons should respond to touch without interfering with scrolling:</p>
+            <button class="touch-button" onclick="updateStatus('Button 1 tapped')">Button 1</button>
+            <button class="touch-button" onclick="updateStatus('Button 2 tapped')">Button 2</button>
+            <button class="touch-button" onclick="updateStatus('Button 3 tapped')">Button 3</button>
+            <p>Try scrolling past these buttons - they should not interfere with scroll momentum.</p>
+        </div>
+        
+        <div class="test-section">
+            <h2>Test 4: Textarea Scrolling</h2>
+            <p>This textarea should scroll independently:</p>
+            <textarea style="width: 100%; height: 150px; padding: 10px; border-radius: 8px; border: 2px solid #ddd; -webkit-overflow-scrolling: touch; touch-action: manipulation; font-family: inherit;" placeholder="Type a lot of text here to test textarea scrolling...
+
+This textarea should:
+- Allow smooth scrolling of content
+- Not interfere with page scrolling
+- Handle touch events properly
+- Work consistently across browsers
+
+Try typing or pasting a lot of text here and then scroll within the textarea."></textarea>
+        </div>
+        
+        <div class="test-section">
+            <h2>Test Results Checklist</h2>
+            <div id="checklist">
+                <label><input type="checkbox"> Page scrolls smoothly without interruptions</label><br>
+                <label><input type="checkbox"> No random scroll stopping</label><br>
+                <label><input type="checkbox"> Momentum scrolling works (iOS Safari)</label><br>
+                <label><input type="checkbox"> Scrollable container works independently</label><br>
+                <label><input type="checkbox"> Buttons don't interfere with scrolling</label><br>
+                <label><input type="checkbox"> Textarea scrolls properly</label><br>
+                <label><input type="checkbox"> No horizontal scrolling</label><br>
+                <label><input type="checkbox"> Header stays fixed during scroll</label><br>
+            </div>
+        </div>
+        
+        <div class="test-section">
+            <h2>Browser Information</h2>
+            <div id="browser-info">
+                <p><strong>User Agent:</strong> <span id="user-agent"></span></p>
+                <p><strong>Screen Size:</strong> <span id="screen-size"></span></p>
+                <p><strong>Viewport Size:</strong> <span id="viewport-size"></span></p>
+                <p><strong>Touch Support:</strong> <span id="touch-support"></span></p>
+            </div>
+        </div>
+        
+        <div style="height: 100px; background: #28a745; color: white; display: flex; align-items: center; justify-content: center; border-radius: 12px; margin: 40px 0;">
+            <h3>End of Test Page ✓</h3>
+        </div>
+    </div>
+    
+    <div class="status" id="status">
+        Ready to test scrolling functionality
+    </div>
+
+    <script>
+        // Update status message
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+            setTimeout(() => {
+                document.getElementById('status').textContent = 'Ready to test scrolling functionality';
+            }, 2000);
+        }
+        
+        // Display browser information
+        function displayBrowserInfo() {
+            document.getElementById('user-agent').textContent = navigator.userAgent;
+            document.getElementById('screen-size').textContent = screen.width + ' x ' + screen.height;
+            document.getElementById('viewport-size').textContent = window.innerWidth + ' x ' + window.innerHeight;
+            document.getElementById('touch-support').textContent = 'ontouchstart' in window ? 'Yes' : 'No';
+        }
+        
+        // Test scroll behavior
+        let scrollCount = 0;
+        let lastScrollTop = 0;
+        
+        function trackScrolling() {
+            const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            scrollCount++;
+            
+            if (Math.abs(currentScrollTop - lastScrollTop) > 10) {
+                updateStatus(`Scrolling detected (${scrollCount} events) - Position: ${Math.round(currentScrollTop)}px`);
+            }
+            
+            lastScrollTop = currentScrollTop;
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            displayBrowserInfo();
+            
+            // Track scrolling
+            let scrollTimeout;
+            window.addEventListener('scroll', function() {
+                trackScrolling();
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(() => {
+                    updateStatus('Scroll ended at position: ' + Math.round(window.pageYOffset) + 'px');
+                }, 150);
+            });
+            
+            // Track viewport changes
+            window.addEventListener('resize', displayBrowserInfo);
+            window.addEventListener('orientationchange', function() {
+                setTimeout(displayBrowserInfo, 100);
+            });
+            
+            // Add touch event tracking for debugging
+            document.addEventListener('touchstart', function(e) {
+                console.log('Touch started:', e.touches.length + ' touches');
+            });
+            
+            document.addEventListener('touchmove', function(e) {
+                console.log('Touch moved:', e.touches[0].clientY);
+            });
+            
+            document.addEventListener('touchend', function(e) {
+                console.log('Touch ended');
+            });
+            
+            updateStatus('Mobile scroll test loaded successfully');
+        });
+    </script>
+</body>
+</html>

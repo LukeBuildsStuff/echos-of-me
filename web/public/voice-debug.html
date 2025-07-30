@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Integration Debug Tool</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-result { margin: 10px 0; padding: 10px; border: 1px solid #ccc; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .warning { background-color: #fff3cd; border-color: #ffeaa7; }
+        pre { background: #f8f9fa; padding: 10px; overflow-x: auto; }
+        button { padding: 10px 20px; margin: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Voice Integration Diagnostic Tool</h1>
+    <p>This tool helps diagnose voice availability issues in the AI Echo chat.</p>
+    
+    <button onclick="runAllTests()">Run All Tests</button>
+    <button onclick="clearResults()">Clear Results</button>
+    
+    <div id="results"></div>
+
+    <script>
+        async function addResult(title, status, content) {
+            const results = document.getElementById('results');
+            const div = document.createElement('div');
+            div.className = `test-result ${status}`;
+            div.innerHTML = `
+                <h3>${title}</h3>
+                <pre>${JSON.stringify(content, null, 2)}</pre>
+            `;
+            results.appendChild(div);
+        }
+
+        async function testSessionStatus() {
+            try {
+                const response = await fetch('/api/debug/session', {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                
+                if (data.sessionData.hasSession) {
+                    addResult('Session Status', 'success', {
+                        status: 'Session active',
+                        user: data.sessionData.userEmail,
+                        sessionData: data.sessionData
+                    });
+                } else {
+                    addResult('Session Status', 'error', {
+                        status: 'No active session',
+                        message: 'User is not logged in',
+                        sessionData: data.sessionData
+                    });
+                }
+            } catch (error) {
+                addResult('Session Status', 'error', {
+                    status: 'Session check failed',
+                    error: error.message
+                });
+            }
+        }
+
+        async function testVoiceAvailability() {
+            try {
+                const response = await fetch('/api/voice/upload', {
+                    method: 'GET',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.hasVoiceProfile) {
+                        addResult('Voice Availability', 'success', {
+                            status: 'Voice profile found',
+                            hasVoiceProfile: data.hasVoiceProfile,
+                            userId: data.userId,
+                            voiceDir: data.voiceDir
+                        });
+                    } else {
+                        addResult('Voice Availability', 'warning', {
+                            status: 'No voice profile found',
+                            hasVoiceProfile: data.hasVoiceProfile,
+                            userId: data.userId,
+                            message: 'Voice files may not exist or are not detectable'
+                        });
+                    }
+                } else {
+                    const errorData = await response.json();
+                    addResult('Voice Availability', 'error', {
+                        status: `HTTP ${response.status}`,
+                        error: errorData.error,
+                        debug: errorData.debug || null
+                    });
+                }
+            } catch (error) {
+                addResult('Voice Availability', 'error', {
+                    status: 'Voice availability check failed',
+                    error: error.message
+                });
+            }
+        }
+
+        async function testVoiceFileAccess() {
+            try {
+                // Test direct access to voice files
+                const testUrls = [
+                    '/voices/lukemoeller_yahoo_com/voice_1753621218385.webm',
+                    '/voices/lukemoeller_yahoo_com/voice_1753629865528.webm',
+                    '/voices/lukemoeller_yahoo_com/voice_1753631313536.webm'
+                ];
+                
+                const results = await Promise.all(
+                    testUrls.map(async url => {
+                        try {
+                            const response = await fetch(url, { method: 'HEAD' });
+                            return {
+                                url,
+                                status: response.status,
+                                accessible: response.ok
+                            };
+                        } catch (error) {
+                            return {
+                                url,
+                                status: 'Error',
+                                error: error.message,
+                                accessible: false
+                            };
+                        }
+                    })
+                );
+                
+                const accessible = results.filter(r => r.accessible).length;
+                const total = results.length;
+                
+                if (accessible === total) {
+                    addResult('Voice File Access', 'success', {
+                        status: `All ${total} voice files accessible`,
+                        files: results
+                    });
+                } else if (accessible > 0) {
+                    addResult('Voice File Access', 'warning', {
+                        status: `${accessible}/${total} voice files accessible`,
+                        files: results
+                    });
+                } else {
+                    addResult('Voice File Access', 'error', {
+                        status: 'No voice files accessible',
+                        files: results
+                    });
+                }
+            } catch (error) {
+                addResult('Voice File Access', 'error', {
+                    status: 'Voice file access test failed',
+                    error: error.message
+                });
+            }
+        }
+
+        async function testBrowserStorage() {
+            const storageInfo = {
+                cookies: document.cookie,
+                localStorage: Object.keys(localStorage).reduce((acc, key) => {
+                    acc[key] = localStorage.getItem(key);
+                    return acc;
+                }, {}),
+                sessionStorage: Object.keys(sessionStorage).reduce((acc, key) => {
+                    acc[key] = sessionStorage.getItem(key);
+                    return acc;
+                }, {})
+            };
+            
+            addResult('Browser Storage', 'success', {
+                status: 'Storage information collected',
+                storage: storageInfo
+            });
+        }
+
+        async function runAllTests() {
+            clearResults();
+            addResult('Starting Tests', 'success', {
+                status: 'Running voice integration diagnostics...',
+                timestamp: new Date().toISOString()
+            });
+            
+            await testSessionStatus();
+            await testVoiceAvailability();
+            await testVoiceFileAccess();
+            await testBrowserStorage();
+            
+            addResult('Tests Complete', 'success', {
+                status: 'All diagnostic tests completed',
+                timestamp: new Date().toISOString()
+            });
+        }
+
+        function clearResults() {
+            document.getElementById('results').innerHTML = '';
+        }
+
+        // Auto-run tests on page load
+        window.onload = runAllTests;
+    </script>
+</body>
+</html>

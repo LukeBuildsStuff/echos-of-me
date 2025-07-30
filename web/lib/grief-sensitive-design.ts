@@ -48,6 +48,7 @@ export const griefSensitiveColors = {
     50: '#f0fdf4',   // Almost white green
     100: '#dcfce7',  // Very light green
     200: '#bbf7d0',  // Gentle green
+    400: '#4ade80',  // Bright hopeful green
     500: '#22c55e',  // Hopeful green
     600: '#16a34a'   // Deeper green
   },
@@ -67,6 +68,7 @@ export const griefSensitiveColors = {
     100: '#f3f4f6',  // Very light gray
     200: '#e5e7eb',  // Light gray
     400: '#9ca3af',  // Medium gray for text
+    500: '#6b7280',  // Balanced gray for peace
     600: '#4b5563',  // Darker gray for important text
     800: '#1f2937'   // Deep gray for headings
   },
@@ -118,7 +120,7 @@ export const griefSensitiveSpacing = {
     comfort: '1rem',       // 16px
     embrace: '1.5rem',     // 24px
     sanctuary: '2rem',     // 32px
-    sacred: '3rem'         // 48px
+    reverent: '3rem'       // 48px
   },
   
   // Margins that provide emotional space
@@ -188,8 +190,8 @@ export const griefSensitivePatterns = {
     fontSize: griefSensitiveTypography.fontSize.comfort,
     lineHeight: griefSensitiveTypography.lineHeight.comfortable,
     backgroundColor: 'white',
-    focusBorderColor: griefSensitiveColors.primary[400],
-    focusRingColor: `${griefSensitiveColors.primary[400]}33`, // 20% opacity
+    focusBorderColor: griefSensitiveColors.primary[500],
+    focusRingColor: `${griefSensitiveColors.primary[500]}33`, // 20% opacity
     transition: 'all 0.2s ease'
   },
   
@@ -201,8 +203,8 @@ export const griefSensitivePatterns = {
     fontSize: griefSensitiveTypography.fontSize.comfort,
     lineHeight: griefSensitiveTypography.lineHeight.contemplative,
     backgroundColor: 'white',
-    focusBorderColor: griefSensitiveColors.primary[400],
-    focusRingColor: `${griefSensitiveColors.primary[400]}33`,
+    focusBorderColor: griefSensitiveColors.primary[500],
+    focusRingColor: `${griefSensitiveColors.primary[500]}33`,
     minHeight: '120px',
     resize: 'vertical'
   }
@@ -216,7 +218,7 @@ export const emotionalStateColors = {
   loving: griefSensitiveColors.comfort[500],
   reflective: griefSensitiveColors.peace[600],
   celebratory: griefSensitiveColors.hope[400],
-  supportive: griefSensitiveColors.primary[400],
+  supportive: griefSensitiveColors.primary[500],
   grieving: griefSensitiveColors.peace[500]
 }
 
@@ -260,7 +262,7 @@ export const griefSensitiveContent = {
   emotionalSafety: {
     // Never use aggressive language
     // Avoid clinical or technical terms
-    // Always acknowledge the sacred nature of memories
+    // Always acknowledge the meaningful nature of memories
     // Provide gentle encouragement
     // Respect the vulnerability of sharing
     // Honor the love behind every response

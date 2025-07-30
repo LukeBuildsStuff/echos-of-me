@@ -139,6 +139,10 @@ const config: Config = {
         'comfort': '1.5rem',
         'embrace': '2rem',
         'sanctuary': '3rem',
+        'safe-top': 'env(safe-area-inset-top)',
+        'safe-right': 'env(safe-area-inset-right)',
+        'safe-bottom': 'env(safe-area-inset-bottom)',
+        'safe-left': 'env(safe-area-inset-left)',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

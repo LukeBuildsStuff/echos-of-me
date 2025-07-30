@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -31,15 +31,7 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true)
   const [currentView, setCurrentView] = useState<'dashboard' | 'users' | 'responses' | 'analytics'>('dashboard')
 
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/auth/signin')
-    } else if (status === 'authenticated') {
-      checkAdminAccess()
-    }
-  }, [status, router])
-
-  const checkAdminAccess = async () => {
+  const checkAdminAccess = useCallback(async () => {
     try {
       const response = await fetch('/api/admin/analytics')
       if (response.status === 403) {
@@ -57,7 +49,15 @@ export default function AdminDashboard() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [router])
+
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/auth/signin')
+    } else if (status === 'authenticated') {
+      checkAdminAccess()
+    }
+  }, [status, router, checkAdminAccess])
 
   if (status === 'loading' || loading) {
     return (

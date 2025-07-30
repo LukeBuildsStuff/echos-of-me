@@ -8,6 +8,7 @@ const pool = new Pool({
 })
 
 export { pool }
+export const db = { query, getClient, pool }
 
 export async function query(text: string, params?: any[]) {
   const start = Date.now()

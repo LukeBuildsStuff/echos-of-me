@@ -5,8 +5,9 @@ import { query } from '@/lib/db'
 
 // GET /api/questions - Get basic questions for any user
 export async function GET(request: NextRequest) {
+  let session = null
   try {
-    const session = await getServerSession(authOptions)
+    session = await getServerSession(authOptions)
     if (!session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
@@ -61,14 +62,14 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error('Error fetching questions:', error)
     console.error('Error details:', {
-      message: error.message,
-      stack: error.stack,
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
       user: session?.user?.email
     })
     return NextResponse.json(
       { 
         error: 'Failed to fetch questions',
-        details: error.message 
+        details: error instanceof Error ? error.message : 'Unknown error' 
       },
       { status: 500 }
     )

@@ -49,6 +49,28 @@ export function withAdminAuth(handler: (request: NextRequest, admin: AdminUser) 
   }
 }
 
+export async function isAdmin(email?: string): Promise<boolean> {
+  if (!email) {
+    const session = await getServerSession(authOptions)
+    email = session?.user?.email
+  }
+  
+  if (!email) return false
+  
+  try {
+    const result = await query(`
+      SELECT is_admin 
+      FROM users 
+      WHERE email = $1 AND is_admin = true
+    `, [email])
+    
+    return result.rows.length > 0
+  } catch (error) {
+    console.error('Failed to check admin status:', error)
+    return false
+  }
+}
+
 export async function logAnalyticsEvent(
   eventType: string,
   eventData?: any,

@@ -1,0 +1,24 @@
+{
+  "passageId": "technical-clarity",
+  "passageText": "Now, let me explain this clearly and methodically. When we're discussing complex topics or giving detailed instructions, it's absolutely important to speak with precision and crystal clarity. Each word should be articulated distinctly, with proper pacing that allows the listener to absorb the information completely.\r\n\r\nFor example, when we systematically break down a process step by step, we need to ensure that each phase is clearly distinguished from the next. First, we gather all necessary materials. Second, we review the instructions thoroughly. Third, we proceed with careful attention to detail. This systematic approach ensures understanding and success.\r\n\r\nWhether we're troubleshooting a problem, explaining a concept, or walking through a procedure, the key is maintaining that balance between being thorough and being accessible. We want to be comprehensive without being overwhelming, precise without being robotic. It's about finding that perfect sweet spot where technical accuracy meets human warmth and understanding.",
+  "audioFile": "voice_technical-clarity_1753804653500.webm",
+  "timestamp": 1753804653500,
+  "duration": 61,
+  "quality": {
+    "overall": 16,
+    "volume": 3,
+    "clarity": 0,
+    "consistency": 1,
+    "emotional": 0,
+    "phonetic": 100,
+    "duration": 0
+  },
+  "phoneticFocus": "Crisp consonants, clear diction, structured pacing",
+  "requirements": {
+    "minDuration": 45,
+    "optimalDuration": 60,
+    "meetsTrainingRequirements": false
+  },
+  "processingStatus": "pending",
+  "processed": false
+}

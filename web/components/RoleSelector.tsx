@@ -150,7 +150,7 @@ export default function RoleSelector({ onComplete, onCancel, initialProfile }: R
                 Who Are You Preserving Your Legacy For?
               </h2>
               <p className="text-lg text-peace-700 font-supportive max-w-2xl mx-auto">
-                Select your primary relationship to personalize your sacred journey
+                Select your primary relationship to personalize your meaningful journey
               </p>
             </div>
 
@@ -486,8 +486,8 @@ export default function RoleSelector({ onComplete, onCancel, initialProfile }: R
                   alert('Button clicked!') // Immediate feedback
                   try {
                     handleComplete()
-                  } catch (error) {
-                    alert('Error: ' + error.message)
+                  } catch (error: any) {
+                    alert('Error: ' + (error?.message || 'Unknown error'))
                   }
                 }}
                 className="bg-gradient-to-r from-green-500 to-hope-500 hover:from-green-600 hover:to-hope-600 text-white rounded-embrace px-sanctuary py-4 font-supportive text-lg hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl"

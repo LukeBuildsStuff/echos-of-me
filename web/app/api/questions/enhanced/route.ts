@@ -283,7 +283,7 @@ function extractMentionedPeople(text: string): string[] {
     }
   }
   
-  return [...new Set(people)] // Remove duplicates
+  return Array.from(new Set(people)) // Remove duplicates
 }
 
 function analyzeTemporalContext(text: string): 'past' | 'present' | 'future' {

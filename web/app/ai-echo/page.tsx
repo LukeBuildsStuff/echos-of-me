@@ -29,12 +29,14 @@ export default function AIEchoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-heaven-gradient">
+    <div className="mobile-min-vh-fix bg-heaven-gradient">
       <AppHeader 
         showBackButton 
         onBack={() => router.push('/dashboard')}
       />
-      <AIEchoChat userName={session.user?.name || 'Your'} />
+      <div className="mobile-header-spacing safe-bottom">
+        <AIEchoChat userName={session.user?.name || 'Your'} />
+      </div>
     </div>
   )
 }

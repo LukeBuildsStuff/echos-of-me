@@ -51,7 +51,7 @@ export default function ForgotPassword() {
               Check Your Email
             </CardTitle>
             <CardDescription className="font-supportive">
-              We've sent password reset instructions to your email address
+              We&apos;ve sent password reset instructions to your email address
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -60,7 +60,7 @@ export default function ForgotPassword() {
                 📧 <strong>Email sent to:</strong> {email}
               </p>
               <p className="text-xs text-hope-600 font-supportive mt-2">
-                The reset link will expire in 24 hours. Check your spam folder if you don't see it.
+                The reset link will expire in 24 hours. Check your spam folder if you don&apos;t see it.
               </p>
             </div>
             
@@ -69,7 +69,7 @@ export default function ForgotPassword() {
                 Back to Sign In
               </Link>
               <p className="text-xs text-peace-600 font-supportive">
-                Didn't receive the email?{' '}
+                Didn&apos;t receive the email?{' '}
                 <button 
                   onClick={() => setSuccess(false)}
                   className="text-primary hover:underline"
@@ -95,7 +95,7 @@ export default function ForgotPassword() {
             Forgot Password
           </CardTitle>
           <CardDescription className="font-supportive">
-            Enter your email address and we'll send you a link to reset your password
+            Enter your email address and we&apos;ll send you a link to reset your password
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -145,7 +145,7 @@ export default function ForgotPassword() {
               </Link>
             </p>
             <p className="text-peace-600 font-supportive">
-              Don't have an account?{' '}
+              Don&apos;t have an account?{' '}
               <Link href="/auth/register" className="text-primary hover:underline">
                 Sign up
               </Link>

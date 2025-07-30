@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -33,15 +33,26 @@ export default function DailyQuestionPage() {
   const [showCompletion, setShowCompletion] = useState(false)
   const [completionQuality, setCompletionQuality] = useState<QualityScore | null>(null)
 
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/auth/signin')
-    } else if (status === 'authenticated') {
-      checkDailyStatus()
+  const loadDailyQuestion = useCallback(async () => {
+    try {
+      setIsLoading(true)
+      const response = await fetch('/api/questions/role-based')
+      const data = await response.json()
+      
+      if (data.questions && data.questions.length > 0) {
+        // Get a random question for today
+        const randomIndex = Math.floor(Math.random() * data.questions.length)
+        setQuestion(data.questions[randomIndex])
+      }
+    } catch (error) {
+      console.error('Error loading question:', error)
+      router.push('/dashboard') // Fallback to dashboard on error
+    } finally {
+      setIsLoading(false)
     }
-  }, [status, router])
+  }, [router])
 
-  const checkDailyStatus = async () => {
+  const checkDailyStatus = useCallback(async () => {
     try {
       const response = await fetch('/api/daily-status')
       const data = await response.json()
@@ -59,26 +70,15 @@ export default function DailyQuestionPage() {
       console.error('Error checking daily status:', error)
       router.push('/dashboard') // Fallback to dashboard on error
     }
-  }
+  }, [router, loadDailyQuestion])
 
-  const loadDailyQuestion = async () => {
-    try {
-      setIsLoading(true)
-      const response = await fetch('/api/questions/role-based')
-      const data = await response.json()
-      
-      if (data.questions && data.questions.length > 0) {
-        // Get a random question for today
-        const randomIndex = Math.floor(Math.random() * data.questions.length)
-        setQuestion(data.questions[randomIndex])
-      }
-    } catch (error) {
-      console.error('Error loading question:', error)
-      router.push('/dashboard') // Fallback to dashboard on error
-    } finally {
-      setIsLoading(false)
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/auth/signin')
+    } else if (status === 'authenticated') {
+      checkDailyStatus()
     }
-  }
+  }, [status, router, checkDailyStatus])
 
   const handleSaveResponse = async () => {
     if (!question || !response.trim()) return
@@ -140,49 +140,49 @@ export default function DailyQuestionPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-hope-50 via-white to-comfort-50 flex items-center justify-center p-4">
-      <div className="max-w-2xl w-full">
-        <Card className="bg-white/90 backdrop-blur border-comfort-200 shadow-xl">
-          <CardHeader className="text-center space-y-4">
-            <div className="text-5xl">🌅</div>
-            <CardTitle className="text-3xl font-gentle bg-gradient-to-r from-peace-800 to-comfort-700 bg-clip-text text-transparent">
+    <div className="mobile-min-vh-fix bg-gradient-to-br from-hope-50 via-white to-comfort-50 flex items-center justify-center p-4 sm:p-6 lg:p-8 safe-area">
+      <div className="max-w-2xl w-full mx-auto">
+        <Card className="bg-white/90 backdrop-blur border-comfort-200 shadow-xl hover:shadow-2xl transition-all duration-500">
+          <CardHeader className="text-center space-y-4 px-4 sm:px-6">
+            <div className="text-4xl sm:text-5xl">🌅</div>
+            <CardTitle className="text-2xl sm:text-3xl font-gentle bg-gradient-to-r from-peace-800 to-comfort-700 bg-clip-text text-transparent">
               Your Daily Reflection
             </CardTitle>
-            <CardDescription className="text-lg text-peace-600 font-compassionate">
-              Take a moment to share a piece of your story that will become part of your legacy
+            <CardDescription className="text-base sm:text-lg text-peace-600 font-compassionate">
+              In this special space, share a piece of your heart that will live on forever
             </CardDescription>
           </CardHeader>
           
-          <CardContent className="space-y-6">
-            <div className="bg-gradient-to-r from-comfort-50/50 to-hope-50/50 rounded-lg p-6 border border-comfort-200/50">
-              <h3 className="text-xl font-compassionate text-comfort-800 mb-4">Today's Question:</h3>
-              <p className="text-lg text-peace-700 leading-relaxed font-gentle">
+          <CardContent className="space-y-4 sm:space-y-6 px-4 sm:px-6">
+            <div className="bg-gradient-to-r from-comfort-50/50 to-hope-50/50 rounded-lg p-4 sm:p-6 border border-comfort-200/50">
+              <h3 className="text-lg sm:text-xl font-compassionate text-comfort-800 mb-3 sm:mb-4">Your Reflection Invitation:</h3>
+              <p className="text-base sm:text-lg text-peace-700 leading-relaxed font-gentle">
                 {question.question_text}
               </p>
             </div>
 
             <div className="space-y-3">
-              <label className="text-sm font-compassionate text-peace-700">Your Response:</label>
+              <label className="text-sm sm:text-base font-compassionate text-peace-700">Share from Your Heart:</label>
               <Textarea
                 value={response}
                 onChange={(e) => setResponse(e.target.value)}
-                placeholder="Share your thoughts, memories, or wisdom..."
-                className="min-h-32 border-comfort-200 focus:border-comfort-400 bg-white/80"
+                placeholder="Let your memories flow... Each word becomes a treasured part of your eternal story"
+                className="min-h-32 sm:min-h-40 md:min-h-48 border-comfort-200 focus:border-comfort-400 bg-white/80 transition-all duration-300 focus:shadow-lg focus:bg-white/95 text-sm sm:text-base md:text-lg p-3 sm:p-4"
                 rows={6}
               />
-              <div className="text-xs text-peace-500 text-right">
-                {response.length} characters
+              <div className="text-xs text-peace-500 text-right font-supportive">
+                {response.length > 0 ? `${response.split(' ').filter(w => w.trim()).length} words of wisdom shared` : 'Begin sharing your story...'}
               </div>
               
               {/* Real-time quality feedback */}
               <ResponseQualityIndicator responseText={response} />
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4">
               <Button
                 onClick={handleSaveResponse}
                 disabled={!response.trim() || isSaving}
-                className="flex-1 bg-gradient-to-r from-hope-500 to-comfort-500 text-white hover:from-hope-600 hover:to-comfort-600 shadow-lg hover:shadow-xl transition-all duration-300"
+                className="flex-1 min-h-[48px] py-3 bg-gradient-to-r from-hope-500 to-comfort-500 text-white hover:from-hope-600 hover:to-comfort-600 shadow-lg hover:shadow-xl transition-all duration-300 text-sm sm:text-base"
               >
                 {isSaving ? 'Saving...' : '✨ Save & Continue to Dashboard'}
               </Button>
@@ -190,7 +190,7 @@ export default function DailyQuestionPage() {
               <Button
                 variant="outline"
                 onClick={handleSkip}
-                className="border-peace-300 hover:border-comfort-400 hover:bg-comfort-50"
+                className="min-h-[48px] py-3 border-peace-300 hover:border-comfort-400 hover:bg-comfort-50 text-sm sm:text-base"
               >
                 Skip for Now
               </Button>

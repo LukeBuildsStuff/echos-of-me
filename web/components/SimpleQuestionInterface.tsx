@@ -161,7 +161,7 @@ export default function SimpleQuestionInterface() {
       }
     } catch (error) {
       console.error('Error saving response:', error)
-      alert('Network error while saving response: ' + error.message)
+      alert('Network error while saving response: ' + (error instanceof Error ? error.message : 'Unknown error'))
     } finally {
       setIsSaving(false)
     }
@@ -203,10 +203,10 @@ export default function SimpleQuestionInterface() {
           <Card className="bg-white/70 backdrop-blur-md border-0 shadow-xl animate-glow">
             <CardHeader className="text-center">
               <CardTitle className="text-3xl font-gentle bg-gradient-to-r from-hope-600 to-comfort-600 bg-clip-text text-transparent">
-                Today's Reflection Complete
+                Today&apos;s Reflection Complete
               </CardTitle>
               <CardDescription className="text-lg text-peace-700 font-supportive mt-2">
-                You've shared your wisdom for today. Quality over quantity helps preserve authentic responses.
+                You&apos;ve shared your wisdom for today. Quality over quantity helps preserve authentic responses.
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center space-y-embrace">
@@ -220,7 +220,7 @@ export default function SimpleQuestionInterface() {
               </div>
               
               <p className="text-peace-600 font-supportive leading-relaxed max-w-md mx-auto">
-                Your words are becoming part of an eternal legacy. Come back tomorrow to continue this sacred journey.
+                Your words are becoming part of an eternal legacy. Come back tomorrow to continue this meaningful journey.
               </p>
               
               <div className="pt-embrace border-t border-hope-100">
@@ -255,7 +255,7 @@ export default function SimpleQuestionInterface() {
           <div className="inline-block p-4 rounded-full bg-white/30 backdrop-blur-sm animate-float mb-4">
             <div className="w-16 h-16 border-4 border-hope-300 border-t-hope-600 rounded-full animate-spin"></div>
           </div>
-          <p className="text-lg text-peace-700 font-supportive">Preparing your sacred questions...</p>
+          <p className="text-lg text-peace-700 font-supportive">Preparing your thoughtful questions...</p>
         </div>
       </div>
     )
@@ -283,12 +283,12 @@ export default function SimpleQuestionInterface() {
 
   return (
     <div className="min-h-screen bg-heaven-gradient animate-fade-in">
-      <div className="max-w-4xl mx-auto p-6 space-y-6">
+      <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8 space-y-4 sm:space-y-6">
         {/* Daily status indicator */}
         {showOverride && (
           <div className="bg-memory-100/50 backdrop-blur-sm border border-memory-200/50 rounded-sanctuary p-comfort text-center animate-glow">
             <p className="text-memory-800 font-supportive">
-              ⚡ <strong>Extended Reflection Mode</strong> - You're going deeper today.
+              ⚡ <strong>Extended Reflection Mode</strong> - You&apos;re going deeper today.
             </p>
           </div>
         )}
@@ -312,16 +312,16 @@ export default function SimpleQuestionInterface() {
         </div>
 
         {/* Current question */}
-        <Card className="bg-white/80 backdrop-blur-md border-0 shadow-2xl hover:shadow-3xl transition-shadow duration-500">
+        <Card className="bg-white/80 backdrop-blur-md border-0 shadow-2xl hover:shadow-3xl transition-all duration-500 mx-2 sm:mx-0">
           <CardHeader className="text-center pb-2">
             <div className="inline-block p-3 rounded-full bg-gradient-to-br from-hope-100 to-comfort-100 mb-4 animate-float">
               <span className="text-3xl">💭</span>
             </div>
-            <CardTitle className="text-3xl font-gentle bg-gradient-to-r from-hope-700 to-comfort-700 bg-clip-text text-transparent">
-              A Moment of Reflection
+            <CardTitle className="text-2xl sm:text-3xl font-gentle bg-gradient-to-r from-hope-700 to-comfort-700 bg-clip-text text-transparent">
+              A Special Moment of Sharing
             </CardTitle>
             <CardDescription className="text-lg text-peace-600 font-supportive mt-2">
-              Your words become eternal wisdom
+              Each memory you share becomes a precious gift to those you love
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -330,24 +330,17 @@ export default function SimpleQuestionInterface() {
                 <p className="text-xl leading-relaxed font-compassionate text-peace-800 text-center">
                   {currentQuestion?.question_text}
                 </p>
-                {currentQuestion?.category && (
-                  <div className="mt-4 text-center">
-                    <span className="inline-block px-4 py-1 bg-white/60 backdrop-blur-sm rounded-full text-sm text-peace-600 font-supportive">
-                      {currentQuestion.category}
-                    </span>
-                  </div>
-                )}
               </div>
 
               <div>
                 <label className="block text-peace-700 font-supportive mb-3 text-center">
-                  Share Your Heart
+                  Open Your Heart and Share
                 </label>
                 <textarea
                   value={response}
                   onChange={(e) => setResponse(e.target.value)}
-                  placeholder="Let your memories and wisdom flow..."
-                  className="w-full min-h-40 px-embrace py-comfort bg-white/50 backdrop-blur-sm border-2 border-hope-200 rounded-sanctuary focus:border-hope-400 focus:ring-4 focus:ring-hope-100 font-compassionate text-lg leading-relaxed resize-y transition-all duration-300 placeholder:text-peace-400"
+                  placeholder="This is your special space to share... Let your heart guide your words as you create something beautiful and lasting"
+                  className="w-full min-h-32 sm:min-h-40 px-3 sm:px-embrace py-3 sm:py-comfort bg-white/50 backdrop-blur-sm border-2 border-hope-200 rounded-sanctuary focus:border-hope-400 focus:ring-4 focus:ring-hope-100 focus:bg-white/80 font-compassionate text-base sm:text-lg leading-relaxed resize-y transition-all duration-500 placeholder:text-peace-400 hover:bg-white/60"
                   style={{ minHeight: response.length > 200 ? '200px' : '160px' }}
                 />
                 
@@ -360,13 +353,13 @@ export default function SimpleQuestionInterface() {
                   <span className="text-sm text-peace-500 font-supportive animate-pulse">
                     {response.length > 0 && `${response.split(' ').filter(w => w).length} words of wisdom`}
                   </span>
-                  <div className="space-x-3">
+                  <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 sm:space-x-0">
                     {currentQuestionIndex > 0 && (
                       <Button 
                         variant="outline"
                         onClick={() => setCurrentQuestionIndex(prev => prev - 1)}
                         disabled={isSaving}
-                        className="border-2 border-peace-300 text-peace-700 hover:bg-peace-50 rounded-embrace px-6 py-2 font-supportive transition-all duration-300 hover:scale-105"
+                        className="border-2 border-peace-300 text-peace-700 hover:bg-peace-50 rounded-embrace px-4 sm:px-6 py-2 font-supportive transition-all duration-300 hover:scale-105 text-sm sm:text-base w-full sm:w-auto"
                       >
                         ← Previous
                       </Button>
@@ -374,7 +367,7 @@ export default function SimpleQuestionInterface() {
                     <Button 
                       onClick={saveResponse}
                       disabled={!response.trim() || isSaving}
-                      className="bg-gradient-to-r from-hope-500 to-comfort-500 hover:from-hope-600 hover:to-comfort-600 text-white rounded-embrace px-8 py-2 font-supportive transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:hover:scale-100"
+                      className="bg-gradient-to-r from-hope-500 to-comfort-500 hover:from-hope-600 hover:to-comfort-600 text-white rounded-embrace px-6 sm:px-8 py-2 sm:py-3 font-supportive transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:hover:scale-100 text-sm sm:text-base w-full sm:w-auto"
                     >
                       {isSaving ? (
                         <span className="flex items-center gap-2">
@@ -393,11 +386,11 @@ export default function SimpleQuestionInterface() {
       </Card>
 
         {/* Encouragement */}
-        <div className="text-center bg-white/50 backdrop-blur-sm rounded-sanctuary p-sanctuary animate-glow">
-          <p className="text-lg text-peace-700 font-compassionate">
+        <div className="text-center bg-white/50 backdrop-blur-sm rounded-sanctuary p-4 sm:p-sanctuary animate-glow mx-2 sm:mx-0">
+          <p className="text-base sm:text-lg text-peace-700 font-compassionate leading-relaxed">
             Every answer you give becomes part of an irreplaceable digital legacy
           </p>
-          <div className="mt-2 text-4xl animate-float">
+          <div className="mt-2 text-3xl sm:text-4xl animate-float">
             💝
           </div>
         </div>

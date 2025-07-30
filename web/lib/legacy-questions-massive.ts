@@ -314,7 +314,7 @@ export const massiveLegacyQuestions: LegacyQuestionTemplate[] = [
     subcategory: 'spiritual_religious_ceremonies',
     familyRoles: ['parent', 'grandparent'],
     emotionalDepth: 9,
-    tags: ['spiritual', 'religious', 'ceremony', 'faith', 'sacred'],
+    tags: ['spiritual', 'religious', 'ceremony', 'faith', 'meaningful'],
     questions: [
       "What do you want me to know about the spiritual significance of baptism, confirmation, or other religious ceremonies?",
       "If I'm questioning my faith during adolescence or young adulthood, what wisdom would you share?",

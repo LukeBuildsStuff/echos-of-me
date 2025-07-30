@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
       eventType,
       eventData,
       pageUrl,
-      userId,
+      userId || undefined,
       sessionId
     )
 
