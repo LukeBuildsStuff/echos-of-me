@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { withAdminAuth } from '@/lib/admin'
 import { query } from '@/lib/db'
-import { trainingEngine } from '@/lib/training-engine'
+import { rtx5090MistralEngine } from '@/lib/rtx5090-mistral-engine'
 import { defaultTrainingConfig, TrainingJob, TrainingExample } from '@/lib/ai-training-config'
 import crypto from 'crypto'
 
@@ -125,13 +125,15 @@ export const POST = withAdminAuth(async (request: NextRequest) => {
     }
 
     // Check system capacity and start training if possible
-    const queueStatus = await trainingEngine.getQueueStatus()
-    const runningJobs = queueStatus.filter(job => job.status === 'running').length
+    const activeJobs = await query(`
+      SELECT COUNT(*) as count FROM training_runs WHERE status = 'running'
+    `)
+    const runningJobs = parseInt(activeJobs.rows[0].count)
     
     if (runningJobs < trainingConfig.hardware.maxConcurrentTraining) {
-      // Start training immediately
-      trainingEngine.startTraining(trainingJob, trainingData).catch(error => {
-        console.error(`Failed to start training for job ${jobId}:`, error)
+      // Start training immediately with RTX 5090 Mistral engine
+      rtx5090MistralEngine.startTraining(trainingJob, trainingData).catch(error => {
+        console.error(`Failed to start RTX 5090 Mistral training for job ${jobId}:`, error)
       })
     }
 
@@ -247,17 +249,25 @@ async function getTrainingData(userId: string): Promise<TrainingExample[]> {
 function buildUserContext(row: any): string {
   const contexts = []
   
+  // Family role context
   if (row.primary_role) {
-    contexts.push(`You are a ${row.primary_role}`)
+    contexts.push(`As a ${row.primary_role}`)
   }
   
+  // Important relationships context
   if (row.important_people) {
     try {
       const people = JSON.parse(row.important_people)
       if (people.length > 0) {
-        const names = people.map((p: any) => p.name).filter(Boolean).join(', ')
-        if (names) {
-          contexts.push(`speaking about your relationships with ${names}`)
+        const relationships = people.map((p: any) => {
+          if (p.relationship && p.name) {
+            return `${p.name} (${p.relationship})`
+          }
+          return p.name
+        }).filter(Boolean)
+        
+        if (relationships.length > 0) {
+          contexts.push(`speaking about your deep connections with ${relationships.join(', ')}`)
         }
       }
     } catch (e) {
@@ -265,7 +275,12 @@ function buildUserContext(row: any): string {
     }
   }
   
-  contexts.push('sharing your wisdom, memories, and personal experiences for future generations')
+  // Add rich family legacy context
+  contexts.push(
+    'you are sharing precious family memories, life lessons, and wisdom',
+    'your responses should capture not just facts but the emotions and love that define your family legacy',
+    'speak with the warmth and authenticity of someone who has lived a meaningful life'
+  )
   
   return contexts.join(', ') + '.'
 }

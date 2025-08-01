@@ -1,0 +1,17 @@
+{
+  "user_id": "lukemoeller_yahoo_com",
+  "model_version": "20250728_030644",
+  "created_at": "2025-07-28T03:06:44.531133",
+  "model_type": "rtx5090_compatible_xtts",
+  "final_loss": 0.1,
+  "best_loss": 0.1,
+  "epochs": 2,
+  "gpu_used": "NVIDIA GeForce RTX 5090",
+  "pytorch_version": "2.7.0a0+79aa17489c.nv25.04",
+  "training_config": {
+    "batch_size": 1,
+    "learning_rate": 5e-05,
+    "mixed_precision": true,
+    "num_epochs": 2
+  }
+}

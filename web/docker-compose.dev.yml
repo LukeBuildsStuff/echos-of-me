@@ -1,0 +1,76 @@
+# Development-only Docker Compose
+# Lightweight setup for rapid development
+version: '3.8'
+
+services:
+  # Main Application (Development Mode)
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: echosofme_dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgresql://echosofme:dev_password@postgres:5432/echosofme_dev
+      - REDIS_URL=redis://redis:6379
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_SECRET=dev-secret-change-in-production
+      - RTX_TRAINING_ENABLED=true
+      - DEBUG=true
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+      - voice_data:/app/public/voices
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    networks:
+      - dev_network
+    restart: unless-stopped
+
+  # PostgreSQL for Development
+  postgres:
+    image: postgres:16-alpine
+    container_name: echosofme_postgres_dev
+    environment:
+      POSTGRES_DB: echosofme_dev
+      POSTGRES_USER: echosofme
+      POSTGRES_PASSWORD: dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    networks:
+      - dev_network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U echosofme -d echosofme_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # Redis for Development
+  redis:
+    image: redis:7-alpine
+    container_name: echosofme_redis_dev
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_dev_data:/data
+    networks:
+      - dev_network
+    restart: unless-stopped
+
+networks:
+  dev_network:
+    driver: bridge
+
+volumes:
+  postgres_dev_data:
+  redis_dev_data:
+  voice_data:

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth/next'
 import { authOptions } from '@/lib/auth'
 import { query } from '@/lib/db'
+import { mistralInferenceEngine } from '@/lib/mistral-inference-engine'
 import { spawn, ChildProcess } from 'child_process'
 import { promises as fs } from 'fs'
 import { join } from 'path'
@@ -178,30 +179,37 @@ async function deployModel(params: any, userEmail: string) {
       JSON.stringify(deploymentConfig)
     ])
 
-    // Start deployment process
-    const deploymentResult = await startDeploymentProcess(deploymentId, deploymentConfig, model)
+    // Deploy model using Mistral inference engine
+    try {
+      const modelPath = model.checkpoint_path || `/tmp/ai-training/models/${model.id}`
+      const actualDeploymentId = await mistralInferenceEngine.deployModel(
+        userId.toString(),
+        modelPath,
+        model.version || '1'
+      )
 
-    if (deploymentResult.success) {
+      // Update deployment record with success
       await query(`
         UPDATE model_deployments 
         SET status = 'deployed', endpoint_url = $1, deployed_at = CURRENT_TIMESTAMP
         WHERE id = $2
-      `, [deploymentResult.endpointUrl, deploymentId])
+      `, [`/api/inference/${actualDeploymentId}`, deploymentId])
 
       return NextResponse.json({
         success: true,
-        deploymentId,
+        deploymentId: actualDeploymentId,
         deploymentName,
         status: 'deployed',
-        endpointUrl: deploymentResult.endpointUrl,
+        endpointUrl: `/api/inference/${actualDeploymentId}`,
         capabilities: {
           textGeneration: true,
           voiceIntegration: inferenceType === 'voice_integrated',
-          batchProcessing: deploymentConfig.optimizations.batchProcessing,
-          caching: deploymentConfig.optimizations.caching
+          familyLegacyOptimized: true,
+          mistralArchitecture: true,
+          rtx5090Optimized: true
         }
       })
-    } else {
+    } catch (deploymentError) {
       await query(`
         UPDATE model_deployments 
         SET status = 'failed', error_details = $1
@@ -229,47 +237,50 @@ async function runInference(params: InferenceRequest, userEmail: string) {
   try {
     const userId = await getUserIdByEmail(userEmail)
 
-    // Get deployment details
-    const deploymentResult = await query(`
-      SELECT md.*, mv.performance, mv.metadata
-      FROM model_deployments md
-      JOIN model_versions mv ON md.model_version_id = mv.id  
-      WHERE md.id = $1 AND md.user_id = $2 AND md.status = 'deployed'
-    `, [modelId, userId])
-
-    if (deploymentResult.rows.length === 0) {
+    // Check if this is a direct inference request to Mistral engine
+    const deployment = await mistralInferenceEngine.getDeploymentStatus(modelId)
+    
+    if (!deployment || deployment.userId !== userId.toString()) {
       return NextResponse.json({
         error: 'Model deployment not found or not available'
       }, { status: 404 })
     }
 
-    const deployment = deploymentResult.rows[0]
-    const deploymentConfig = JSON.parse(deployment.deployment_config)
+    // Prepare inference request for Mistral engine
+    const inferenceRequest = {
+      modelId,
+      userId: userId.toString(),
+      query: prompt,
+      context: options.context,
+      maxTokens: options.maxTokens || 256,
+      temperature: options.temperature || 0.7,
+      includeVoice: options.includeVoice || false,
+      conversationHistory: options.conversationHistory || []
+    }
 
-    // Run inference
-    const inferenceResult = await executeInference(
-      deployment,
-      deploymentConfig,
-      prompt,
-      options
-    )
-
-    // Log inference for analytics
-    await logInference(userId, modelId, prompt, inferenceResult, options)
+    // Run inference with Mistral engine
+    const inferenceResult = await mistralInferenceEngine.generateResponse(inferenceRequest)
 
     return NextResponse.json({
       success: true,
-      result: inferenceResult,
+      result: {
+        text: inferenceResult.response,
+        tokens: inferenceResult.tokenCount,
+        responseTime: inferenceResult.responseTime,
+        confidence: inferenceResult.confidence,
+        emotionalTone: inferenceResult.emotionalTone,
+        voiceSynthesis: inferenceResult.voiceSynthesis
+      },
       metadata: {
         modelId,
-        deploymentName: deployment.deployment_name,
-        inferenceType: deploymentConfig.inferenceType,
-        timestamp: new Date().toISOString()
+        modelVersion: inferenceResult.metadata.modelVersion,
+        familyLegacyOptimized: true,
+        timestamp: inferenceResult.metadata.timestamp
       }
     })
 
   } catch (error: any) {
-    console.error('Inference error:', error)
+    console.error('Mistral inference error:', error)
     return NextResponse.json({
       error: 'Inference failed',
       message: error.message

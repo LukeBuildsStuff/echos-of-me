@@ -139,10 +139,10 @@ export const rtx5090Config: RTX5090Config = {
 
 export const defaultTrainingConfig: TrainingConfig = {
   model: {
-    baseModel: 'mistralai/Mistral-7B-Instruct-v0.2',
+    baseModel: 'mistralai/Mistral-7B-Instruct-v0.3',
     architecture: 'mistral',
     parameters: '7B',
-    contextLength: 8192,
+    contextLength: 32768, // Mistral 7B v0.3 supports 32k context
     device: 'cuda',
     precision: 'bf16',
     quantization: '4bit'
@@ -150,7 +150,7 @@ export const defaultTrainingConfig: TrainingConfig = {
 
   hardware: {
     gpuMemoryGB: 32, // RTX 5090 specification - 32GB VRAM
-    maxConcurrentTraining: 3, // Increased for RTX 5090 capacity
+    maxConcurrentTraining: 2, // Conservative for 32GB VRAM with 32k context
     tensorCores: true,
     flashAttention: true,
     flashAttention2: true, // Enable Flash Attention 2
@@ -159,8 +159,8 @@ export const defaultTrainingConfig: TrainingConfig = {
     cudaArchitecture: 'sm_120', // RTX 5090 compute capability
     dynamicBatchSizing: true,
     memoryMappingStrategy: 'unified',
-    multiGpuSupport: true,
-    nvlinkEnabled: true
+    multiGpuSupport: false, // Single RTX 5090 optimized
+    nvlinkEnabled: false
   },
 
   cloudFallback: {
@@ -188,13 +188,13 @@ export const defaultTrainingConfig: TrainingConfig = {
   training: {
     method: 'lora', // Efficient for weekly updates
     epochs: 3,
-    batchSize: 4,
-    learningRate: 2e-5,
-    warmupSteps: 100,
+    batchSize: 1, // Conservative for 32k context on RTX 5090
+    learningRate: 1e-4, // Slightly higher for LoRA
+    warmupSteps: 50,
     gradientCheckpointing: true,
-    fp16: true,
-    loraRank: 16,
-    loraAlpha: 32
+    fp16: false, // Use bf16 instead for RTX 5090
+    loraRank: 64, // Higher rank for better quality with family data
+    loraAlpha: 128 // Higher alpha for stronger adaptation
   },
   
   responseProcessing: {

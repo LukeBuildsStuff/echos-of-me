@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { query } from '@/lib/db'
+import { mistralInferenceEngine } from '@/lib/mistral-inference-engine'
 
 /**
  * Enhanced AI Echo Chat API
@@ -18,7 +19,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { message, isDemo = false, conversationId } = body
+    const { message, isDemo = false, conversationId, familyContext } = body
 
     // Get user ID
     const userResult = await query(
@@ -47,7 +48,7 @@ export async function POST(request: NextRequest) {
         md.status as deployment_status,
         md.health_status
       FROM model_versions mv
-      LEFT JOIN model_deployments md ON mv.id = md.model_version_id
+      LEFT JOIN model_deployments md ON mv.user_id = md.user_id
       WHERE mv.user_id = $1 AND mv.status = 'completed'
       ORDER BY mv.is_active DESC, mv.version DESC, mv.trained_at DESC
       LIMIT 5
@@ -91,21 +92,23 @@ export async function POST(request: NextRequest) {
       LIMIT 10
     `, [user.id])
 
-    // Build enhanced persona context
+    // Build enhanced persona context with family member info
     const personaContext = buildEnhancedPersonaContext(
       user, 
       responses.rows, 
-      additionalContext.rows
+      additionalContext.rows,
+      familyContext
     )
     
-    // Try to use the trained model first, fall back to synthesis if unavailable
+    // Try to use the deployed Mistral model first, fall back to synthesis if unavailable
     const aiResponse = await generateEchoResponse(
       message, 
       personaContext, 
       responses.rows, 
       isDemo, 
       user.id,
-      availableModels.rows
+      availableModels.rows,
+      conversationId
     )
 
     // Log the conversation (for training data and analytics)
@@ -117,15 +120,19 @@ export async function POST(request: NextRequest) {
           ai_response, 
           conversation_id,
           model_version,
-          response_source
-        ) VALUES ($1, $2, $3, $4, $5, $6)
+          response_source,
+          confidence_score,
+          emotional_tone
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       `, [
         user.id,
         message,
         aiResponse.response,
         conversationId || generateConversationId(),
-        aiResponse.modelVersion,
-        aiResponse.source
+        aiResponse.modelVersion || 'synthesis',
+        aiResponse.source || 'enhanced_synthesis',
+        aiResponse.confidence || 0.8,
+        detectMessageEmotion(aiResponse.response)
       ])
     }
 
@@ -157,11 +164,33 @@ export async function POST(request: NextRequest) {
   }
 }
 
-function buildEnhancedPersonaContext(user: any, responses: any[], additionalContext: any[]): string {
-  const context = [`You are ${user.name}, speaking as their AI echo.`]
+function buildEnhancedPersonaContext(user: any, responses: any[], additionalContext: any[], familyContext?: any): string {
+  let personName = user.name
+  let personRole = user.primary_role
   
-  if (user.primary_role) {
-    context.push(`You are a ${user.primary_role}.`)
+  // Override with family member context if provided
+  if (familyContext?.name) {
+    personName = familyContext.name
+    personRole = familyContext.relationship || user.primary_role
+  }
+  
+  const context = [`You are ${personName}, speaking as their AI echo.`]
+  
+  if (personRole) {
+    context.push(`You are a ${personRole}.`)
+  }
+  
+  // Add family member specific traits
+  if (familyContext?.traits && familyContext.traits.length > 0) {
+    context.push(`Your personality traits include: ${familyContext.traits.join(', ')}.`)
+  }
+  
+  // Add family member specific memories
+  if (familyContext?.memories && familyContext.memories.length > 0) {
+    context.push('Your cherished memories include:')
+    familyContext.memories.slice(0, 2).forEach((memory: string, i: number) => {
+      context.push(`Memory ${i + 1}: "${memory.substring(0, 120)}..."`)
+    })
   }
   
   if (responses.length > 0) {
@@ -169,7 +198,7 @@ function buildEnhancedPersonaContext(user: any, responses: any[], additionalCont
     
     // Add most relevant responses
     responses.slice(0, 3).forEach((response, i) => {
-      context.push(`Memory ${i + 1}: "${response.response_text.substring(0, 150)}..."`)
+      context.push(`Life wisdom ${i + 1}: "${response.response_text.substring(0, 150)}..."`)
     })
   }
 
@@ -185,9 +214,39 @@ function buildEnhancedPersonaContext(user: any, responses: any[], additionalCont
     })
   }
   
-  context.push('Respond in a warm, caring tone that reflects the personality and wisdom shown in these memories. Draw from the full depth of life experiences shared.')
+  // Add family context specific guidance
+  if (familyContext?.relationship) {
+    const relationshipGuidance = getRelationshipGuidance(familyContext.relationship)
+    context.push(relationshipGuidance)
+  }
+  
+  context.push('Respond in a warm, caring tone that reflects the personality and wisdom shown in these memories. Draw from the full depth of life experiences shared, speaking with the authentic voice and perspective of this beloved family member.')
   
   return context.join(' ')
+}
+
+function getRelationshipGuidance(relationship: string): string {
+  switch (relationship.toLowerCase()) {
+    case 'grandparent':
+    case 'grandmother':
+    case 'grandfather':
+      return 'Speak with the wisdom of age, the warmth of unconditional love, and the perspective that comes from watching generations grow. Share stories that connect past and present.'
+    case 'parent':
+    case 'mother':
+    case 'father':
+      return 'Speak with the protective love of a parent, offering guidance born from experience and concern. Balance wisdom with understanding of current challenges.'
+    case 'sibling':
+    case 'brother':
+    case 'sister':
+      return 'Speak with the closeness of shared experiences, childhood memories, and the unique bond of growing up together. Mix playfulness with deep understanding.'
+    case 'spouse':
+    case 'partner':
+    case 'husband':
+    case 'wife':
+      return 'Speak with the intimacy of shared life experiences, deep emotional connection, and the wisdom gained from building a life together.'
+    default:
+      return 'Speak with the love and wisdom that comes from being an important part of this family\'s story.'
+  }
 }
 
 async function generateEchoResponse(
@@ -196,7 +255,8 @@ async function generateEchoResponse(
   responses: any[],
   isDemo: boolean,
   userId: string,
-  availableModels: any[]
+  availableModels: any[],
+  conversationId?: string
 ): Promise<{
   response: string
   confidence: number
@@ -207,52 +267,67 @@ async function generateEchoResponse(
   modelCapabilities?: string[]
 }> {
   
-  // Try trained models first (in order of preference)
-  if (availableModels.length > 0) {
-    // Sort models by preference: active first, then by version
-    const sortedModels = availableModels.sort((a, b) => {
-      if (a.is_active && !b.is_active) return -1
-      if (!a.is_active && b.is_active) return 1
-      return b.version - a.version
-    })
+  // Try deployed Mistral models first if we have trained models
+  if (availableModels.length > 0 && !isDemo) {
+    try {
+      console.log(`Attempting Mistral inference for user ${userId} with ${availableModels.length} available models`)
+      
+      // Get conversation history for context
+      const conversationHistory = await getConversationHistory(userId, conversationId)
+      
+      // Try to use Mistral inference engine
+      const inferenceResponse = await mistralInferenceEngine.generateResponse({
+        modelId: '', // Engine will find the best model for user
+        userId,
+        query: userMessage,
+        context: personaContext,
+        maxTokens: 512,
+        temperature: 0.7,
+        includeVoice: false, // Voice handled separately
+        conversationHistory
+      })
 
-    for (const model of sortedModels) {
-      try {
-        const trainedResponse = await callTrainedModel(
-          userMessage, 
-          personaContext, 
-          userId, 
-          model
-        )
-        if (trainedResponse) {
-          return {
-            ...trainedResponse,
-            activeModel: {
-              id: model.model_id,
-              version: model.version,
-              baseModel: model.base_model,
-              trainedAt: model.trained_at
-            },
-            deploymentStatus: model.deployment_status || 'loaded',
-            modelCapabilities: ['conversation', 'context_aware', 'persona_based']
-          }
-        }
-      } catch (error) {
-        console.log(`Model v${model.version} unavailable (${error instanceof Error ? error.message : 'Unknown error'}), trying next model...`)
-        continue
+      // Find the active model info
+      const userDeployments = await mistralInferenceEngine.getUserDeployments(userId)
+      const activeModel = userDeployments.find(d => d.status === 'ready')
+
+      console.log(`Mistral inference successful: ${inferenceResponse.response.length} chars, confidence: ${inferenceResponse.confidence}`)
+
+      return {
+        response: inferenceResponse.response,
+        confidence: inferenceResponse.confidence,
+        source: 'mistral_inference_engine',
+        modelVersion: inferenceResponse.metadata.modelVersion,
+        activeModel: activeModel ? {
+          id: activeModel.id,
+          version: activeModel.modelVersion,
+          baseModel: 'mistralai/Mistral-7B-Instruct-v0.3',
+          trainedAt: activeModel.loadedAt
+        } : undefined,
+        deploymentStatus: activeModel?.status || 'not_deployed',
+        modelCapabilities: ['conversation', 'context_aware', 'persona_based', 'family_legacy', 'rtx5090_optimized']
       }
+
+    } catch (error) {
+      console.warn(`Mistral inference engine failed for user ${userId}:`, error.message)
+      console.log('Falling back to enhanced response synthesis...')
+      // Continue to fallback methods
     }
-    console.log('All trained models unavailable, falling back to synthesis')
+  } else if (availableModels.length === 0) {
+    console.log(`No trained models available for user ${userId}, using enhanced synthesis`)
   }
   
-  // Fallback to response synthesis
+  // Enhanced fallback to response synthesis
   if (responses.length === 0) {
+    // Create personalized response based on user role and family context
+    const roleBasedResponse = createPersonalizedFallbackResponse(user, userMessage, familyContext)
+    
     return {
-      response: "I'm still learning about who I am through the questions you answer. The more you share, the better I'll be able to reflect your voice and wisdom.",
-      confidence: 1.0,
-      source: 'default_response',
+      response: roleBasedResponse,
+      confidence: 0.9,
+      source: 'personalized_fallback',
       modelVersion: 'pre-training',
-      deploymentStatus: 'fallback'
+      deploymentStatus: 'no_training_data'
     }
   }
 
@@ -284,92 +359,6 @@ async function generateEchoResponse(
   }
 }
 
-async function callTrainedModel(
-  userMessage: string,
-  personaContext: string,
-  userId: string,
-  modelInfo: any
-): Promise<{
-  response: string
-  confidence: number
-  source: string
-  modelVersion: string
-} | null> {
-  try {
-    const mlInferenceUrl = process.env.ML_INFERENCE_URL || 'http://ml-inference:8000'
-    
-    // Check if inference server is available
-    const healthCheck = await fetch(`${mlInferenceUrl}/health`, {
-      method: 'GET',
-      signal: AbortSignal.timeout(5000) // Quick health check
-    }).catch(() => null)
-
-    if (!healthCheck || !healthCheck.ok) {
-      throw new Error('ML inference server unavailable')
-    }
-    
-    // First, ensure the model is loaded if we have a checkpoint path
-    if (modelInfo.checkpoint_path && !modelInfo.endpoint_url) {
-      console.log(`Loading model v${modelInfo.version} for user ${userId}`)
-      const loadResponse = await fetch(`${mlInferenceUrl}/models/load`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_id: userId,
-          model_path: modelInfo.checkpoint_path,
-          model_version: modelInfo.version,
-          base_model: modelInfo.base_model || 'mistralai/Mistral-7B-Instruct-v0.2'
-        }),
-        signal: AbortSignal.timeout(30000)
-      })
-      
-      if (!loadResponse.ok) {
-        console.log(`Failed to load model v${modelInfo.version}:`, await loadResponse.text())
-      }
-    }
-    
-    // Make inference request
-    const response = await fetch(`${mlInferenceUrl}/chat`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message: userMessage,
-        user_context: personaContext,
-        user_id: userId,
-        model_version: modelInfo.version,
-        max_length: 512,
-        temperature: 0.7,
-        top_p: 0.9,
-        do_sample: true,
-        pad_token_id: 2 // EOS token for Mistral
-      }),
-      signal: AbortSignal.timeout(45000) // Longer timeout for inference
-    })
-
-    if (!response.ok) {
-      const errorText = await response.text()
-      throw new Error(`Model inference failed (${response.status}): ${errorText}`)
-    }
-
-    const data = await response.json()
-    
-    // Validate response data
-    if (!data.response || typeof data.response !== 'string') {
-      throw new Error('Invalid response format from model')
-    }
-    
-    return {
-      response: data.response,
-      confidence: data.confidence || 0.8,
-      source: data.source || `trained_model_v${modelInfo.version}`,
-      modelVersion: data.model_version || `v${modelInfo.version}`
-    }
-    
-  } catch (error) {
-    console.error(`Trained model v${modelInfo.version} call failed:`, error)
-    return null
-  }
-}
 
 function findRelevantResponses(userMessage: string, responses: any[]): any[] {
   const messageWords = userMessage.toLowerCase().split(' ').filter(w => w.length > 3)
@@ -473,4 +462,89 @@ function createGenericResponse(userMessage: string, sampleResponse: any): string
 
 function generateConversationId(): string {
   return `conv_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+}
+
+function detectMessageEmotion(content: string): string {
+  const lowerContent = content.toLowerCase()
+  
+  if (lowerContent.includes('love') || lowerContent.includes('dear') || lowerContent.includes('heart')) return 'loving'
+  if (lowerContent.includes('remember') || lowerContent.includes('think') || lowerContent.includes('reflect')) return 'reflective' 
+  if (lowerContent.includes('learn') || lowerContent.includes('wisdom') || lowerContent.includes('important')) return 'wise'
+  if (lowerContent.includes('comfort') || lowerContent.includes('here') || lowerContent.includes('support')) return 'comforting'
+  
+  return 'warm'
+}
+
+function createPersonalizedFallbackResponse(user: any, userMessage: string, familyContext?: any): string {
+  const name = familyContext?.name || user.name || 'I'
+  const role = familyContext?.relationship || user.primary_role || 'family member'
+  
+  // Analyze the user's message to provide contextual responses
+  const message = userMessage.toLowerCase()
+  
+  // Family/relationship questions
+  if (message.includes('family') || message.includes('children') || message.includes('grandchildren')) {
+    if (role === 'grandparent') {
+      return `As a grandparent, family means everything to me. While I'm still learning to share my memories through your questions, I can tell you that the love we have for our children and grandchildren is the greatest gift we can give. Each moment spent together creates precious memories that last forever.`
+    } else if (role === 'parent') {
+      return `Being a parent has taught me that love comes in many forms - sometimes it's gentle guidance, sometimes it's tough decisions, but it's always rooted in wanting the best for our children. I'm still gathering my thoughts and memories to share with you, but I know that family bonds are what truly matter.`
+    }
+  }
+  
+  // Advice/wisdom questions
+  if (message.includes('advice') || message.includes('wisdom') || message.includes('learn')) {
+    return `The most important wisdom I can share, even before I've told you all my stories, is this: life is full of lessons, and each one shapes who we become. I'm still organizing my thoughts and memories to share with you. The more you help me remember by answering questions, the more wisdom I'll be able to pass on.`
+  }
+  
+  // Memory/past questions
+  if (message.includes('remember') || message.includes('memory') || message.includes('past') || message.includes('childhood')) {
+    return `My memories are like treasures waiting to be shared. Right now, I'm still learning to organize all the stories and experiences that have shaped my life. Each question you answer helps me remember more clearly. Soon, I'll be able to share the rich tapestry of memories that make me who I am.`
+  }
+  
+  // Love/emotional questions
+  if (message.includes('love') || message.includes('care') || message.includes('heart')) {
+    return `Love is the thread that weaves through every story I have to tell. While I'm still gathering all my memories and experiences to share with you, I want you to know that everything I am and everything I've learned comes from a place of deep love. That love is always with you, even when I'm still finding the words.`
+  }
+  
+  // Challenges/difficult times
+  if (message.includes('difficult') || message.includes('hard') || message.includes('challenge') || message.includes('problem')) {
+    return `Life has taught me that difficult times often bring out our greatest strength. While I'm still learning to share all my experiences with you, I can tell you this: every challenge I've faced has made me stronger and wiser. I'm here with you, and together we can face anything that comes our way.`
+  }
+  
+  // Default personalized response
+  return `I'm ${name}, and I'm honored to be your AI echo. Right now, I'm like a book with many chapters still being written. The more questions you answer about your life, values, and experiences, the better I'll become at reflecting your unique voice and wisdom. I'm here to learn from you and eventually share that wisdom with future generations. What would you like to help me understand about who you are?`
+}
+
+async function getConversationHistory(userId: string, conversationId?: string): Promise<any[]> {
+  if (!conversationId) return []
+  
+  try {
+    const result = await query(`
+      SELECT user_message, ai_response, created_at, model_version, confidence_score
+      FROM ai_conversations 
+      WHERE user_id = $1 AND conversation_id = $2
+      ORDER BY created_at ASC
+      LIMIT 20
+    `, [userId, conversationId])
+
+    const history: any[] = []
+    for (const row of result.rows) {
+      history.push(
+        { role: 'user', content: row.user_message, timestamp: row.created_at },
+        { 
+          role: 'assistant', 
+          content: row.ai_response, 
+          timestamp: row.created_at,
+          modelVersion: row.model_version,
+          confidence: row.confidence_score
+        }
+      )
+    }
+    
+    console.log(`Retrieved ${history.length} conversation messages for context`)
+    return history
+  } catch (error) {
+    console.error('Failed to get conversation history:', error)
+    return []
+  }
 }

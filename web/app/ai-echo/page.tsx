@@ -40,3 +40,8 @@ export default function AIEchoPage() {
     </div>
   )
 }
+
+// Example usage patterns:
+// /ai-echo - Regular user's own echo
+// /ai-echo?member=123&name=Grandma&relationship=grandmother&traits=wise,caring,funny
+// /ai-echo?name=Dad&relationship=father&memories=fishing trips,bedtime stories

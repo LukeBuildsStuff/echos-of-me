@@ -51,6 +51,8 @@ redis_data/
 /models/*.bin
 /models/*.safetensors
 /models/huggingface/
+/models/ollama/id_ed25519*
+/models/ollama/models/
 *.pkl
 *.h5
 *.ckpt
@@ -84,4 +86,28 @@ Thumbs.db
 .idea/
 *.swp
 *.swo
-*~models/
+
+# SSH Keys and Security
+**/id_ed25519*
+**/id_rsa*
+*.pem
+*.key
+
+# Test artifacts and temporary files
+test-results/
+test-report.json
+*-test-report.json
+playwright-report/
+coverage/
+*.temp.html
+*temp.html
+
+# Voice synthesis files
+**/synthesis/
+voice_*.webm
+voice_*.wav
+
+# Backup files
+*backup*
+*.backup
+web-backup/

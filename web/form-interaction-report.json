@@ -1,0 +1,245 @@
+{
+  "timestamp": "2025-08-01T00:25:15.381Z",
+  "forms": [
+    {
+      "page": "Sign In",
+      "index": 0,
+      "action": "",
+      "method": "GET",
+      "fields": [
+        {
+          "type": "email",
+          "name": "field_0.7020416768208309",
+          "required": true
+        },
+        {
+          "type": "password",
+          "name": "field_0.6524232545619169",
+          "required": true
+        }
+      ],
+      "fieldCount": 2
+    },
+    {
+      "page": "Register",
+      "index": 0,
+      "action": "",
+      "method": "GET",
+      "fields": [
+        {
+          "type": "text",
+          "name": "field_0.7581262395991704",
+          "required": true
+        },
+        {
+          "type": "email",
+          "name": "field_0.8947867751143674",
+          "required": true
+        },
+        {
+          "type": "password",
+          "name": "field_0.08671893981060519",
+          "required": true
+        }
+      ],
+      "fieldCount": 3
+    },
+    {
+      "page": "Forgot Password",
+      "index": 0,
+      "action": "",
+      "method": "GET",
+      "fields": [
+        {
+          "type": "email",
+          "name": "field_0.4495435358089277",
+          "required": true
+        }
+      ],
+      "fieldCount": 1
+    }
+  ],
+  "apiEndpoints": [
+    {
+      "endpoint": "/auth/register",
+      "method": "POST",
+      "description": "User Registration",
+      "status": 400,
+      "exists": true,
+      "hasValidation": true,
+      "response": {
+        "success": false,
+        "error": "Validation failed",
+        "details": [
+          {
+            "code": "invalid_type",
+            "expected": "string",
+            "received": "undefined",
+            "path": [
+              "name"
+            ],
+            "message": "Required"
+          },
+          {
+            "code": "invalid_type",
+            "expected": "string",
+            "received": "undefined",
+            "path": [
+              "email"
+            ],
+            "message": "Required"
+          },
+          {
+            "code": "invalid_type",
+            "expected": "string",
+            "received": "undefined",
+            "path": [
+              "password"
+            ],
+            "message": "Required"
+          }
+        ]
+      }
+    },
+    {
+      "endpoint": "/auth/signin",
+      "method": "POST",
+      "description": "User Sign In",
+      "status": 200,
+      "exists": true,
+      "hasValidation": false,
+      "response": "<!DOCTYPE html><html lang=\"en\"><head><meta charSet=\"utf-8\"/><meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no\"/><link rel=\"stylesheet\" href=\"/_next/static/css/app/layout.css?v=1754007911414\" data-precedence=\"next_static/css/app/layout.css\"/><link rel=\"preload\" as=\"script\" fetchPriority=\"low\" href=\"/_next/static/chunks/webpack.js?v=1754007911414\"/><script src=\"/_next/static/chunks/main-app.js?v=1754007911414\" async=\"\"></script><script src=\"/_next/static/chunks/vendors-_app-pages-browser_node_modules_next_dist_client_components_client-page_js-_app-pages-7d523d.js\" async=\"\"></script><script src=\"/_next/static/chunks/app-pages-internals.js\" async=\"\"></script><script src=\"/_next/static/chunks/radix-ui.js\" async=\"\"></script><script src=\"/_next/static/chunks/vendors-_app-pages-browser_node_modules_next_dist_compiled_react_jsx-dev-runtime_js.js\" async=\"\"></script><script src=\"/_next/static/chunks/vendors-_app-pages-browser_node_modules_clsx_dist_clsx_mjs-_app-pages-browser_node_modules_ta-88558d.js\" async=\"\"></script><script src=\"/_next/static/chunks/vendors-_app-pages-browser_node_modules_next-auth_react_index_js.js\" async=\"\"></script><script src=\"/_next/static/chunks/vendors-_app-pages-browser_node_modules_next_dist_client_link_js.js\" async=\"\"></script><script src=\"/_next/static/chunks/_app-pages-browser_components_ui_card_tsx.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/auth/signin/page.js\" async=\"\"></script><script src=\"/_next/static/chunks/icons.js\" async=\"\"></script><script src=\"/_next/static/chunks/_app-pages-browser_components_ErrorBoundary_tsx-_app-pages-browser_components_providers_Acces-d6b5f3.js\" async=\"\"></script><script src=\"/_next/static/chunks/_app-pages-browser_components_ui_toast_tsx.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/layout.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/error.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/not-found.js\" async=\"\"></script><script src=\"/_next/static/chunks/_app-pages-browser_components_ui_loading_tsx.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/loading.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/global-error.js\" async=\"\"></script><title>Echos Of Me</title><meta name=\"description\" content=\"Create an AI that echoes your thoughts, personality, and wisdom\"/><meta name=\"next-size-adjust\"/><script src=\"/_next/static/chunks/polyfills.js\" noModule=\"\"></script></head><body class=\"__className_e8ce0c\"><div class=\"sr-only focus-within:not-sr-only\"><div class=\"fixed top-0 left-0 z-[9999] bg-white border border-gray-300 p-2 shadow-lg\"></div></div><div aria-live=\"polite\" aria-atomic=\"true\" class=\"sr-only\" role=\"status\"></div><div class=\"accessibility-root font-size-medium\"><!--$--><div class=\"flex min-h-screen items-center justify-center bg-background px-4\"><div class=\"rounded-lg border bg-card text-card-foreground shadow-sm w-full max-w-md\"><div class=\"flex flex-col space-y-1.5 p-6 text-center\"><h3 class=\"font-semibold tracking-tight text-2xl\">Welcome Back</h3><p class=\"text-sm text-muted-foreground\">Sign in to continue building your AI echo</p></div><div class=\"p-6 pt-0\"><form class=\"space-y-4\"><div class=\"space-y-2\"><label class=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\" for=\"email\">Email</label><input type=\"email\" class=\"flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50\" id=\"email\" placeholder=\"your@email.com\" required=\"\" value=\"\"/></div><div class=\"space-y-2\"><div class=\"flex items-center justify-between\"><label class=\"text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70\" for=\"password\">Password</label><a class=\"text-xs text-primary hover:underline\" href=\"/auth/forgot-password\">Forgot password?</a></div><input type=\"password\" class=\"flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50\" id=\"password\" placeholder=\"••••••••\" required=\"\" value=\"\"/></div><button class=\"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 touch-target bg-primary text-primary-foreground hover:bg-primary/90 min-h-[48px] px-4 py-2 w-full\" type=\"submit\">Sign In</button></form><div class=\"mt-6 text-center text-sm\">Don&#x27;t have an account?<!-- --> <a class=\"text-primary hover:underline\" href=\"/auth/register\">Sign up</a></div></div></div></div><!--/$--></div><script src=\"/_next/static/chunks/webpack.js?v=1754007911414\" async=\"\"></script><script>(self.__next_f=self.__next_f||[]).push([0]);self.__next_f.push([2,null])</script><script>self.__next_f.push([1,\"1:HL[\\\"/_next/static/media/e4af272ccee01ff0-s.p.woff2\\\",\\\"font\\\",{\\\"crossOrigin\\\":\\\"\\\",\\\"type\\\":\\\"font/woff2\\\"}]\\n2:HL[\\\"/_next/static/css/app/layout.css?v=1754007911414\\\",\\\"style\\\"]\\n0:D{\\\"name\\\":\\\"r2\\\",\\\"env\\\":\\\"Server\\\"}\\n\"])</script><script>self.__next_f.push([1,\"3:I[\\\"(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js\\\",[\\\"vendors-_app-pages-browser_node_modules_next_dist_client_components_client-page_js-_app-pages-7d523d\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_next_dist_client_components_client-page_js-_app-pages-7d523d.js\\\",\\\"app-pages-internals\\\",\\\"static/chunks/app-pages-internals.js\\\"],\\\"\\\"]\\n5:I[\\\"(app-pages-browser)/./node_modules/next/dist/client/components/client-page.js\\\",[\\\"vendors-_app-pages-browser_node_modules_next_dist_client_components_client-page_js-_app-pages-7d523d\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_next_dist_client_components_client-page_js-_app-pages-7d523d.js\\\",\\\"app-pages-internals\\\",\\\"static/chunks/app-pages-internals.js\\\"],\\\"ClientPageRoot\\\"]\\n6:I[\\\"(app-pages-browser)/./app/auth/signin/page.tsx\\\",[\\\"radix-ui\\\",\\\"static/chunks/radix-ui.js\\\",\\\"vendors-_app-pages-browser_node_modules_next_dist_compiled_react_jsx-dev-runtime_js\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_next_dist_compiled_react_jsx-dev-runtime_js.js\\\",\\\"vendors-_app-pages-browser_node_modules_clsx_dist_clsx_mjs-_app-pages-browser_node_modules_ta-88558d\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_clsx_dist_clsx_mjs-_app-pages-browser_node_modules_ta-88558d.js\\\",\\\"vendors-_app-pages-browser_node_modules_next-auth_react_index_js\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_next-auth_react_index_js.js\\\",\\\"vendors-_app-pages-browser_node_modules_next_dist_client_link_js\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_next_dist_client_link_js.js\\\",\\\"_app-pages-browser_components_ui_card_tsx\\\",\\\"static/chunks/_app-pages-browser_components_ui_card_tsx.js\\\",\\\"app/auth/signin/page\\\",\\\"static/chunks/app/auth/signin/page.js\\\"],\\\"default\\\",1]\\n7:I[\\\"(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js\\\",[\\\"vendors-_app-pages-browser_node_modules_next_dist_client_components_client-page_js-_app-pages-7d523d\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_next_dist_client_components_client-page_js-_app-pages\"])</script><script>self.__next_f.push([1,\"-7d523d.js\\\",\\\"app-pages-internals\\\",\\\"static/chunks/app-pages-internals.js\\\"],\\\"\\\"]\\n8:I[\\\"(app-pages-browser)/./node_modules/next/dist/client/components/render-from-template-context.js\\\",[\\\"vendors-_app-pages-browser_node_modules_next_dist_client_components_client-page_js-_app-pages-7d523d\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_next_dist_client_components_client-page_js-_app-pages-7d523d.js\\\",\\\"app-pages-internals\\\",\\\"static/chunks/app-pages-internals.js\\\"],\\\"\\\"]\\na:I[\\\"(app-pages-browser)/./components/MobileViewportFix.tsx\\\",[\\\"radix-ui\\\",\\\"static/chunks/radix-ui.js\\\",\\\"icons\\\",\\\"static/chunks/icons.js\\\",\\\"vendors-_app-pages-browser_node_modules_next_dist_compiled_react_jsx-dev-runtime_js\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_next_dist_compiled_react_jsx-dev-runtime_js.js\\\",\\\"vendors-_app-pages-browser_node_modules_clsx_dist_clsx_mjs-_app-pages-browser_node_modules_ta-88558d\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_clsx_dist_clsx_mjs-_app-pages-browser_node_modules_ta-88558d.js\\\",\\\"vendors-_app-pages-browser_node_modules_next-auth_react_index_js\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_next-auth_react_index_js.js\\\",\\\"_app-pages-browser_components_ui_card_tsx\\\",\\\"static/chunks/_app-pages-browser_components_ui_card_tsx.js\\\",\\\"_app-pages-browser_components_ErrorBoundary_tsx-_app-pages-browser_components_providers_Acces-d6b5f3\\\",\\\"static/chunks/_app-pages-browser_components_ErrorBoundary_tsx-_app-pages-browser_components_providers_Acces-d6b5f3.js\\\",\\\"_app-pages-browser_components_ui_toast_tsx\\\",\\\"static/chunks/_app-pages-browser_components_ui_toast_tsx.js\\\",\\\"app/layout\\\",\\\"static/chunks/app/layout.js\\\"],\\\"default\\\"]\\nb:I[\\\"(app-pages-browser)/./components/providers.tsx\\\",[\\\"radix-ui\\\",\\\"static/chunks/radix-ui.js\\\",\\\"icons\\\",\\\"static/chunks/icons.js\\\",\\\"vendors-_app-pages-browser_node_modules_next_dist_compiled_react_jsx-dev-runtime_js\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_next_dist_compiled_react_jsx-dev-runtime_js.js\\\",\\\"vendors-_app-pages-browser_node_modules_clsx_dist_clsx_mjs-_app-pages-browse\"])</script><script>self.__next_f.push([1,\"r_node_modules_ta-88558d\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_clsx_dist_clsx_mjs-_app-pages-browser_node_modules_ta-88558d.js\\\",\\\"vendors-_app-pages-browser_node_modules_next-auth_react_index_js\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_next-auth_react_index_js.js\\\",\\\"_app-pages-browser_components_ui_card_tsx\\\",\\\"static/chunks/_app-pages-browser_components_ui_card_tsx.js\\\",\\\"_app-pages-browser_components_ErrorBoundary_tsx-_app-pages-browser_components_providers_Acces-d6b5f3\\\",\\\"static/chunks/_app-pages-browser_components_ErrorBoundary_tsx-_app-pages-browser_components_providers_Acces-d6b5f3.js\\\",\\\"_app-pages-browser_components_ui_toast_tsx\\\",\\\"static/chunks/_app-pages-browser_components_ui_toast_tsx.js\\\",\\\"app/layout\\\",\\\"static/chunks/app/layout.js\\\"],\\\"Providers\\\"]\\nc:I[\\\"(app-pages-browser)/./app/error.tsx\\\",[\\\"radix-ui\\\",\\\"static/chunks/radix-ui.js\\\",\\\"vendors-_app-pages-browser_node_modules_next_dist_compiled_react_jsx-dev-runtime_js\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_next_dist_compiled_react_jsx-dev-runtime_js.js\\\",\\\"vendors-_app-pages-browser_node_modules_clsx_dist_clsx_mjs-_app-pages-browser_node_modules_ta-88558d\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_clsx_dist_clsx_mjs-_app-pages-browser_node_modules_ta-88558d.js\\\",\\\"_app-pages-browser_components_ui_card_tsx\\\",\\\"static/chunks/_app-pages-browser_components_ui_card_tsx.js\\\",\\\"app/error\\\",\\\"static/chunks/app/error.js\\\"],\\\"default\\\"]\\n12:I[\\\"(app-pages-browser)/./node_modules/next/dist/client/link.js\\\",[\\\"vendors-_app-pages-browser_node_modules_next_dist_client_link_js\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_next_dist_client_link_js.js\\\",\\\"app/not-found\\\",\\\"static/chunks/app/not-found.js\\\"],\\\"\\\"]\\n16:I[\\\"(app-pages-browser)/./components/ui/loading.tsx\\\",[\\\"icons\\\",\\\"static/chunks/icons.js\\\",\\\"vendors-_app-pages-browser_node_modules_next_dist_compiled_react_jsx-dev-runtime_js\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_next_dist_compiled_react_jsx-dev-runtime_js.js\\\",\\\"vendors-_app-pages-browser_node_modules_clsx_dist_clsx_\"])</script><script>self.__next_f.push([1,\"mjs-_app-pages-browser_node_modules_ta-88558d\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_clsx_dist_clsx_mjs-_app-pages-browser_node_modules_ta-88558d.js\\\",\\\"_app-pages-browser_components_ui_card_tsx\\\",\\\"static/chunks/_app-pages-browser_components_ui_card_tsx.js\\\",\\\"_app-pages-browser_components_ui_loading_tsx\\\",\\\"static/chunks/_app-pages-browser_components_ui_loading_tsx.js\\\",\\\"app/loading\\\",\\\"static/chunks/app/loading.js\\\"],\\\"PageLoading\\\"]\\n19:I[\\\"(app-pages-browser)/./app/global-error.tsx\\\",[\\\"radix-ui\\\",\\\"static/chunks/radix-ui.js\\\",\\\"vendors-_app-pages-browser_node_modules_next_dist_compiled_react_jsx-dev-runtime_js\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_next_dist_compiled_react_jsx-dev-runtime_js.js\\\",\\\"vendors-_app-pages-browser_node_modules_clsx_dist_clsx_mjs-_app-pages-browser_node_modules_ta-88558d\\\",\\\"static/chunks/vendors-_app-pages-browser_node_modules_clsx_dist_clsx_mjs-_app-pages-browser_node_modules_ta-88558d.js\\\",\\\"_app-pages-browser_components_ui_card_tsx\\\",\\\"static/chunks/_app-pages-browser_components_ui_card_tsx.js\\\",\\\"app/global-error\\\",\\\"static/chunks/app/global-error.js\\\"],\\\"default\\\"]\\n4:D{\\\"name\\\":\\\"\\\",\\\"env\\\":\\\"Server\\\"}\\n9:D{\\\"name\\\":\\\"RootLayout\\\",\\\"env\\\":\\\"Server\\\"}\\nd:D{\\\"name\\\":\\\"NotFound\\\",\\\"env\\\":\\\"Server\\\"}\\ne:D{\\\"name\\\":\\\"Card\\\",\\\"env\\\":\\\"Server\\\"}\\nf:D{\\\"name\\\":\\\"CardHeader\\\",\\\"env\\\":\\\"Server\\\"}\\n10:D{\\\"name\\\":\\\"CardTitle\\\",\\\"env\\\":\\\"Server\\\"}\\n10:[\\\"$\\\",\\\"h3\\\",null,{\\\"className\\\":\\\"font-semibold tracking-tight text-2xl font-gentle text-peace-800 mb-2\\\",\\\"children\\\":\\\"This Path Doesn't Exist\\\"}]\\nf:[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"flex flex-col space-y-1.5 p-6 text-center pb-4\\\",\\\"children\\\":[[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"text-6xl mb-4\\\",\\\"children\\\":\\\"🧭\\\"}],\\\"$10\\\",[\\\"$\\\",\\\"p\\\",null,{\\\"className\\\":\\\"text-comfort text-peace-600 leading-relaxed\\\",\\\"children\\\":\\\"It seems you've wandered off the legacy trail. Let's guide you back to where you can continue preserving your precious memories.\\\"}]]}]\\n11:D{\\\"name\\\":\\\"CardContent\\\",\\\"env\\\":\\\"Server\\\"}\\n13:D{\\\"name\\\":\\\"Button\\\",\\\"env\\\":\\\"Server\\\"}\\n13:D{\\\"name\\\":\\\"Slot.Slot\\\",\\\"env\\\":\\\"Server\\\"}\\n13:D{\\\"name\\\":\\\"Slot.SlotClone\\\",\\\"env\\\":\\\"Server\\\"}\\n13:[\\\"$\\\",\\\"$L12\\\",null\"])</script><script>self.__next_f.push([1,\",{\\\"href\\\":\\\"/dashboard\\\",\\\"children\\\":\\\"Return Home\\\",\\\"className\\\":\\\"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 touch-target min-h-[48px] px-4 py-2 flex-1 bg-hope-500 hover:bg-hope-600 text-white\\\"}]\\n14:D{\\\"name\\\":\\\"Button\\\",\\\"env\\\":\\\"Server\\\"}\\n11:[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"p-6 pt-0 space-y-6\\\",\\\"children\\\":[[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"bg-gradient-to-r from-hope-50 to-comfort-50 rounded-embrace p-4 border border-hope-200\\\",\\\"children\\\":[[\\\"$\\\",\\\"h4\\\",null,{\\\"className\\\":\\\"font-gentle text-hope-800 mb-3\\\",\\\"children\\\":\\\"Where would you like to go?\\\"}],[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"space-y-3\\\",\\\"children\\\":[[\\\"$\\\",\\\"$L12\\\",null,{\\\"href\\\":\\\"/dashboard\\\",\\\"className\\\":\\\"block\\\",\\\"children\\\":[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"flex items-center gap-3 p-3 bg-white rounded-lg border border-hope-200 hover:border-hope-300 hover:shadow-sm transition-all duration-200\\\",\\\"children\\\":[[\\\"$\\\",\\\"span\\\",null,{\\\"className\\\":\\\"text-2xl\\\",\\\"children\\\":\\\"🏠\\\"}],[\\\"$\\\",\\\"div\\\",null,{\\\"children\\\":[[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"font-medium text-hope-800\\\",\\\"children\\\":\\\"Dashboard\\\"}],[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"text-sm text-hope-600\\\",\\\"children\\\":\\\"Your legacy journey home\\\"}]]}]]}]}],[\\\"$\\\",\\\"$L12\\\",null,{\\\"href\\\":\\\"/daily-question\\\",\\\"className\\\":\\\"block\\\",\\\"children\\\":[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"flex items-center gap-3 p-3 bg-white rounded-lg border border-hope-200 hover:border-hope-300 hover:shadow-sm transition-all duration-200\\\",\\\"children\\\":[[\\\"$\\\",\\\"span\\\",null,{\\\"className\\\":\\\"text-2xl\\\",\\\"children\\\":\\\"❓\\\"}],[\\\"$\\\",\\\"div\\\",null,{\\\"children\\\":[[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"font-medium text-hope-800\\\",\\\"children\\\":\\\"Daily Questions\\\"}],[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"text-sm text-hope-600\\\",\\\"children\\\":\\\"Continue preserving memories\\\"}]]}]]}]}]]}]]}],[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"flex flex-col sm:flex-row gap-3\\\",\\\"children\\\":[\\\"$13\\\",\\\"$L14\\\"]}],[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"text-center p-4 bg-comfort-50 rounded-embrace bo\"])</script><script>self.__next_f.push([1,\"rder border-comfort-200\\\",\\\"children\\\":[[\\\"$\\\",\\\"p\\\",null,{\\\"className\\\":\\\"text-comfort text-comfort-600 mb-1\\\",\\\"children\\\":\\\"🧡 Lost but not forgotten\\\"}],[\\\"$\\\",\\\"p\\\",null,{\\\"className\\\":\\\"text-whisper text-comfort-500\\\",\\\"children\\\":\\\"Every step in your legacy journey has meaning - let's continue together\\\"}]]}]]}]\\ne:[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"rounded-lg bg-card text-card-foreground w-full max-w-lg mx-auto shadow-lg border border-peace-200\\\",\\\"children\\\":[\\\"$f\\\",\\\"$11\\\"]}]\\nd:[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-peace-50 to-comfort-50\\\",\\\"children\\\":\\\"$e\\\"}]\\n9:[\\\"$\\\",\\\"html\\\",null,{\\\"lang\\\":\\\"en\\\",\\\"children\\\":[\\\"$\\\",\\\"body\\\",null,{\\\"className\\\":\\\"__className_e8ce0c\\\",\\\"children\\\":[[\\\"$\\\",\\\"$La\\\",null,{}],[\\\"$\\\",\\\"$Lb\\\",null,{\\\"children\\\":[\\\"$\\\",\\\"$L7\\\",null,{\\\"parallelRouterKey\\\":\\\"children\\\",\\\"segmentPath\\\":[\\\"children\\\"],\\\"error\\\":\\\"$c\\\",\\\"errorStyles\\\":[],\\\"errorScripts\\\":[],\\\"template\\\":[\\\"$\\\",\\\"$L8\\\",null,{}],\\\"templateStyles\\\":\\\"$undefined\\\",\\\"templateScripts\\\":\\\"$undefined\\\",\\\"notFound\\\":\\\"$d\\\",\\\"notFoundStyles\\\":[]}]}]]}]}]\\n15:D{\\\"name\\\":\\\"Loading\\\",\\\"env\\\":\\\"Server\\\"}\\n15:[\\\"$\\\",\\\"$L16\\\",null,{\\\"message\\\":\\\"Preparing your legacy journey...\\\"}]\\n17:D{\\\"name\\\":\\\"rQ\\\",\\\"env\\\":\\\"Server\\\"}\\n17:null\\n18:D{\\\"name\\\":\\\"\\\",\\\"env\\\":\\\"Server\\\"}\\n1a:[]\\n0:[\\\"$\\\",\\\"$L3\\\",null,{\\\"buildId\\\":\\\"development\\\",\\\"assetPrefix\\\":\\\"\\\",\\\"urlParts\\\":[\\\"\\\",\\\"auth\\\",\\\"signin?callbackUrl=http%3A%2F%2Flocalhost%3A3001\\\"],\\\"initialTree\\\":[\\\"\\\",{\\\"children\\\":[\\\"auth\\\",{\\\"children\\\":[\\\"signin\\\",{\\\"children\\\":[\\\"__PAGE__?{\\\\\\\"callbackUrl\\\\\\\":\\\\\\\"http://localhost:3001\\\\\\\"}\\\",{}]}]}]},\\\"$undefined\\\",\\\"$undefined\\\",true],\\\"initialSeedData\\\":[\\\"\\\",{\\\"children\\\":[\\\"auth\\\",{\\\"children\\\":[\\\"signin\\\",{\\\"children\\\":[\\\"__PAGE__\\\",{},[[\\\"$L4\\\",[\\\"$\\\",\\\"$L5\\\",null,{\\\"props\\\":{\\\"params\\\":{},\\\"searchParams\\\":{\\\"callbackUrl\\\":\\\"http://localhost:3001\\\"}},\\\"Component\\\":\\\"$6\\\"}],null],null],null]},[null,[\\\"$\\\",\\\"$L7\\\",null,{\\\"parallelRouterKey\\\":\\\"children\\\",\\\"segmentPath\\\":[\\\"children\\\",\\\"auth\\\",\\\"children\\\",\\\"signin\\\",\\\"children\\\"],\\\"error\\\":\\\"$undefined\\\",\\\"errorStyles\\\":\\\"$undefined\\\",\\\"errorScripts\\\":\\\"$undefined\\\",\\\"template\\\":[\\\"$\\\",\\\"$L8\\\",null,{}],\\\"templateStyles\\\":\\\"$undefined\\\",\\\"templateScripts\\\":\\\"$undefined\\\",\\\"notFound\\\":\\\"$undefined\\\",\\\"notF\"])</script><script>self.__next_f.push([1,\"oundStyles\\\":\\\"$undefined\\\"}]],null]},[null,[\\\"$\\\",\\\"$L7\\\",null,{\\\"parallelRouterKey\\\":\\\"children\\\",\\\"segmentPath\\\":[\\\"children\\\",\\\"auth\\\",\\\"children\\\"],\\\"error\\\":\\\"$undefined\\\",\\\"errorStyles\\\":\\\"$undefined\\\",\\\"errorScripts\\\":\\\"$undefined\\\",\\\"template\\\":[\\\"$\\\",\\\"$L8\\\",null,{}],\\\"templateStyles\\\":\\\"$undefined\\\",\\\"templateScripts\\\":\\\"$undefined\\\",\\\"notFound\\\":\\\"$undefined\\\",\\\"notFoundStyles\\\":\\\"$undefined\\\"}]],null]},[[[[\\\"$\\\",\\\"link\\\",\\\"0\\\",{\\\"rel\\\":\\\"stylesheet\\\",\\\"href\\\":\\\"/_next/static/css/app/layout.css?v=1754007911414\\\",\\\"precedence\\\":\\\"next_static/css/app/layout.css\\\",\\\"crossOrigin\\\":\\\"$undefined\\\"}]],\\\"$9\\\"],null],[\\\"$15\\\",[],[]]],\\\"couldBeIntercepted\\\":false,\\\"initialHead\\\":[\\\"$17\\\",\\\"$L18\\\"],\\\"globalErrorComponent\\\":\\\"$19\\\",\\\"missingSlots\\\":\\\"$W1a\\\"}]\\n\"])</script><script>self.__next_f.push([1,\"14:E{\\\"digest\\\":\\\"4075768621\\\",\\\"message\\\":\\\"Event handlers cannot be passed to Client Component props.\\\\n  \\u003cbutton className=... onClick={function onClick} children=...\\u003e\\\\n                                ^^^^^^^^^^^^^^^^^^\\\\nIf you need interactivity, consider converting part of this to a Client Component.\\\",\\\"stack\\\":\\\"Error: Event handlers cannot be passed to Client Component props.\\\\n  \\u003cbutton className=... onClick={function onClick} children=...\\u003e\\\\n                                ^^^^^^^^^^^^^^^^^^\\\\nIf you need interactivity, consider converting part of this to a Client Component.\\\\n    at eF (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:272472)\\\\n    at /app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266015\\\\n    at Object.toJSON (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266479)\\\\n    at stringify (\\u003canonymous\\u003e)\\\\n    at eq (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:274847)\\\\n    at ej (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:264992)\\\\n    at e_ (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:264034)\\\\n    at e (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:268671)\\\\n    at eF (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:268784)\\\\n    at /app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266015\\\\n    at Array.toJSON (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266479)\\\\n    at stringify (\\u003canonymous\\u003e)\\\\n    at eq (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:274847)\\\\n    at ej (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:264992)\\\\n    at e_ (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:264034)\\\\n    at e (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:268671)\\\\n    at eF (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:268784)\\\\n    at /app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266015\\\\n    at Array.toJSON (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266479)\\\\n    at stringify (\\u003canonymous\\u003e)\\\\n    at eq (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:274847)\\\\n    at ej (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:264992)\\\\n    at e_ (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:264034)\\\\n    at e (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:268671)\\\\n    at eF (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:268784)\\\\n    at /app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266015\\\\n    at Object.toJSON (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266479)\\\\n    at stringify (\\u003canonymous\\u003e)\\\\n    at eq (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:274847)\\\\n    at ej (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:264992)\\\\n    at e_ (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:264034)\\\\n    at e (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:268296)\\\\n    at eF (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:268784)\\\\n    at /app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266015\\\\n    at Object.toJSON (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266479)\\\\n    at stringify (\\u003canonymous\\u003e)\\\\n    at eq (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:274847)\\\\n    at ej (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:264992)\\\\n    at e_ (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:264034)\\\\n    at e (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:268296)\\\\n    at eF (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:268784)\\\\n    at /app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266015\\\\n    at Array.toJSON (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:266479)\\\\n    at stringify (\\u003canonymous\\u003e)\\\\n    at eq (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:274847)\\\\n    at eJ (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:275365)\\\\n    at Timeout._onTimeout (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:265152)\\\\n    at listOnTimeout (node:internal/timers:581:17)\\\\n    at process.processTimers (node:internal/timers:519:7)\\\"}\\n\"])</script><script>self.__next_f.push([1,\"18:[[\\\"$\\\",\\\"meta\\\",\\\"0\\\",{\\\"name\\\":\\\"viewport\\\",\\\"content\\\":\\\"width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover, user-scalable=no\\\"}],[\\\"$\\\",\\\"meta\\\",\\\"1\\\",{\\\"charSet\\\":\\\"utf-8\\\"}],[\\\"$\\\",\\\"title\\\",\\\"2\\\",{\\\"children\\\":\\\"Echos Of Me\\\"}],[\\\"$\\\",\\\"meta\\\",\\\"3\\\",{\\\"name\\\":\\\"description\\\",\\\"content\\\":\\\"Create an AI that echoes your thoughts, personality, and wisdom\\\"}],[\\\"$\\\",\\\"meta\\\",\\\"4\\\",{\\\"name\\\":\\\"next-size-adjust\\\"}]]\\n4:null\\n\"])</script></body></html>"
+    },
+    {
+      "endpoint": "/auth/forgot-password",
+      "method": "POST",
+      "description": "Forgot Password",
+      "status": 400,
+      "exists": true,
+      "hasValidation": true,
+      "response": {
+        "error": "Email is required"
+      }
+    },
+    {
+      "endpoint": "/user/profile",
+      "method": "PUT",
+      "description": "Update Profile",
+      "status": 401,
+      "exists": true,
+      "hasValidation": false,
+      "response": {
+        "error": "Unauthorized"
+      }
+    },
+    {
+      "endpoint": "/user/change-password",
+      "method": "POST",
+      "description": "Change Password",
+      "status": 401,
+      "exists": true,
+      "hasValidation": false,
+      "response": {
+        "error": "Unauthorized"
+      }
+    },
+    {
+      "endpoint": "/responses",
+      "method": "POST",
+      "description": "Submit Response",
+      "status": 401,
+      "exists": true,
+      "hasValidation": false,
+      "response": {
+        "success": false,
+        "error": "Unauthorized"
+      }
+    },
+    {
+      "endpoint": "/questions/generate",
+      "method": "POST",
+      "description": "Generate Question",
+      "status": 401,
+      "exists": true,
+      "hasValidation": false,
+      "response": {
+        "success": false,
+        "error": "Unauthorized"
+      }
+    },
+    {
+      "endpoint": "/training/start",
+      "method": "POST",
+      "description": "Start Training",
+      "status": 403,
+      "exists": true,
+      "hasValidation": false,
+      "response": {
+        "error": "Admin access required"
+      }
+    },
+    {
+      "endpoint": "/voice/upload",
+      "method": "POST",
+      "description": "Voice Upload",
+      "status": 401,
+      "exists": true,
+      "hasValidation": false,
+      "response": {
+        "error": "Unauthorized"
+      }
+    }
+  ],
+  "userFlows": [
+    {
+      "test": "Anonymous access to /dashboard",
+      "status": 200,
+      "redirected": false,
+      "hasAuthPrompt": false,
+      "passed": false
+    },
+    {
+      "test": "Anonymous access to /training",
+      "status": 200,
+      "redirected": false,
+      "hasAuthPrompt": false,
+      "passed": false
+    },
+    {
+      "test": "Anonymous access to /daily-question",
+      "status": 200,
+      "redirected": false,
+      "hasAuthPrompt": false,
+      "passed": false
+    },
+    {
+      "test": "Anonymous admin access to /admin",
+      "status": 200,
+      "hasProtection": false,
+      "hasContent": true,
+      "passed": false
+    },
+    {
+      "test": "Anonymous admin access to /admin/users",
+      "status": 200,
+      "hasProtection": false,
+      "hasContent": true,
+      "passed": false
+    },
+    {
+      "test": "Anonymous admin access to /admin/training",
+      "status": 200,
+      "hasProtection": false,
+      "hasContent": true,
+      "passed": false
+    }
+  ],
+  "summary": {
+    "totalForms": 3,
+    "totalApiEndpoints": 9,
+    "workingEndpoints": 9,
+    "endpointsWithValidation": 2,
+    "userFlowTests": 6,
+    "passedFlowTests": 0
+  }
+}

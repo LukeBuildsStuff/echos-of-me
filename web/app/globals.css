@@ -343,4 +343,163 @@
       min-height: calc(100dvh - var(--header-height-desktop));
     }
   }
+  
+  /* Voice control slider enhancements */
+  .voice-slider {
+    @apply h-2 bg-hope-200 rounded-lg appearance-none cursor-pointer;
+  }
+  
+  .voice-slider::-webkit-slider-thumb {
+    @apply appearance-none w-4 h-4 rounded-full cursor-pointer;
+    background: linear-gradient(135deg, #0ea5e9, #a855f7);
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .voice-slider::-moz-range-thumb {
+    @apply w-4 h-4 rounded-full cursor-pointer border-0;
+    background: linear-gradient(135deg, #0ea5e9, #a855f7);
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .voice-slider:focus {
+    @apply outline-none ring-4 ring-hope-300 ring-opacity-50;
+  }
+  
+  /* Enhanced accessibility styles */
+  .focus-visible:focus-visible {
+    @apply outline-none ring-4 ring-hope-300 ring-opacity-50;
+  }
+  
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .bg-gradient-to-r {
+      background: white !important;
+    }
+    
+    .text-hope-700, .text-comfort-700, .text-peace-700 {
+      color: black !important;
+    }
+    
+    .border-hope-200, .border-comfort-200, .border-peace-200 {
+      border-color: black !important;
+      border-width: 2px !important;
+    }
+  }
+  
+  /* Enhanced AI Echo Chat animations */
+  @keyframes message-slide {
+    from {
+      opacity: 0;
+      transform: translateY(15px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .animate-message-slide {
+    animation: message-slide 0.4s ease-out forwards;
+  }
+
+  @keyframes typing-dots {
+    0%, 20% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+    100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+  }
+
+  .animate-typing-dots {
+    animation: typing-dots 1.4s ease-in-out infinite;
+  }
+
+  /* Emotion-based glow effects */
+  .emotion-loving {
+    box-shadow: 0 0 20px rgba(251, 113, 133, 0.1);
+  }
+
+  .emotion-wise {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.1);
+  }
+
+  .emotion-reflective {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
+  }
+
+  .emotion-comforting {
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.1);
+  }
+
+  /* Legacy preservation sparkle effect */
+  @keyframes sparkle {
+    0%, 100% {
+      opacity: 0;
+      transform: scale(0) rotate(0deg);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1) rotate(180deg);
+    }
+  }
+
+  .animate-sparkle {
+    animation: sparkle 2s ease-in-out infinite;
+  }
+
+  /* Grief-sensitive hover states */
+  .grief-sensitive-hover {
+    transition: all 0.3s ease;
+  }
+
+  .grief-sensitive-hover:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Family member avatar glow */
+  .family-avatar-glow {
+    box-shadow: 0 0 15px rgba(14, 165, 233, 0.2);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .family-avatar-glow:hover {
+    box-shadow: 0 0 25px rgba(14, 165, 233, 0.4);
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-float,
+    .animate-gentle-pulse,
+    .animate-message-slide,
+    .animate-typing-dots,
+    .animate-sparkle {
+      animation: none !important;
+    }
+    
+    .transition-all,
+    .transition-colors,
+    .transition-opacity,
+    .grief-sensitive-hover {
+      transition: none !important;
+    }
+    
+    .emotion-loving,
+    .emotion-wise,
+    .emotion-reflective,
+    .emotion-comforting,
+    .family-avatar-glow {
+      box-shadow: none !important;
+    }
+  }
 }

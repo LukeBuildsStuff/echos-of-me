@@ -1,0 +1,81 @@
+# Cloudflare Tunnel configuration for RTX 5090 Hybrid Architecture
+# This enables secure access to local RTX 5090 GPU from the cloud-deployed Next.js app
+
+tunnel: echosofme-rtx-tunnel
+credentials-file: /home/user/.cloudflared/credentials.json
+
+# Ingress rules - Define how requests are routed
+ingress:
+  # RTX 5090 AI Training Service
+  - hostname: rtx-training.your-domain.com
+    service: http://localhost:8000
+    originRequest:
+      httpHostHeader: localhost:8000
+      connectTimeout: 30s
+      tlsTimeout: 10s
+      tcpKeepAlive: 30s
+      keepAliveTimeout: 90s
+      keepAliveConnections: 10
+
+  # RTX 5090 Model Inference Service
+  - hostname: rtx-inference.your-domain.com
+    service: http://localhost:8001
+    originRequest:
+      httpHostHeader: localhost:8001
+      connectTimeout: 10s
+      tlsTimeout: 5s
+
+  # RTX 5090 Voice Training Service
+  - hostname: rtx-voice.your-domain.com
+    service: http://localhost:8002
+    originRequest:
+      httpHostHeader: localhost:8002
+      connectTimeout: 20s
+      tlsTimeout: 10s
+
+  # RTX 5090 Monitoring Dashboard (Optional - for debugging)
+  - hostname: rtx-monitor.your-domain.com
+    service: http://localhost:9000
+    originRequest:
+      httpHostHeader: localhost:9000
+      noTLSVerify: true
+
+  # Catch-all rule (required)
+  - service: http_status:404
+
+# Connection settings optimized for AI workloads
+originRequest:
+  # Increase timeouts for heavy AI processing
+  connectTimeout: 30s
+  tlsTimeout: 10s
+  tcpKeepAlive: 30s
+  keepAliveTimeout: 90s
+  keepAliveConnections: 100
+  
+  # Disable compression for binary AI model data
+  disableChunkedEncoding: true
+  
+  # Custom headers for RTX services
+  httpHostHeader: localhost
+
+# Cloudflare settings
+warp-routing:
+  enabled: true
+
+# Auto-update settings
+autoupdate-freq: 24h
+
+# Logging configuration
+loglevel: info
+logfile: /var/log/cloudflared.log
+
+# Metrics for monitoring tunnel health
+metrics: localhost:8080
+
+# Load balancing for multiple RTX instances (if available)
+load-balancer:
+  pool: rtx-pool
+  healthy-threshold: 3
+  unhealthy-threshold: 3
+  interval: 30s
+  timeout: 10s

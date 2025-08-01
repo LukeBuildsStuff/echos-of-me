@@ -1,0 +1,118 @@
+{
+  "timestamp": "2025-08-01T00:24:04.256Z",
+  "pageResults": [
+    {
+      "pageName": "Homepage",
+      "issues": [],
+      "performance": {
+        "scriptCount": 22,
+        "stylesheetCount": 1,
+        "imageCount": 0,
+        "bundleInfo": {
+          "jsChunks": 23,
+          "cssFiles": 3,
+          "hasWebpackChunks": true,
+          "hasMainBundle": true,
+          "hasPolyfills": true
+        }
+      }
+    },
+    {
+      "pageName": "Admin Portal",
+      "issues": [
+        {
+          "type": "accessibility_warning",
+          "issue": "Buttons without aria-label",
+          "count": 9,
+          "pattern": "/<button(?![^>]*aria-label)/g"
+        },
+        {
+          "type": "accessibility_warning",
+          "issue": "Button roles without tabindex",
+          "count": 8,
+          "pattern": "/role=\"button\"(?![^>]*tabindex)/g"
+        }
+      ],
+      "performance": {
+        "scriptCount": 25,
+        "stylesheetCount": 1,
+        "imageCount": 0,
+        "bundleInfo": {
+          "jsChunks": 26,
+          "cssFiles": 3,
+          "hasWebpackChunks": true,
+          "hasMainBundle": true,
+          "hasPolyfills": true
+        }
+      }
+    },
+    {
+      "pageName": "Dashboard",
+      "issues": [],
+      "performance": {
+        "scriptCount": 27,
+        "stylesheetCount": 1,
+        "imageCount": 0,
+        "bundleInfo": {
+          "jsChunks": 28,
+          "cssFiles": 3,
+          "hasWebpackChunks": true,
+          "hasMainBundle": true,
+          "hasPolyfills": true
+        }
+      }
+    },
+    {
+      "pageName": "Daily Question",
+      "issues": [],
+      "performance": {
+        "scriptCount": 22,
+        "stylesheetCount": 1,
+        "imageCount": 0,
+        "bundleInfo": {
+          "jsChunks": 23,
+          "cssFiles": 3,
+          "hasWebpackChunks": true,
+          "hasMainBundle": true,
+          "hasPolyfills": true
+        }
+      }
+    },
+    {
+      "pageName": "Training",
+      "issues": [],
+      "performance": {
+        "scriptCount": 22,
+        "stylesheetCount": 1,
+        "imageCount": 0,
+        "bundleInfo": {
+          "jsChunks": 23,
+          "cssFiles": 3,
+          "hasWebpackChunks": true,
+          "hasMainBundle": true,
+          "hasPolyfills": true
+        }
+      }
+    }
+  ],
+  "mobileResults": {
+    "hasViewportMeta": true,
+    "hasResponsiveCSS": false,
+    "hasTouchIcons": false,
+    "hasBootstrap": false,
+    "hasTailwind": false,
+    "hasFlexbox": true,
+    "hasMobileMenu": false,
+    "hasAccessibleNavigation": false
+  },
+  "summary": {
+    "totalPages": 5,
+    "totalIssues": 2,
+    "errorPatterns": 0,
+    "accessibilityIssues": 2
+  },
+  "recommendations": [
+    "Found 2 accessibility issues",
+    "Improve mobile navigation accessibility"
+  ]
+}

@@ -294,7 +294,7 @@ const questionTemplates = [
 ]
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL || 'postgresql://personalai:personalai123@localhost:5432/personalai',
+  connectionString: process.env.DATABASE_URL || 'postgresql://echosofme:secure_dev_password@localhost:5432/echosofme_dev',
 })
 
 async function seedQuestions() {
@@ -316,16 +316,15 @@ async function seedQuestions() {
         }
         
         const result = await client.query(`
-          INSERT INTO questions (category, subcategory, question_text, complexity_level, metadata)
+          INSERT INTO questions (category, subcategory, question_text, difficulty_level, tags)
           VALUES ($1, $2, $3, $4, $5)
-          ON CONFLICT (question_text) DO NOTHING
           RETURNING id
         `, [
           template.category,
           template.subcategory,
           questionText,
           template.complexity,
-          JSON.stringify(metadata)
+          [template.category, template.subcategory]
         ])
         
         if (result.rows.length > 0) {

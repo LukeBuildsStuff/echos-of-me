@@ -1,0 +1,7 @@
+{
+  "model_type": "rtx5090_compatible_xtts",
+  "user_id": "lukemoeller_yahoo_com",
+  "sample_rate": 22050,
+  "pytorch_version": "2.7.0a0+79aa17489c.nv25.04",
+  "cuda_compatible": true
+}

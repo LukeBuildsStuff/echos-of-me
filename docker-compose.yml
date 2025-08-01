@@ -138,14 +138,19 @@ services:
   tunnel:
     image: cloudflare/cloudflared:latest
     command: tunnel --no-autoupdate --protocol http2 run --token eyJhIjoiN2MzMTI2NzdiZjUzYzMwYmJjZjkwNWVjMWFlZGZkMDIiLCJ0IjoiN2ZiNWY3NDMtOTFjNS00Mzk2LThhZGMtYjBlYzU5NjA0NDU5IiwicyI6Ik1UZ3hNR0ZpTkdNdFpqRmpNQzAwTnpjNUxXRTFOekl0WlRsa1pHRXdaVGMwWkdWayJ9
-    depends_on:
-      - web
     restart: on-failure:3
-    environment:
-      - TUNNEL_METRICS=0.0.0.0:20241
     networks:
       - default
+      - web_echosofme_network
+    external_links:
+      - echosofme_app:web
+    environment:
+      - TUNNEL_METRICS=0.0.0.0:20241
 
 volumes:
   postgres_data:
   redis_data:
+
+networks:
+  web_echosofme_network:
+    external: true
