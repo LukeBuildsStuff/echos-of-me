@@ -1,0 +1,47 @@
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import { Providers } from '@/components/providers'
+import MobileViewportFix from '@/components/MobileViewportFix'
+
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata: Metadata = {
+  title: 'Echos Of Me',
+  description: 'Create an AI that echoes your thoughts, personality, and wisdom',
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.svg', sizes: '16x16', type: 'image/svg+xml' }
+    ],
+    apple: { url: '/favicon.svg', type: 'image/svg+xml' }
+  }
+}
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover'
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="en">
+      <body className={inter.className}>
+        <a href="#main-content" className="skip-to-main">
+          Skip to main content
+        </a>
+        <MobileViewportFix />
+        <Providers>
+          {children}
+        </Providers>
+      </body>
+    </html>
+  )
+}

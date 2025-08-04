@@ -1,0 +1,578 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* Enhanced mobile viewport support */
+  :root {
+    /* Custom properties for safe areas */
+    --safe-area-inset-top: env(safe-area-inset-top, 0px);
+    --safe-area-inset-right: env(safe-area-inset-right, 0px);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-area-inset-left: env(safe-area-inset-left, 0px);
+    
+    /* Dynamic header heights for different screen sizes */
+    --header-height-mobile: calc(60px + env(safe-area-inset-top, 0px));
+    --header-height-tablet: calc(72px + env(safe-area-inset-top, 0px));
+    --header-height-desktop: calc(80px + env(safe-area-inset-top, 0px));
+  }
+
+  html {
+    /* Prevent horizontal scrolling */
+    overflow-x: hidden;
+    /* Smooth scrolling */
+    scroll-behavior: smooth;
+    /* Support for mobile viewport units */
+    height: -webkit-fill-available;
+  }
+
+  body {
+    font-family: "Inter", sans-serif;
+    /* Prevent horizontal scrolling */
+    overflow-x: hidden;
+    /* Support for mobile viewport */
+    min-height: -webkit-fill-available;
+    /* Add safe area padding */
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    /* Enable touch scrolling on all mobile devices */
+    touch-action: manipulation;
+    /* Smooth scrolling for mobile */
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Mobile-first typography optimization */
+  @screen sm {
+    html {
+      font-size: 16px;
+    }
+  }
+  
+  /* Ensure readable text on small screens */
+  @media (max-width: 480px) {
+    html {
+      font-size: 14px;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+      line-height: 1.2;
+    }
+    
+    p, span, div {
+      line-height: 1.5;
+    }
+  }
+}
+
+@layer components {
+  input[type="checkbox"]:checked ~ label span svg {
+    @apply inline-flex;
+  }
+
+  .sticky .header-logo {
+    @apply py-5 lg:py-2;
+  }
+
+  .sticky .menu-scroll.active {
+    @apply opacity-70;
+  }
+
+  input#togglePlan:checked ~ .dot {
+    @apply translate-x-full;
+  }
+
+  input#checkboxLabel:checked ~ .box span {
+    @apply opacity-100;
+  }
+
+  /* Animation utilities for AI Echo Chat */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* Screen reader only utility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  
+  /* Mobile touch optimization utilities */
+  .touch-target {
+    min-height: 48px;
+    min-width: 48px;
+  }
+  
+  /* Better mobile scrolling */
+  .mobile-scroll {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+    touch-action: pan-y;
+  }
+  
+  /* Touch action optimizations for different elements */
+  .touch-pan-x {
+    touch-action: pan-x;
+  }
+  
+  .touch-pan-y {
+    touch-action: pan-y;
+  }
+  
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+  
+  .touch-none {
+    touch-action: none;
+  }
+  
+  /* Scrollable containers */
+  .overflow-y-auto, .overflow-auto {
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-y;
+  }
+  
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+    touch-action: pan-x;
+  }
+  
+  /* Prevent text selection on interactive elements on mobile */
+  @media (max-width: 768px) {
+    button, .touch-target {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    
+    /* Ensure input fields and textareas allow normal touch interaction */
+    input, textarea, select {
+      touch-action: manipulation;
+      /* Improve iOS text field appearance */
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      /* Better font rendering */
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    /* Allow text selection in content areas */
+    p, span, div:not(.touch-target):not(button) {
+      touch-action: manipulation;
+    }
+    
+    /* Specific touch behavior for scroll containers */
+    .mobile-scroll, [data-scroll="true"] {
+      touch-action: pan-y;
+      -webkit-overflow-scrolling: touch;
+    }
+  }
+  
+  /* Mobile-optimized text sizing classes */
+  .mobile-text-sm {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+  
+  .mobile-text-base {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+  
+  .mobile-text-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+  
+  @media (max-width: 640px) {
+    .mobile-text-sm {
+      font-size: 0.75rem;
+      line-height: 1rem;
+    }
+    
+    .mobile-text-base {
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
+    
+    .mobile-text-lg {
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+  }
+
+  /* Safe area utilities */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+  
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+  
+  .safe-area {
+    padding-top: env(safe-area-inset-top);
+    padding-right: env(safe-area-inset-right);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+  }
+
+  /* Mobile-specific header spacing utilities */
+  .mobile-header-spacing {
+    padding-top: var(--header-height-mobile);
+  }
+  
+  @media (min-width: 768px) {
+    .mobile-header-spacing {
+      padding-top: var(--header-height-tablet);
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .mobile-header-spacing {
+      padding-top: var(--header-height-desktop);
+    }
+  }
+
+  /* Prevent content from going under mobile browser UI */
+  .mobile-safe-content {
+    min-height: calc(100vh - var(--header-height-mobile));
+    min-height: calc(100dvh - var(--header-height-mobile));
+  }
+  
+  @media (min-width: 768px) {
+    .mobile-safe-content {
+      min-height: calc(100vh - var(--header-height-tablet));
+      min-height: calc(100dvh - var(--header-height-tablet));
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .mobile-safe-content {
+      min-height: calc(100vh - var(--header-height-desktop));
+      min-height: calc(100dvh - var(--header-height-desktop));
+    }
+  }
+
+  /* Improved mobile tap targets */
+  .mobile-tap-target {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 8px;
+  }
+
+  /* Fix for mobile viewport height issues */
+  .mobile-vh-fix {
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    height: 100dvh;
+  }
+
+  .mobile-min-vh-fix {
+    min-height: 100vh;
+    min-height: calc(var(--vh, 1vh) * 100);
+    min-height: 100dvh;
+  }
+  
+  /* Full height container that works across all mobile browsers */
+  .mobile-full-height {
+    min-height: 100vh;
+    min-height: calc(var(--vh, 1vh) * 100);
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Screen height minus header for content areas */
+  .mobile-content-height {
+    min-height: calc(100vh - var(--header-height-mobile));
+    min-height: calc(calc(var(--vh, 1vh) * 100) - var(--header-height-mobile));
+    min-height: calc(100dvh - var(--header-height-mobile));
+  }
+  
+  @media (min-width: 768px) {
+    .mobile-content-height {
+      min-height: calc(100vh - var(--header-height-tablet));
+      min-height: calc(calc(var(--vh, 1vh) * 100) - var(--header-height-tablet));
+      min-height: calc(100dvh - var(--header-height-tablet));
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .mobile-content-height {
+      min-height: calc(100vh - var(--header-height-desktop));
+      min-height: calc(calc(var(--vh, 1vh) * 100) - var(--header-height-desktop));
+      min-height: calc(100dvh - var(--header-height-desktop));
+    }
+  }
+  
+  /* Voice control slider enhancements */
+  .voice-slider {
+    @apply h-2 bg-hope-200 rounded-lg appearance-none cursor-pointer;
+  }
+  
+  .voice-slider::-webkit-slider-thumb {
+    @apply appearance-none w-4 h-4 rounded-full cursor-pointer;
+    background: linear-gradient(135deg, #0ea5e9, #a855f7);
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .voice-slider::-moz-range-thumb {
+    @apply w-4 h-4 rounded-full cursor-pointer border-0;
+    background: linear-gradient(135deg, #0ea5e9, #a855f7);
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .voice-slider:focus {
+    @apply outline-none ring-4 ring-hope-300 ring-opacity-50;
+  }
+  
+  /* Enhanced accessibility styles */
+  .focus-visible:focus-visible {
+    @apply outline-none ring-4 ring-hope-300 ring-opacity-50;
+  }
+  
+  /* Better focus indicators for all interactive elements */
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible,
+  [tabindex]:focus-visible {
+    @apply outline-none ring-2 ring-primary/60 ring-offset-2 ring-offset-background;
+  }
+  
+  /* Skip to main content link */
+  .skip-to-main {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: white;
+    color: black;
+    padding: 8px;
+    text-decoration: none;
+    border-radius: 4px;
+    z-index: 1000;
+    transition: top 0.3s;
+  }
+  
+  .skip-to-main:focus {
+    top: 6px;
+  }
+  
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .bg-gradient-to-r {
+      background: white !important;
+    }
+    
+    .text-hope-700, .text-comfort-700, .text-peace-700 {
+      color: black !important;
+    }
+    
+    .border-hope-200, .border-comfort-200, .border-peace-200 {
+      border-color: black !important;
+      border-width: 2px !important;
+    }
+  }
+  
+  /* Enhanced AI Echo Chat animations */
+  @keyframes message-slide {
+    from {
+      opacity: 0;
+      transform: translateY(15px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .animate-message-slide {
+    animation: message-slide 0.4s ease-out forwards;
+  }
+
+  @keyframes typing-dots {
+    0%, 20% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+    100% {
+      opacity: 0.4;
+      transform: scale(1);
+    }
+  }
+
+  .animate-typing-dots {
+    animation: typing-dots 1.4s ease-in-out infinite;
+  }
+
+  /* Emotion-based glow effects */
+  .emotion-loving {
+    box-shadow: 0 0 20px rgba(251, 113, 133, 0.1);
+  }
+
+  .emotion-wise {
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.1);
+  }
+
+  .emotion-reflective {
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.1);
+  }
+
+  .emotion-comforting {
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.1);
+  }
+
+  /* Legacy preservation sparkle effect */
+  @keyframes sparkle {
+    0%, 100% {
+      opacity: 0;
+      transform: scale(0) rotate(0deg);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1) rotate(180deg);
+    }
+  }
+
+  .animate-sparkle {
+    animation: sparkle 2s ease-in-out infinite;
+  }
+
+  /* Grief-sensitive hover states */
+  .grief-sensitive-hover {
+    transition: all 0.3s ease;
+  }
+
+  .grief-sensitive-hover:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Family member avatar glow */
+  .family-avatar-glow {
+    box-shadow: 0 0 15px rgba(14, 165, 233, 0.2);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .family-avatar-glow:hover {
+    box-shadow: 0 0 25px rgba(14, 165, 233, 0.4);
+  }
+
+  /* Button interaction animations */
+  @keyframes button-press {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.98); }
+    100% { transform: scale(1); }
+  }
+  
+  .button-press:active {
+    animation: button-press 0.1s ease-out;
+  }
+  
+  /* Smooth hover states for cards */
+  .card-hover {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+  }
+  
+  /* Gentle pulse for loading states */
+  @keyframes gentle-pulse {
+    0%, 100% { opacity: 0.8; }
+    50% { opacity: 1; }
+  }
+  
+  .animate-gentle-pulse {
+    animation: gentle-pulse 2s ease-in-out infinite;
+  }
+
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in,
+    .animate-float,
+    .animate-gentle-pulse,
+    .animate-message-slide,
+    .animate-typing-dots,
+    .animate-sparkle,
+    .button-press {
+      animation: none !important;
+    }
+    
+    .transition-all,
+    .transition-colors,
+    .transition-opacity,
+    .grief-sensitive-hover,
+    .card-hover {
+      transition: none !important;
+    }
+    
+    .emotion-loving,
+    .emotion-wise,
+    .emotion-reflective,
+    .emotion-comforting,
+    .family-avatar-glow {
+      box-shadow: none !important;
+    }
+    
+    .card-hover:hover {
+      transform: none !important;
+      box-shadow: none !important;
+    }
+  }
+}

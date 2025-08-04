@@ -1,0 +1,301 @@
+'use client'
+
+import { lazy, ComponentType, LazyExoticComponent } from 'react'
+import { ErrorBoundary } from 'react-error-boundary'
+
+/**
+ * Lazy loading utility optimized for admin dashboard components
+ * Provides code splitting, error boundaries, and loading states
+ */
+
+// Loading component for admin modules
+export const AdminModuleLoader = ({ message = 'Loading admin module...' }: { message?: string }) => (
+  <div className="flex items-center justify-center py-8">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4" />
+      <p className="text-gray-600 text-sm">{message}</p>
+    </div>
+  </div>
+)
+
+// Error fallback for admin modules
+export const AdminModuleError = ({ error, resetErrorBoundary }: { error: Error, resetErrorBoundary: () => void }) => (
+  <div className="p-6 bg-red-50 border border-red-200 rounded-lg">
+    <div className="flex items-start gap-3">
+      <div className="flex-shrink-0">
+        <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+        </svg>
+      </div>
+      <div className="flex-1 min-w-0">
+        <h3 className="text-sm font-medium text-red-800">Failed to load admin module</h3>
+        <p className="mt-1 text-sm text-red-700">{error.message}</p>
+        <button 
+          onClick={resetErrorBoundary}
+          className="mt-3 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-red-700 bg-red-100 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+        >
+          Try again
+        </button>
+      </div>
+    </div>
+  </div>
+)
+
+// Cache for lazy-loaded components to prevent re-imports
+const componentCache = new Map<string, LazyExoticComponent<ComponentType<any>>>()
+
+/**
+ * Create a lazy-loaded admin component with error handling and caching
+ */
+export function createLazyAdminComponent<T extends ComponentType<any>>(
+  importFn: () => Promise<{ default: T }>,
+  componentName: string,
+  loadingMessage?: string
+): LazyExoticComponent<T> {
+  // Return cached component if available
+  if (componentCache.has(componentName)) {
+    return componentCache.get(componentName) as LazyExoticComponent<T>
+  }
+
+  // Create lazy component with error boundary
+  const LazyComponent = lazy(async () => {
+    try {
+      // Add artificial delay in development to test loading states
+      if (process.env.NODE_ENV === 'development') {
+        await new Promise(resolve => setTimeout(resolve, 200))
+      }
+      
+      const module = await importFn()
+      console.log(`Lazy loaded admin component: ${componentName}`)
+      return module
+    } catch (error) {
+      console.error(`Failed to load admin component ${componentName}:`, error)
+      throw error
+    }
+  })
+
+  // Wrap with error boundary
+  const WrappedComponent = (props: any) => (
+    <ErrorBoundary
+      FallbackComponent={AdminModuleError}
+      onError={(error) => {
+        console.error(`Error in lazy admin component ${componentName}:`, error)
+      }}
+    >
+      <LazyComponent {...props} />
+    </ErrorBoundary>
+  )
+
+  // Cache the component
+  componentCache.set(componentName, WrappedComponent as LazyExoticComponent<T>)
+  
+  return WrappedComponent as LazyExoticComponent<T>
+}
+
+/**
+ * Preload admin components for better UX
+ */
+export class AdminComponentPreloader {
+  private static preloadedComponents = new Set<string>()
+
+  static async preloadComponent(importFn: () => Promise<any>, componentName: string) {
+    if (this.preloadedComponents.has(componentName)) {
+      return
+    }
+
+    try {
+      await importFn()
+      this.preloadedComponents.add(componentName)
+      console.log(`Preloaded admin component: ${componentName}`)
+    } catch (error) {
+      console.error(`Failed to preload admin component ${componentName}:`, error)
+    }
+  }
+
+  static preloadCriticalComponents() {
+    // Preload commonly used admin components after initial page load
+    setTimeout(() => {
+      this.preloadComponent(
+        () => import('@/components/admin/LazyQuickStats'),
+        'QuickStats'
+      )
+      this.preloadComponent(
+        () => import('@/components/admin/LazySystemStatus'),
+        'SystemStatus'
+      )
+      this.preloadComponent(
+        () => import('@/components/admin/LazySimpleChart'),
+        'SimpleChart'
+      )
+      this.preloadComponent(
+        () => import('@/components/admin/LazyActivityFeed'),
+        'ActivityFeed'
+      )
+    }, 1000)
+  }
+
+  static preloadOnHover(componentName: string, importFn: () => Promise<any>) {
+    return {
+      onMouseEnter: () => this.preloadComponent(importFn, componentName),
+      onFocus: () => this.preloadComponent(importFn, componentName),
+    }
+  }
+}
+
+/**
+ * Lazy-loaded admin components with optimized loading
+ */
+export const LazyAdminComponents = {
+  // Dashboard widgets
+  QuickStats: createLazyAdminComponent(
+    () => import('@/components/admin/LazyQuickStats'),
+    'QuickStats',
+    'Loading dashboard metrics...'
+  ),
+
+  SystemStatus: createLazyAdminComponent(
+    () => import('@/components/admin/LazySystemStatus'),
+    'SystemStatus',
+    'Loading system status...'
+  ),
+
+  SimpleChart: createLazyAdminComponent(
+    () => import('@/components/admin/LazySimpleChart'),
+    'SimpleChart',
+    'Loading charts...'
+  ),
+
+  ActivityFeed: createLazyAdminComponent(
+    () => import('@/components/admin/LazyActivityFeed'),
+    'ActivityFeed',
+    'Loading activity feed...'
+  ),
+
+  DashboardWidgets: createLazyAdminComponent(
+    () => import('@/components/admin/DashboardWidgets'),
+    'DashboardWidgets',
+    'Loading dashboard widgets...'
+  ),
+
+  // User management
+  UserAnalyticsDashboard: createLazyAdminComponent(
+    () => import('@/components/admin/UserAnalyticsDashboard'),
+    'UserAnalyticsDashboard',
+    'Loading user analytics...'
+  ),
+
+  // System monitoring
+  SystemHealthDashboard: createLazyAdminComponent(
+    () => import('@/components/admin/SystemHealthDashboard'),
+    'SystemHealthDashboard',
+    'Loading system health dashboard...'
+  ),
+
+  RTXMonitoringDashboard: createLazyAdminComponent(
+    () => import('@/components/admin/RTXMonitoringDashboard'),
+    'RTXMonitoringDashboard',
+    'Loading RTX monitoring...'
+  ),
+
+  // Content management
+  ContentModerationDashboard: createLazyAdminComponent(
+    () => import('@/components/admin/ContentModerationDashboard'),
+    'ContentModerationDashboard',
+    'Loading content moderation...'
+  ),
+
+  // Error recovery
+  ErrorRecoveryDashboard: createLazyAdminComponent(
+    () => import('@/components/admin/ErrorRecoveryDashboard'),
+    'ErrorRecoveryDashboard',
+    'Loading error recovery dashboard...'
+  ),
+
+  // Training components (heavy modules)
+  AdminTrainingManager: createLazyAdminComponent(
+    () => import('@/components/AdminTrainingManager'),
+    'AdminTrainingManager',
+    'Loading training manager...'
+  ),
+
+  AdminTrainingConfigurator: createLazyAdminComponent(
+    () => import('@/components/AdminTrainingConfigurator'),
+    'AdminTrainingConfigurator',
+    'Loading training configurator...'
+  ),
+
+  RTX5090MonitoringDashboard: createLazyAdminComponent(
+    () => import('@/components/RTX5090MonitoringDashboard'),
+    'RTX5090MonitoringDashboard',
+    'Loading RTX 5090 monitoring...'
+  ),
+
+  // Privacy and data management
+  AdminDataPrivacyDashboard: createLazyAdminComponent(
+    () => import('@/components/AdminDataPrivacyDashboard'),
+    'AdminDataPrivacyDashboard',
+    'Loading privacy dashboard...'
+  ),
+
+  AdminPrivacyDashboard: createLazyAdminComponent(
+    () => import('@/components/AdminPrivacyDashboard'),
+    'AdminPrivacyDashboard',
+    'Loading privacy controls...'
+  ),
+}
+
+/**
+ * Performance monitoring for lazy-loaded components
+ */
+export class LazyComponentPerformance {
+  private static loadTimes = new Map<string, number>()
+  private static loadStats = {
+    totalComponents: 0,
+    successfulLoads: 0,
+    failedLoads: 0,
+    averageLoadTime: 0
+  }
+
+  static recordLoadStart(componentName: string) {
+    this.loadTimes.set(componentName, performance.now())
+  }
+
+  static recordLoadEnd(componentName: string, success: boolean = true) {
+    const startTime = this.loadTimes.get(componentName)
+    if (startTime) {
+      const loadTime = performance.now() - startTime
+      this.loadTimes.delete(componentName)
+      
+      this.loadStats.totalComponents++
+      if (success) {
+        this.loadStats.successfulLoads++
+      } else {
+        this.loadStats.failedLoads++
+      }
+      
+      // Update average load time
+      this.loadStats.averageLoadTime = 
+        (this.loadStats.averageLoadTime * (this.loadStats.totalComponents - 1) + loadTime) / 
+        this.loadStats.totalComponents
+
+      console.log(`Component ${componentName} loaded in ${loadTime.toFixed(2)}ms`)
+    }
+  }
+
+  static getLoadStats() {
+    return {
+      ...this.loadStats,
+      averageLoadTime: Math.round(this.loadStats.averageLoadTime * 100) / 100
+    }
+  }
+
+  static resetStats() {
+    this.loadTimes.clear()
+    this.loadStats = {
+      totalComponents: 0,
+      successfulLoads: 0,
+      failedLoads: 0,
+      averageLoadTime: 0
+    }
+  }
+}

@@ -1,0 +1,365 @@
+// Example integrations for the Family Guardian Error Logging System
+// This file demonstrates how to integrate error logging throughout the application
+
+import { errorLogger, useErrorLogger } from './error-logging'
+import { withErrorHandler, handleFamilyDataError, handleAIError } from './api-error-handler'
+
+// 1. REACT COMPONENT INTEGRATION
+// ================================
+
+// Example: AI Echo Chat Component Error Handling
+export function useAIEchoChatErrorHandling() {
+  const { logFamilyImpactError, logCriticalError } = useErrorLogger()
+
+  const handleConversationError = (error: Error) => {
+    logFamilyImpactError(
+      'AI Conversation Failed',
+      `Failed to generate AI response: ${error.message}`,
+      'high',
+      {
+        component: 'AIEchoChat',
+        action: 'generateResponse',
+        additionalData: {
+          errorType: error.name,
+          timestamp: new Date().toISOString()
+        }
+      }
+    )
+  }
+
+  const handleMemorySaveError = (error: Error, memoryData: any) => {
+    logFamilyImpactError(
+      'Memory Save Failed',
+      `Could not save precious family memory: ${error.message}`,
+      'severe',
+      {
+        component: 'MemoryRecorder',
+        action: 'saveMemory',
+        additionalData: {
+          memoryLength: memoryData?.content?.length || 0,
+          memoryType: memoryData?.type || 'unknown'
+        }
+      }
+    )
+  }
+
+  return {
+    handleConversationError,
+    handleMemorySaveError
+  }
+}
+
+// Example: Voice Processing Error Handling
+export function useVoiceProcessingErrorHandling() {
+  const { logFamilyImpactError } = useErrorLogger()
+
+  const handleVoiceUploadError = (error: Error, fileSize?: number) => {
+    logFamilyImpactError(
+      'Voice Upload Failed',
+      `Failed to upload voice recording: ${error.message}`,
+      'medium',
+      {
+        component: 'VoiceRecorder',
+        action: 'uploadVoice',
+        additionalData: {
+          fileSize,
+          errorDetails: error.stack
+        }
+      }
+    )
+  }
+
+  const handleVoiceSynthesisError = (error: Error, text?: string) => {
+    logFamilyImpactError(
+      'Voice Synthesis Failed',
+      `Could not generate voice from text: ${error.message}`,
+      'medium',
+      {
+        component: 'VoiceSynthesis',
+        action: 'synthesizeVoice',
+        additionalData: {
+          textLength: text?.length || 0
+        }
+      }
+    )
+  }
+
+  return {
+    handleVoiceUploadError,
+    handleVoiceSynthesisError
+  }
+}
+
+// 2. API ROUTE INTEGRATION
+// =========================
+
+// Example: AI Echo API with Error Handling
+export const handleAIEchoAPI = withErrorHandler(async (request: NextRequest) => {
+  try {
+    const body = await request.json()
+    const { message, userId, familyId } = body
+
+    if (!message) {
+      handleFamilyDataError('No message provided for AI conversation', 'medium', {
+        endpoint: '/api/ai-echo/chat',
+        method: 'POST',
+        userId,
+        familyId
+      })
+    }
+
+    // Simulate AI processing
+    const aiResponse = await processAIConversation(message, userId)
+    
+    if (!aiResponse) {
+      handleAIError('AI model failed to generate response', {
+        endpoint: '/api/ai-echo/chat',
+        method: 'POST',
+        userId,
+        familyId,
+        additionalData: {
+          messageLength: message.length,
+          processingAttempted: true
+        }
+      })
+    }
+
+    return NextResponse.json({ response: aiResponse })
+
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('model')) {
+      handleAIError(`AI processing error: ${error.message}`)
+    } else if (error instanceof Error && error.message.includes('database')) {
+      handleFamilyDataError(`Database error in AI conversation: ${error.message}`, 'high')
+    }
+    throw error // Re-throw for the error handler to catch
+  }
+})
+
+// Example: Voice API with Error Handling
+export const handleVoiceAPI = withErrorHandler(async (request: NextRequest) => {
+  try {
+    const formData = await request.formData()
+    const audioFile = formData.get('audio') as File
+    const userId = formData.get('userId') as string
+
+    if (!audioFile) {
+      handleFamilyDataError('No audio file provided for voice processing', 'medium')
+    }
+
+    // Process voice file
+    const result = await processVoiceFile(audioFile)
+    
+    return NextResponse.json({ success: true, result })
+
+  } catch (error) {
+    if (error instanceof Error && error.message.includes('format')) {
+      handleFamilyDataError(`Unsupported voice format: ${error.message}`, 'low')
+    }
+    throw error
+  }
+})
+
+// 3. DATABASE OPERATION INTEGRATION
+// ==================================
+
+import mysql from 'mysql2/promise'
+
+export async function saveMemoryWithErrorHandling(memoryData: any, userId: number, familyId?: number) {
+  try {
+    const connection = await mysql.createConnection(/* db config */)
+    
+    try {
+      const [result] = await connection.execute(
+        'INSERT INTO responses (user_id, family_id, content, response_type) VALUES (?, ?, ?, ?)',
+        [userId, familyId, memoryData.content, memoryData.type]
+      )
+      
+      return result
+      
+    } finally {
+      await connection.end()
+    }
+    
+  } catch (error) {
+    // Log the error with family context
+    await errorLogger.logError({
+      title: 'Memory Save Database Error',
+      message: `Failed to save family memory: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      severity: 'critical',
+      categoryCode: 'DB_ERROR',
+      familyImpact: 'severe',
+      affectedFeature: 'Memory Recording',
+      stackTrace: error instanceof Error ? error.stack : '',
+      errorContext: {
+        userId,
+        familyId,
+        component: 'DatabaseOperations',
+        action: 'saveMemory',
+        additionalData: {
+          memoryType: memoryData.type,
+          contentLength: memoryData.content?.length || 0
+        }
+      }
+    })
+    
+    throw error
+  }
+}
+
+// 4. COMPONENT ERROR BOUNDARY INTEGRATION
+// ========================================
+
+import React from 'react'
+
+interface ErrorBoundaryState {
+  hasError: boolean
+  errorInfo?: Error
+}
+
+export class FamilyGuardianErrorBoundary extends React.Component<
+  { children: React.ReactNode },
+  ErrorBoundaryState
+> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props)
+    this.state = { hasError: false }
+  }
+
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, errorInfo: error }
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    // Log the error with family-sensitive context
+    errorLogger.logError({
+      title: 'React Component Error',
+      message: error.message,
+      severity: 'warning',
+      categoryCode: 'FRONTEND_ERROR',
+      familyImpact: 'medium',
+      stackTrace: error.stack,
+      errorContext: {
+        component: 'ErrorBoundary',
+        action: 'componentDidCatch',
+        additionalData: {
+          componentStack: errorInfo.componentStack,
+          errorBoundary: 'FamilyGuardianErrorBoundary'
+        }
+      }
+    })
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="p-8 text-center">
+          <div className="mb-4">
+            <span className="text-2xl">💙</span>
+          </div>
+          <h2 className="text-lg font-semibold mb-2 text-gray-800">
+            Something unexpected happened
+          </h2>
+          <p className="text-gray-600 mb-4">
+            We're sorry this interrupted your time with precious memories.
+            Our team has been notified and we're working to fix this with care.
+          </p>
+          <button
+            onClick={() => this.setState({ hasError: false })}
+            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Return to Memories
+          </button>
+        </div>
+      )
+    }
+
+    return this.props.children
+  }
+}
+
+// 5. PERFORMANCE MONITORING INTEGRATION
+// ======================================
+
+export function usePerformanceMonitoring() {
+  const { logUserError } = useErrorLogger()
+
+  React.useEffect(() => {
+    // Monitor Core Web Vitals
+    if (typeof window !== 'undefined' && 'PerformanceObserver' in window) {
+      const observer = new PerformanceObserver((list) => {
+        for (const entry of list.getEntries()) {
+          if (entry.entryType === 'measure' || entry.entryType === 'navigation') {
+            // Log slow operations that might affect family experience
+            if (entry.duration > 3000) { // 3 seconds
+              logUserError(
+                'Slow Page Performance',
+                `Page load took ${Math.round(entry.duration)}ms, potentially affecting family experience`,
+                {
+                  component: 'PerformanceMonitor',
+                  action: 'measurePerformance',
+                  additionalData: {
+                    entryType: entry.entryType,
+                    duration: entry.duration,
+                    name: entry.name
+                  }
+                }
+              )
+            }
+          }
+        }
+      })
+
+      observer.observe({ entryTypes: ['measure', 'navigation'] })
+
+      return () => observer.disconnect()
+    }
+  }, [logUserError])
+}
+
+// 6. CUSTOM HOOK FOR FORM ERROR HANDLING
+// =======================================
+
+export function useFamilyFormErrorHandling(formName: string) {
+  const { logFamilyImpactError } = useErrorLogger()
+
+  const handleFormError = (error: Error, formData?: Record<string, any>) => {
+    const impact = formName.includes('memory') || formName.includes('conversation') ? 'high' : 'medium'
+    
+    logFamilyImpactError(
+      `Form Error: ${formName}`,
+      `Form submission failed: ${error.message}`,
+      impact,
+      {
+        component: 'FormHandler',
+        action: 'submitForm',
+        additionalData: {
+          formName,
+          fieldCount: formData ? Object.keys(formData).length : 0,
+          hasMemoryContent: formData ? JSON.stringify(formData).includes('memory') : false
+        }
+      }
+    )
+  }
+
+  return { handleFormError }
+}
+
+// Placeholder functions for the examples
+async function processAIConversation(message: string, userId: number): Promise<string> {
+  // Implementation would go here
+  return "AI response"
+}
+
+async function processVoiceFile(file: File): Promise<any> {
+  // Implementation would go here
+  return { processed: true }
+}
+
+export default {
+  useAIEchoChatErrorHandling,
+  useVoiceProcessingErrorHandling,
+  FamilyGuardianErrorBoundary,
+  usePerformanceMonitoring,
+  useFamilyFormErrorHandling
+}

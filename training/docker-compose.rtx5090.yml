@@ -1,0 +1,40 @@
+services:
+  rtx5090-trainer:
+    build:
+      context: .
+      dockerfile: Dockerfile.rtx5090
+    container_name: echosofme_rtx5090_trainer
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=0
+      - CUDA_VISIBLE_DEVICES=0
+      - PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:1024
+      - TORCH_COMPILE_DISABLE=1
+      - TRANSFORMERS_CACHE=/training/cache
+      - HF_HOME=/training/cache
+    volumes:
+      - ./:/training
+      - rtx5090_cache:/training/cache
+      - rtx5090_checkpoints:/training/checkpoints
+      - rtx5090_logs:/training/logs
+      - rtx5090_models:/training/final_model
+    network_mode: "host"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: "no"  # Don't auto-restart training jobs
+    
+volumes:
+  rtx5090_cache:
+    driver: local
+  rtx5090_checkpoints:
+    driver: local
+  rtx5090_logs:
+    driver: local
+  rtx5090_models:
+    driver: local
+
+# Using host network mode to access PostgreSQL directly

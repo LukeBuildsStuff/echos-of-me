@@ -1,0 +1,97 @@
+2025-08-03 02:41:35,335 - INFO - RTX 5090 Training Pipeline Starting...
+2025-08-03 02:41:35,364 - INFO - Verifying RTX 5090 compatibility...
+2025-08-03 02:41:35,364 - INFO - PyTorch version: 2.7.0a0+79aa17489c.nv25.04
+2025-08-03 02:41:35,364 - INFO - CUDA device capability: (12, 0)
+2025-08-03 02:41:35,364 - INFO - GPU memory: 31.8 GB
+2025-08-03 02:41:35,364 - INFO - GPU: NVIDIA GeForce RTX 5090
+2025-08-03 02:41:35,364 - INFO - RTX 5090 compatibility verified ✓
+2025-08-03 02:41:35,364 - INFO - 🚀 Starting RTX 5090 Training Pipeline for 'Echoes of Me'
+2025-08-03 02:41:35,375 - ERROR - Failed to update training status: column "progress" of relation "training_runs" does not exist
+LINE 3:             SET status = 'running', progress = 0.0, updated_...
+                                            ^
+
+2025-08-03 02:41:35,375 - INFO - Loading training data from PostgreSQL...
+2025-08-03 02:41:35,382 - INFO - Loaded 117 training examples
+2025-08-03 02:41:35,382 - INFO - Total words: 5507
+2025-08-03 02:41:35,387 - ERROR - Failed to update training status: column "progress" of relation "training_runs" does not exist
+LINE 3:             SET status = 'running', progress = 10.0, updated...
+                                            ^
+
+2025-08-03 02:41:35,387 - INFO - Preparing dataset...
+2025-08-03 02:41:35,509 - ERROR - ❌ Training failed: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3.
+401 Client Error. (Request ID: Root=1-688ecc5f-799dd8ca0af9acd95b383c3f;8e4a20aa-5751-4159-8882-9c1e521ecbd1)
+
+Cannot access gated repo for url https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.3/resolve/main/config.json.
+Access to model mistralai/Mistral-7B-Instruct-v0.3 is restricted. You must have access to it and be authenticated to access it. Please log in.
+2025-08-03 02:41:35,515 - ERROR - Failed to update training status: column "progress" of relation "training_runs" does not exist
+LINE 3:             SET status = 'failed', progress = 0.0, updated_a...
+                                           ^
+
+2025-08-03 02:42:47,283 - INFO - RTX 5090 Training Pipeline Starting...
+2025-08-03 02:42:47,309 - INFO - Verifying RTX 5090 compatibility...
+2025-08-03 02:42:47,310 - INFO - PyTorch version: 2.7.0a0+79aa17489c.nv25.04
+2025-08-03 02:42:47,310 - INFO - CUDA device capability: (12, 0)
+2025-08-03 02:42:47,310 - INFO - GPU memory: 31.8 GB
+2025-08-03 02:42:47,310 - INFO - GPU: NVIDIA GeForce RTX 5090
+2025-08-03 02:42:47,310 - INFO - RTX 5090 compatibility verified ✓
+2025-08-03 02:42:47,310 - INFO - 🚀 Starting RTX 5090 Training Pipeline for 'Echoes of Me'
+2025-08-03 02:42:47,319 - INFO - Training status updated: running (progress: 0.0%)
+2025-08-03 02:42:47,319 - INFO - Loading training data from PostgreSQL...
+2025-08-03 02:42:47,326 - INFO - Loaded 117 training examples
+2025-08-03 02:42:47,326 - INFO - Total words: 5507
+2025-08-03 02:42:47,335 - INFO - Training status updated: running (progress: 10.0%)
+2025-08-03 02:42:47,335 - INFO - Preparing dataset...
+2025-08-03 02:42:48,167 - WARNING - Parameter 'function'=<function RTX5090TrainingPipeline.prepare_dataset.<locals>.tokenize_function at 0x7fc4dd909760> of the transform datasets.arrow_dataset.Dataset._map_single couldn't be hashed properly, a random hash was used instead. Make sure your transforms and parameters are serializable with pickle or dill for the dataset fingerprinting and caching to work. If you reuse this transform, the caching mechanism will consider it to be different from the previous calls and recompute everything. This warning is only showed once. Subsequent hashing failures won't be showed.
+2025-08-03 02:42:48,197 - INFO - Dataset prepared with 117 examples
+2025-08-03 02:42:48,207 - INFO - Training status updated: running (progress: 20.0%)
+2025-08-03 02:42:48,207 - INFO - Setting up Mistral-7B with QLoRA...
+2025-08-03 02:43:40,586 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-08-03 02:43:42,026 - INFO - Model setup complete ✓
+2025-08-03 02:43:42,045 - INFO - Training status updated: running (progress: 30.0%)
+2025-08-03 02:43:42,045 - INFO - Setting up trainer...
+2025-08-03 02:43:42,227 - INFO - Trainer setup complete ✓
+2025-08-03 02:43:42,236 - INFO - Training status updated: running (progress: 40.0%)
+2025-08-03 02:43:42,237 - INFO - GPU Memory - Allocated: 1.01GB, Reserved: 1.53GB
+2025-08-03 02:43:42,237 - INFO - 🔥 Beginning training on RTX 5090...
+2025-08-03 02:43:42,449 - ERROR - ❌ Training failed: 'ProgressCallback' object has no attribute 'on_train_begin'
+2025-08-03 02:43:42,470 - INFO - Training status updated: failed (progress: 0.0%)
+2025-08-03 02:44:25,794 - INFO - RTX 5090 Training Pipeline Starting...
+2025-08-03 02:44:25,821 - INFO - Verifying RTX 5090 compatibility...
+2025-08-03 02:44:25,821 - INFO - PyTorch version: 2.7.0a0+79aa17489c.nv25.04
+2025-08-03 02:44:25,821 - INFO - CUDA device capability: (12, 0)
+2025-08-03 02:44:25,821 - INFO - GPU memory: 31.8 GB
+2025-08-03 02:44:25,821 - INFO - GPU: NVIDIA GeForce RTX 5090
+2025-08-03 02:44:25,821 - INFO - RTX 5090 compatibility verified ✓
+2025-08-03 02:44:25,821 - INFO - 🚀 Starting RTX 5090 Training Pipeline for 'Echoes of Me'
+2025-08-03 02:44:25,831 - INFO - Training status updated: running (progress: 0.0%)
+2025-08-03 02:44:25,831 - INFO - Loading training data from PostgreSQL...
+2025-08-03 02:44:25,838 - INFO - Loaded 117 training examples
+2025-08-03 02:44:25,838 - INFO - Total words: 5507
+2025-08-03 02:44:25,846 - INFO - Training status updated: running (progress: 10.0%)
+2025-08-03 02:44:25,846 - INFO - Preparing dataset...
+2025-08-03 02:44:26,576 - WARNING - Parameter 'function'=<function RTX5090TrainingPipeline.prepare_dataset.<locals>.tokenize_function at 0x7f7ff2311760> of the transform datasets.arrow_dataset.Dataset._map_single couldn't be hashed properly, a random hash was used instead. Make sure your transforms and parameters are serializable with pickle or dill for the dataset fingerprinting and caching to work. If you reuse this transform, the caching mechanism will consider it to be different from the previous calls and recompute everything. This warning is only showed once. Subsequent hashing failures won't be showed.
+2025-08-03 02:44:26,591 - INFO - Dataset prepared with 117 examples
+2025-08-03 02:44:26,600 - INFO - Training status updated: running (progress: 20.0%)
+2025-08-03 02:44:26,601 - INFO - Setting up Mistral-7B with QLoRA...
+2025-08-03 02:45:14,589 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-08-03 02:45:16,006 - INFO - Model setup complete ✓
+2025-08-03 02:45:16,025 - INFO - Training status updated: running (progress: 30.0%)
+2025-08-03 02:45:16,025 - INFO - Setting up trainer...
+2025-08-03 02:45:16,148 - INFO - Trainer setup complete ✓
+2025-08-03 02:45:16,173 - INFO - Training status updated: running (progress: 40.0%)
+2025-08-03 02:45:16,174 - INFO - GPU Memory - Allocated: 1.01GB, Reserved: 1.53GB
+2025-08-03 02:45:16,174 - INFO - 🔥 Beginning training on RTX 5090...
+2025-08-03 02:45:41,238 - INFO - Training status updated: running (progress: 51.1%)
+2025-08-03 02:45:41,239 - INFO - GPU Memory - Allocated: 1.12GB, Reserved: 1.73GB
+2025-08-03 02:46:04,006 - INFO - Training status updated: running (progress: 62.2%)
+2025-08-03 02:46:04,007 - INFO - GPU Memory - Allocated: 1.12GB, Reserved: 1.73GB
+2025-08-03 02:46:26,329 - INFO - Training status updated: running (progress: 73.3%)
+2025-08-03 02:46:26,329 - INFO - GPU Memory - Allocated: 1.12GB, Reserved: 1.73GB
+2025-08-03 02:46:49,750 - INFO - Training status updated: running (progress: 84.4%)
+2025-08-03 02:46:49,751 - INFO - GPU Memory - Allocated: 1.12GB, Reserved: 1.73GB
+2025-08-03 02:47:01,423 - INFO - Training status updated: running (progress: 95.0%)
+2025-08-03 02:47:01,743 - INFO - ✅ Training completed successfully!
+2025-08-03 02:47:01,743 - INFO - Training duration: 105.57 seconds (1.8 minutes)
+2025-08-03 02:47:01,863 - INFO - Training status updated: completed (progress: 100.0%)
+2025-08-03 02:47:01,864 - INFO - Training result: {'status': 'completed', 'duration': 105.56877851486206, 'model_path': '/training/final_model', 'training_examples': 117, 'final_loss': 1.786651971605089}

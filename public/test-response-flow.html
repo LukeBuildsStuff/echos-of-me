@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Response Submission Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .test-section { margin: 20px 0; padding: 15px; border: 1px solid #ccc; border-radius: 5px; }
+        .success { background-color: #d4edda; border-color: #c3e6cb; }
+        .error { background-color: #f8d7da; border-color: #f5c6cb; }
+        .warning { background-color: #fff3cd; border-color: #ffeaa7; }
+        button { padding: 10px 15px; margin: 5px; background: #007bff; color: white; border: none; border-radius: 3px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        textarea { width: 100%; height: 100px; margin: 10px 0; }
+        pre { background: #f8f9fa; padding: 10px; border-radius: 3px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Response Submission Flow Test</h1>
+    
+    <div class="test-section">
+        <h2>1. Authentication Test</h2>
+        <p>Test authentication with credentials:</p>
+        <input type="email" id="email" placeholder="Email" value="test@example.com">
+        <input type="password" id="password" placeholder="Password" value="password">
+        <button onclick="testAuth()">Test Login</button>
+        <div id="auth-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Load Questions Test</h2>
+        <button onclick="loadQuestions()">Load Questions</button>
+        <div id="questions-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Daily Status Test</h2>
+        <button onclick="checkDailyStatus()">Check Daily Status</button>
+        <div id="status-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>4. Submit Response Test</h2>
+        <p>Select a question ID:</p>
+        <input type="number" id="questionId" placeholder="Question ID" value="1">
+        <textarea id="responseText" placeholder="Enter your response here...">This is a test response to verify that the response submission system is working correctly. I'm testing the complete flow from authentication to saving responses in the database.</textarea>
+        <br>
+        <button onclick="submitResponse()">Submit Response</button>
+        <div id="response-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>5. Get Responses Test</h2>
+        <button onclick="getResponses()">Get My Responses</button>
+        <div id="get-responses-result"></div>
+    </div>
+
+    <script>
+        let currentSession = null;
+
+        async function testAuth() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const resultDiv = document.getElementById('auth-result');
+            
+            try {
+                // Test NextAuth signin
+                const response = await fetch('/api/auth/signin', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password, callbackUrl: '/' })
+                });
+                
+                resultDiv.innerHTML = `<div class="warning">Auth Response: ${response.status} - ${response.statusText}</div>`;
+                
+                // Try to get session info
+                const sessionResponse = await fetch('/api/auth/session');
+                const sessionData = await sessionResponse.json();
+                
+                if (sessionData.user) {
+                    currentSession = sessionData;
+                    resultDiv.innerHTML += `<div class="success">Session found: ${JSON.stringify(sessionData.user)}</div>`;
+                } else {
+                    resultDiv.innerHTML += `<div class="warning">No session data found</div>`;
+                }
+                
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">Auth error: ${error.message}</div>`;
+            }
+        }
+
+        async function loadQuestions() {
+            const resultDiv = document.getElementById('questions-result');
+            
+            try {
+                const response = await fetch('/api/questions/role-based');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `<div class="success">Questions loaded: ${data.questions?.length || 0} questions</div>`;
+                    if (data.questions && data.questions.length > 0) {
+                        resultDiv.innerHTML += `<pre>${JSON.stringify(data.questions[0], null, 2)}</pre>`;
+                    }
+                } else {
+                    resultDiv.innerHTML = `<div class="error">Questions API error: ${response.status} - ${JSON.stringify(data)}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">Questions error: ${error.message}</div>`;
+            }
+        }
+
+        async function checkDailyStatus() {
+            const resultDiv = document.getElementById('status-result');
+            
+            try {
+                const response = await fetch('/api/daily-status');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `<div class="success">Daily status: ${JSON.stringify(data, null, 2)}</div>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">Daily status error: ${response.status} - ${JSON.stringify(data)}</div>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">Daily status error: ${error.message}</div>`;
+            }
+        }
+
+        async function submitResponse() {
+            const questionId = document.getElementById('questionId').value;
+            const responseText = document.getElementById('responseText').value;
+            const resultDiv = document.getElementById('response-result');
+            
+            try {
+                const response = await fetch('/api/responses', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        questionId: questionId,
+                        responseText: responseText,
+                        isDraft: false
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `<div class="success">Response submitted successfully!</div>`;
+                    resultDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                } else {
+                    resultDiv.innerHTML = `<div class="error">Response submission error: ${response.status}</div>`;
+                    resultDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">Response submission error: ${error.message}</div>`;
+            }
+        }
+
+        async function getResponses() {
+            const resultDiv = document.getElementById('get-responses-result');
+            
+            try {
+                const response = await fetch('/api/responses');
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultDiv.innerHTML = `<div class="success">Found ${data.responses?.length || 0} responses</div>`;
+                    if (data.responses && data.responses.length > 0) {
+                        resultDiv.innerHTML += `<pre>${JSON.stringify(data.responses[0], null, 2)}</pre>`;
+                    }
+                } else {
+                    resultDiv.innerHTML = `<div class="error">Get responses error: ${response.status}</div>`;
+                    resultDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<div class="error">Get responses error: ${error.message}</div>`;
+            }
+        }
+
+        // Check session on page load
+        window.onload = async function() {
+            try {
+                const sessionResponse = await fetch('/api/auth/session');
+                const sessionData = await sessionResponse.json();
+                
+                if (sessionData.user) {
+                    document.getElementById('auth-result').innerHTML = 
+                        `<div class="success">Already logged in: ${JSON.stringify(sessionData.user)}</div>`;
+                }
+            } catch (error) {
+                console.log('No existing session');
+            }
+        }
+    </script>
+</body>
+</html>

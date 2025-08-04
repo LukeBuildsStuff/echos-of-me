@@ -1,0 +1,24 @@
+{
+  "passageId": "wisdom-legacy",
+  "passageText": "As I thoughtfully look back on my entire life journey, I clearly realize that the most profoundly important lessons often came beautifully disguised as completely ordinary moments. The precious wisdom I truly want to share with you wasn't learned in traditional classrooms or from books alone—it came from actually living, from making inevitable mistakes, from celebrating victories both magnificently big and quietly small.\r\n\r\nI've learned that genuine resilience isn't about being strong all the time; it's about knowing exactly how to bend gracefully without breaking completely. True kindness is never weakness—it's one of the absolute greatest strengths we possess. And love? Real, authentic love isn't just a fleeting feeling; it's a conscious choice we make every single day to show up completely for the people who matter most to us.\r\n\r\nThese are the priceless treasures I want to leave with you: the deep understanding that every person you meet is fighting their own battles, that heartfelt gratitude can transform even the most difficult days, and that your voice—your thoughts, your dreams, your unique perspective—matters infinitely more than you might realize. Carry these fundamental truths with you always, and remember that you are capable of so much more than you know.",
+  "audioFile": "voice_wisdom-legacy_1753804491476.webm",
+  "timestamp": 1753804491476,
+  "duration": 75,
+  "quality": {
+    "overall": 16,
+    "volume": 5,
+    "clarity": 0,
+    "consistency": 2,
+    "emotional": 0,
+    "phonetic": 100,
+    "duration": 0
+  },
+  "phoneticFocus": "Reflective pace, wisdom tones, meaningful pauses",
+  "requirements": {
+    "minDuration": 55,
+    "optimalDuration": 70,
+    "meetsTrainingRequirements": false
+  },
+  "processingStatus": "pending",
+  "processed": false
+}

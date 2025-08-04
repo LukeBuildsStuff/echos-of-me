@@ -1,0 +1,25 @@
+# RTX 5090 Training Dependencies
+# PyTorch 2.7.0a0+ (included in NVIDIA container)
+
+# Core ML libraries
+transformers>=4.40.0
+datasets>=2.18.0
+accelerate>=0.28.0
+peft>=0.10.0
+bitsandbytes>=0.43.0
+
+# Flash Attention 2 for RTX 5090
+flash-attn>=2.5.6
+
+# Database and utilities
+psycopg2-binary>=2.9.9
+tqdm>=4.66.0
+scipy>=1.12.0
+
+# Monitoring and logging
+wandb>=0.16.6
+tensorboard>=2.16.2
+
+# Additional utilities
+numpy>=1.24.0
+packaging>=23.0

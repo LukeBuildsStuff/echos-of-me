@@ -1,0 +1,45 @@
+# RTX 5090 Training Environment with PyTorch 2.7.0a0+
+# NVIDIA Container optimized for sm_120 architecture
+
+FROM nvcr.io/nvidia/pytorch:25.04-py3
+
+# Set environment variables for RTX 5090
+ENV NVIDIA_VISIBLE_DEVICES=0
+ENV CUDA_VISIBLE_DEVICES=0
+ENV PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:1024
+ENV TORCH_COMPILE_DISABLE=1
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    postgresql-client \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Verify PyTorch version and CUDA capability
+RUN python -c "import torch; print('PyTorch version:', torch.__version__); print('CUDA capability:', torch.cuda.get_device_capability(0) if torch.cuda.is_available() else 'No CUDA')"
+
+# Install training dependencies optimized for RTX 5090
+RUN pip install --no-cache-dir \
+    transformers>=4.40.0 \
+    datasets \
+    accelerate \
+    peft \
+    bitsandbytes \
+    scipy \
+    psycopg2-binary \
+    tqdm \
+    wandb \
+    tensorboard
+
+# Install Flash Attention 2 for RTX 5090
+RUN pip install flash-attn --no-build-isolation
+
+# Create working directory
+WORKDIR /training
+
+# Copy training scripts
+COPY . /training/
+
+# Set default command
+CMD ["python", "rtx5090_training_pipeline.py"]
