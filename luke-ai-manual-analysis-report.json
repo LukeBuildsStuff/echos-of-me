@@ -1,0 +1,71 @@
+{
+  "testSummary": {
+    "serverRunning": true,
+    "aiEchoPageAccessible": true,
+    "aiEchoComponentExists": true,
+    "modelEngineExists": true,
+    "hasTrainedModel": true,
+    "hasConsoleSuccessLogging": false,
+    "hasVoiceIntegration": true
+  },
+  "detailedResults": {
+    "serverStatus": {
+      "mainPage": {
+        "status": "200",
+        "success": true
+      },
+      "aiEchoPage": {
+        "status": "200",
+        "success": true
+      }
+    },
+    "authEndpointTest": {
+      "health": {
+        "status": "200",
+        "success": true
+      },
+      "chatEndpoint": {
+        "status": "401",
+        "requiresAuth": true
+      }
+    },
+    "aiEchoEndpointTest": {
+      "error": "Command failed: curl -s -X POST http://localhost:3001/api/ai-echo/chat \\\n        -H \"Content-Type: application/json\" \\\n        -d '{\"message\":\"What's the most important thing you've learned in life?\",\"sessionId\":\"test-session-1754239033248\"}' \\\n        -w \"\\nHTTP_STATUS:%{http_code}\"\n"
+    },
+    "codeAnalysis": {
+      "aiEchoComponent": {
+        "exists": true,
+        "hasLukeModelReference": false,
+        "hasTrainedModelLogic": true,
+        "hasConsoleLogging": false,
+        "hasVoiceIntegration": true,
+        "fileSize": 45212
+      },
+      "modelEngineStatus": {
+        "exists": true,
+        "hasInferenceLogic": true,
+        "hasAuthenticityChecks": true,
+        "hasConsoleSuccess": false,
+        "hasPersonalityData": true,
+        "fileSize": 13544
+      },
+      "authenticationFlow": null,
+      "voiceIntegration": null
+    },
+    "trainingData": {
+      "trainingDirectoryExists": true,
+      "totalFiles": 37,
+      "modelFiles": 25,
+      "hasTrainedModel": true
+    },
+    "databaseConnection": {
+      "testExists": true,
+      "result": "Checking database structure...\n",
+      "success": true
+    }
+  },
+  "recommendations": [
+    "Console success logging not found - implement \"✅ LUKE TRAINED MODEL SUCCESS\" messages"
+  ],
+  "timestamp": "2025-08-03T16:37:53.348Z"
+}

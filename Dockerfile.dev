@@ -1,0 +1,45 @@
+# Multi-stage build for RTX 5090 support with Node.js
+FROM nvcr.io/nvidia/pytorch:25.04-py3 AS gpu-base
+
+# Install Node.js 20 in the GPU-enabled container
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js 20 via NodeSource
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
+
+WORKDIR /app
+
+# Install Python ML dependencies for RTX 5090 (use latest compatible versions)
+RUN pip install --no-cache-dir \
+    transformers>=4.46.0 \
+    peft>=0.11.0 \
+    bitsandbytes>=0.45.0 \
+    accelerate>=0.33.0 \
+    datasets>=2.21.0
+
+# Copy package files
+COPY package*.json ./
+
+# Install Node.js dependencies
+RUN npm install
+
+# Copy application files
+COPY . .
+
+# Set environment variables for RTX 5090
+ENV NVIDIA_VISIBLE_DEVICES=0
+ENV CUDA_VISIBLE_DEVICES=0
+ENV TORCH_CUDA_ARCH_LIST="9.0+PTX"
+
+# Expose port
+EXPOSE 3000
+
+# Verify RTX 5090 compatibility at startup
+RUN python3 -c "import torch; print(f'PyTorch version: {torch.__version__}'); print(f'CUDA available: {torch.cuda.is_available()}'); print(f'CUDA capability: {torch.cuda.get_device_capability(0) if torch.cuda.is_available() else \"N/A\"}')" || true
+
+# Start development server
+CMD ["npm", "run", "dev"]

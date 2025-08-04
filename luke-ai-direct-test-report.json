@@ -1,0 +1,170 @@
+{
+  "summary": {
+    "modelStatus": true,
+    "totalTests": 4,
+    "successfulTests": 4,
+    "authenticResponses": 0,
+    "avgTokensGenerated": 113,
+    "avgProcessingTime": 26064,
+    "avgTokensPerSecond": "5.8",
+    "device": "cpu"
+  },
+  "testResults": {
+    "modelStatus": {
+      "modelLoaded": true,
+      "device": "cpu",
+      "inferenceCount": 0,
+      "totalTokens": 0,
+      "gpuMemory": {
+        "allocated_gb": 0,
+        "reserved_gb": 0.048828125,
+        "total_gb": 31.84234619140625,
+        "usage_percent": 0
+      },
+      "processingTime": 8236,
+      "timestamp": "2025-08-03T16:41:40.958Z"
+    },
+    "chatTests": [
+      {
+        "question": "What's the most important thing you've learned in life?",
+        "response": "'ve come to understand that success is less about achieving external goals than building relationships that matter deeply. It's okay to fail but ultimately successful people learn from their mistakes, rather than dwelling on them. I want to create a culture where everyone feels empowered to take risks, learn from failure, and make meaningful contributions to the work we do. Ultimately, the key to long-term success isn't just about generating wealth - it's about creating value that matters to others.",
+        "tokensGenerated": 105,
+        "generationTime": 17.573707103729248,
+        "tokensPerSecond": 5.97483498389013,
+        "processingTime": 24011,
+        "analysis": {
+          "isAuthentic": false,
+          "personalVoiceScore": 0,
+          "personalPronounCount": 1,
+          "conversationalScore": 3,
+          "hasGenericPhrases": false,
+          "responseLength": 504,
+          "reason": "Insufficient personal pronouns"
+        },
+        "consoleOutput": [
+          "2025-08-03 12:41:42.027262: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.",
+          "2025-08-03 12:41:42.028547: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.",
+          "2025-08-03 12:41:42.050498: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.\nTo enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.",
+          "2025-08-03 12:41:42.461692: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT",
+          "/home/luke/.local/lib/python3.8/site-packages/torch/cuda/__init__.py:230: UserWarning: \nNVIDIA GeForce RTX 5090 with CUDA capability sm_120 is not compatible with the current PyTorch installation.\nThe current PyTorch install supports CUDA capabilities sm_50 sm_60 sm_70 sm_75 sm_80 sm_86 sm_90.\nIf you want to use the NVIDIA GeForce RTX 5090 GPU with PyTorch, please check the instructions at https://pytorch.org/get-started/locally/\n\n  warnings.warn(\n2025-08-03 12:41:43,150 - LukeAI - WARNING - RTX 5090 detected - forcing CPU inference for compatibility",
+          "2025-08-03 12:41:43,150 - LukeAI - INFO - Initializing RTX 5090 Inference Engine\n2025-08-03 12:41:43,150 - LukeAI - INFO - Device: cpu\n2025-08-03 12:41:43,150 - LukeAI - INFO - Model path: /home/luke/personal-ai-clone/web/training/final_model\n2025-08-03 12:41:43,150 - LukeAI - INFO - Loading Luke AI model...\n2025-08-03 12:41:43,150 - LukeAI - INFO - Loading tokenizer...",
+          "2025-08-03 12:41:43,203 - LukeAI - INFO - Loading base model...",
+          "2025-08-03 12:41:44,085 - LukeAI - INFO - Loading PEFT adapter...",
+          "2025-08-03 12:41:44,621 - LukeAI - INFO - Model loaded successfully in 1.47 seconds",
+          "2025-08-03 12:41:44,622 - LukeAI - INFO - GPU Memory - Allocated: 0.00GB, Reserved: 0.05GB, Total: 31.84GB, Usage: 0.0%",
+          "2025-08-03 12:41:44,624 - LukeAI - INFO - Warming up model...",
+          "2025-08-03 12:41:46,668 - LukeAI - INFO - Model warmup completed",
+          "2025-08-03 12:41:46,671 - LukeAI - INFO - GPU Memory - Allocated: 0.00GB, Reserved: 0.05GB, Total: 31.84GB, Usage: 0.0%",
+          "2025-08-03 12:42:04,245 - LukeAI - INFO - Generated 105 tokens in 17.57s (6.0 tokens/s)"
+        ],
+        "timestamp": "2025-08-03T16:42:04.971Z"
+      },
+      {
+        "question": "Tell me about your philosophy on work",
+        "response": "believe that the most meaningful work is the work we do for others while still enjoying what we're doing. When we feel like we're making a real difference, we're happier and more fulfilled than when we're just trying to please ourselves. I also believe that technology should support us rather than replace our human connection. Automation shouldn't be used as a replacement for empathy and connection - it should help us deliver better outcomes by freeing up time for deeper human engagement. Finally, I think that humans can learn a lot from studying successful systems rather than individual people. By studying how effective organizations operate, we can develop strategies that work even better for ourselves.",
+        "tokensGenerated": 146,
+        "generationTime": 24.591743230819702,
+        "tokensPerSecond": 5.936952034251273,
+        "processingTime": 31015,
+        "analysis": {
+          "isAuthentic": false,
+          "personalVoiceScore": 0,
+          "personalPronounCount": 2,
+          "conversationalScore": 4,
+          "hasGenericPhrases": false,
+          "responseLength": 714,
+          "reason": "No personal voice indicators"
+        },
+        "consoleOutput": [
+          "2025-08-03 12:42:09.065976: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.",
+          "2025-08-03 12:42:09.067401: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.",
+          "2025-08-03 12:42:09.091190: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.\nTo enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.",
+          "2025-08-03 12:42:09.526206: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT",
+          "/home/luke/.local/lib/python3.8/site-packages/torch/cuda/__init__.py:230: UserWarning: \nNVIDIA GeForce RTX 5090 with CUDA capability sm_120 is not compatible with the current PyTorch installation.\nThe current PyTorch install supports CUDA capabilities sm_50 sm_60 sm_70 sm_75 sm_80 sm_86 sm_90.\nIf you want to use the NVIDIA GeForce RTX 5090 GPU with PyTorch, please check the instructions at https://pytorch.org/get-started/locally/\n\n  warnings.warn(\n2025-08-03 12:42:10,212 - LukeAI - WARNING - RTX 5090 detected - forcing CPU inference for compatibility\n2025-08-03 12:42:10,212 - LukeAI - INFO - Initializing RTX 5090 Inference Engine",
+          "2025-08-03 12:42:10,212 - LukeAI - INFO - Device: cpu\n2025-08-03 12:42:10,212 - LukeAI - INFO - Model path: /home/luke/personal-ai-clone/web/training/final_model\n2025-08-03 12:42:10,212 - LukeAI - INFO - Loading Luke AI model...\n2025-08-03 12:42:10,212 - LukeAI - INFO - Loading tokenizer...",
+          "2025-08-03 12:42:10,266 - LukeAI - INFO - Loading base model...",
+          "2025-08-03 12:42:11,144 - LukeAI - INFO - Loading PEFT adapter...",
+          "2025-08-03 12:42:11,721 - LukeAI - INFO - Model loaded successfully in 1.51 seconds",
+          "2025-08-03 12:42:11,721 - LukeAI - INFO - GPU Memory - Allocated: 0.00GB, Reserved: 0.05GB, Total: 31.84GB, Usage: 0.0%",
+          "2025-08-03 12:42:11,724 - LukeAI - INFO - Warming up model...",
+          "2025-08-03 12:42:13,683 - LukeAI - INFO - Model warmup completed",
+          "2025-08-03 12:42:13,686 - LukeAI - INFO - GPU Memory - Allocated: 0.00GB, Reserved: 0.05GB, Total: 31.84GB, Usage: 0.0%",
+          "2025-08-03 12:42:38,279 - LukeAI - INFO - Generated 146 tokens in 24.59s (5.9 tokens/s)"
+        ],
+        "timestamp": "2025-08-03T16:42:38.990Z"
+      },
+      {
+        "question": "What advice would you give about handling challenges?",
+        "response": "learn best when I'm working on projects that align with my passions and values. Whether it's building software that helps people connect better or helping organizations improve their processes, the most fulfilling work is the one that feels like I'm making a real difference.\n\nThe key is finding projects where you have a deep sense of purpose and ownership. When you feel connected to something bigger than yourself, you're much more motivated to tackle difficult problems and learn new skills.\n\nFurthermore, learning how to collaborate effectively across teams and cultures is essential for success. Whether it's building relationships with peers outside my own discipline, understanding different perspectives, or navigating complex decision-",
+        "tokensGenerated": 150,
+        "generationTime": 26.71624732017517,
+        "tokensPerSecond": 5.614560989885929,
+        "processingTime": 33148,
+        "analysis": {
+          "isAuthentic": false,
+          "personalVoiceScore": 0,
+          "personalPronounCount": 4,
+          "conversationalScore": 4,
+          "hasGenericPhrases": false,
+          "responseLength": 745,
+          "reason": "No personal voice indicators"
+        },
+        "consoleOutput": [
+          "2025-08-03 12:42:43.110080: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.",
+          "2025-08-03 12:42:43.111484: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.",
+          "2025-08-03 12:42:43.135251: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.\nTo enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.",
+          "2025-08-03 12:42:43.557836: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT",
+          "/home/luke/.local/lib/python3.8/site-packages/torch/cuda/__init__.py:230: UserWarning: \nNVIDIA GeForce RTX 5090 with CUDA capability sm_120 is not compatible with the current PyTorch installation.\nThe current PyTorch install supports CUDA capabilities sm_50 sm_60 sm_70 sm_75 sm_80 sm_86 sm_90.\nIf you want to use the NVIDIA GeForce RTX 5090 GPU with PyTorch, please check the instructions at https://pytorch.org/get-started/locally/\n\n  warnings.warn(\n2025-08-03 12:42:44,211 - LukeAI - WARNING - RTX 5090 detected - forcing CPU inference for compatibility\n2025-08-03 12:42:44,211 - LukeAI - INFO - Initializing RTX 5090 Inference Engine",
+          "2025-08-03 12:42:44,211 - LukeAI - INFO - Device: cpu\n2025-08-03 12:42:44,211 - LukeAI - INFO - Model path: /home/luke/personal-ai-clone/web/training/final_model\n2025-08-03 12:42:44,211 - LukeAI - INFO - Loading Luke AI model...\n2025-08-03 12:42:44,211 - LukeAI - INFO - Loading tokenizer...",
+          "2025-08-03 12:42:44,265 - LukeAI - INFO - Loading base model...",
+          "2025-08-03 12:42:45,147 - LukeAI - INFO - Loading PEFT adapter...",
+          "2025-08-03 12:42:45,664 - LukeAI - INFO - Model loaded successfully in 1.45 seconds",
+          "2025-08-03 12:42:45,664 - LukeAI - INFO - GPU Memory - Allocated: 0.00GB, Reserved: 0.05GB, Total: 31.84GB, Usage: 0.0%",
+          "2025-08-03 12:42:45,667 - LukeAI - INFO - Warming up model...",
+          "2025-08-03 12:42:47,514 - LukeAI - INFO - Model warmup completed",
+          "2025-08-03 12:42:47,516 - LukeAI - INFO - GPU Memory - Allocated: 0.00GB, Reserved: 0.05GB, Total: 31.84GB, Usage: 0.0%",
+          "2025-08-03 12:43:14,233 - LukeAI - INFO - Generated 150 tokens in 26.72s (5.6 tokens/s)"
+        ],
+        "timestamp": "2025-08-03T16:43:15.141Z"
+      },
+      {
+        "question": "What matters most to you in relationships?",
+        "response": "'m curious about how technology can improve our ability to connect with others on a deeper level. What does it mean to be human, really? How can technology help us navigate the complexities of life without losing sight of what matters most?",
+        "tokensGenerated": 49,
+        "generationTime": 8.687891244888306,
+        "tokensPerSecond": 5.640033768704244,
+        "processingTime": 16082,
+        "analysis": {
+          "isAuthentic": false,
+          "personalVoiceScore": 0,
+          "personalPronounCount": 0,
+          "conversationalScore": 1,
+          "hasGenericPhrases": false,
+          "responseLength": 240,
+          "reason": "Insufficient personal pronouns"
+        },
+        "consoleOutput": [
+          "2025-08-03 12:43:19.513849: I tensorflow/core/util/port.cc:110] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.",
+          "2025-08-03 12:43:19.519917: I tensorflow/tsl/cuda/cudart_stub.cc:28] Could not find cuda drivers on your machine, GPU will not be used.",
+          "2025-08-03 12:43:19.599008: I tensorflow/core/platform/cpu_feature_guard.cc:182] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.\nTo enable the following instructions: AVX2 AVX512F AVX512_VNNI AVX512_BF16 FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.",
+          "2025-08-03 12:43:20.097632: W tensorflow/compiler/tf2tensorrt/utils/py_utils.cc:38] TF-TRT Warning: Could not find TensorRT",
+          "/home/luke/.local/lib/python3.8/site-packages/torch/cuda/__init__.py:230: UserWarning: \nNVIDIA GeForce RTX 5090 with CUDA capability sm_120 is not compatible with the current PyTorch installation.\nThe current PyTorch install supports CUDA capabilities sm_50 sm_60 sm_70 sm_75 sm_80 sm_86 sm_90.\nIf you want to use the NVIDIA GeForce RTX 5090 GPU with PyTorch, please check the instructions at https://pytorch.org/get-started/locally/\n\n  warnings.warn(\n2025-08-03 12:43:20,906 - LukeAI - WARNING - RTX 5090 detected - forcing CPU inference for compatibility",
+          "2025-08-03 12:43:20,906 - LukeAI - INFO - Initializing RTX 5090 Inference Engine\n2025-08-03 12:43:20,906 - LukeAI - INFO - Device: cpu\n2025-08-03 12:43:20,906 - LukeAI - INFO - Model path: /home/luke/personal-ai-clone/web/training/final_model\n2025-08-03 12:43:20,906 - LukeAI - INFO - Loading Luke AI model...\n2025-08-03 12:43:20,906 - LukeAI - INFO - Loading tokenizer...",
+          "2025-08-03 12:43:20,973 - LukeAI - INFO - Loading base model...",
+          "2025-08-03 12:43:22,208 - LukeAI - INFO - Loading PEFT adapter...",
+          "2025-08-03 12:43:22,871 - LukeAI - INFO - Model loaded successfully in 1.97 seconds",
+          "2025-08-03 12:43:22,871 - LukeAI - INFO - GPU Memory - Allocated: 0.00GB, Reserved: 0.05GB, Total: 31.84GB, Usage: 0.0%",
+          "2025-08-03 12:43:22,874 - LukeAI - INFO - Warming up model...",
+          "2025-08-03 12:43:24,789 - LukeAI - INFO - Model warmup completed",
+          "2025-08-03 12:43:24,792 - LukeAI - INFO - GPU Memory - Allocated: 0.00GB, Reserved: 0.05GB, Total: 31.84GB, Usage: 0.0%",
+          "2025-08-03 12:43:33,480 - LukeAI - INFO - Generated 49 tokens in 8.69s (5.6 tokens/s)"
+        ],
+        "timestamp": "2025-08-03T16:43:34.226Z"
+      }
+    ],
+    "consoleCapture": [],
+    "performanceMetrics": [],
+    "authenticity": []
+  },
+  "timestamp": "2025-08-03T16:43:34.227Z"
+}

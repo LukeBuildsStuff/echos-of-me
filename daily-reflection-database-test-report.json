@@ -1,0 +1,149 @@
+{
+  "testName": "Daily Reflection Direct Database Test",
+  "testDate": "2025-08-02T11:52:19.612Z",
+  "testUser": "lukemoeller@yahoo.com",
+  "results": {
+    "databaseStructure": [
+      {
+        "name": "Responses Table Exists",
+        "status": "PASS",
+        "severity": "Critical",
+        "details": "Responses table is present in database"
+      },
+      {
+        "name": "Required Columns Present",
+        "status": "PASS",
+        "severity": "Critical",
+        "details": "All required columns present"
+      },
+      {
+        "name": "Questions Table Exists",
+        "status": "PASS",
+        "severity": "Critical",
+        "details": "Questions table is present in database"
+      },
+      {
+        "name": "Users Table Exists",
+        "status": "PASS",
+        "severity": "Critical",
+        "details": "Users table is present in database"
+      }
+    ],
+    "userData": [
+      {
+        "name": "Test User Exists",
+        "status": "PASS",
+        "severity": "Critical",
+        "details": "User ID: 2"
+      },
+      {
+        "name": "User Profile Complete",
+        "status": "PASS",
+        "severity": "Medium",
+        "details": "Name: Luke"
+      }
+    ],
+    "questionData": [
+      {
+        "name": "Active Questions Available",
+        "status": "PASS",
+        "severity": "Critical",
+        "details": "Active questions: 345"
+      },
+      {
+        "name": "Question Structure Valid",
+        "status": "PASS",
+        "severity": "High",
+        "details": "Text: Present, Category: personal_history"
+      }
+    ],
+    "responseFlow": [
+      {
+        "name": "Response Insertion",
+        "status": "PASS",
+        "severity": "Critical",
+        "details": "Response ID: 11"
+      },
+      {
+        "name": "Response Text Preservation",
+        "status": "PASS",
+        "severity": "Critical",
+        "details": "Response text matches exactly"
+      },
+      {
+        "name": "User Association",
+        "status": "PASS",
+        "severity": "Critical",
+        "details": "User ID: 2"
+      },
+      {
+        "name": "Question Association",
+        "status": "PASS",
+        "severity": "Critical",
+        "details": "Question ID: 1"
+      },
+      {
+        "name": "Word Count Calculation",
+        "status": "PASS",
+        "severity": "Medium",
+        "details": "Word count: 25"
+      },
+      {
+        "name": "Draft Status",
+        "status": "PASS",
+        "severity": "High",
+        "details": "Is draft: false"
+      },
+      {
+        "name": "Timestamps",
+        "status": "PASS",
+        "severity": "Medium",
+        "details": "Created: Sat Aug 02 2025 11:52:19 GMT-0400 (Eastern Daylight Time), Updated: Sat Aug 02 2025 11:52:19 GMT-0400 (Eastern Daylight Time)"
+      },
+      {
+        "name": "Response Count Increment",
+        "status": "PASS",
+        "severity": "High",
+        "details": "Initial: 0, New: 1"
+      }
+    ],
+    "dataIntegrity": [
+      {
+        "name": "No Orphaned Responses",
+        "status": "PASS",
+        "severity": "High",
+        "details": "Orphaned responses: 0"
+      },
+      {
+        "name": "Valid Question References",
+        "status": "PASS",
+        "severity": "High",
+        "details": "Invalid question references: 0"
+      },
+      {
+        "name": "No Duplicate Responses",
+        "status": "PASS",
+        "severity": "Medium",
+        "details": "Duplicate response sets: 0"
+      },
+      {
+        "name": "No Empty Responses",
+        "status": "PASS",
+        "severity": "Medium",
+        "details": "Empty responses: 0"
+      },
+      {
+        "name": "Word Count Accuracy",
+        "status": "PASS",
+        "severity": "Low",
+        "details": "Checked 5 responses"
+      }
+    ]
+  },
+  "summary": {
+    "totalTests": 21,
+    "passed": 21,
+    "failed": 0,
+    "critical": []
+  }
+}

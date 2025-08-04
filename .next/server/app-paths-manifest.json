@@ -1,0 +1,7 @@
+{
+  "/api/health/route": "app/api/health/route.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/users/analytics/page": "app/admin/users/analytics/page.js",
+  "/admin/page": "app/admin/page.js"
+}

@@ -1,0 +1,155 @@
+{
+  "testName": "Daily Reflection API Endpoint Test (Manual)",
+  "testDate": "2025-08-02T11:54:20.180Z",
+  "testUser": "lukemoeller@yahoo.com",
+  "results": {
+    "apiLogic": [
+      {
+        "name": "User Email Lookup",
+        "status": "PASS",
+        "severity": "Critical",
+        "details": "Found user: 2"
+      },
+      {
+        "name": "Question Validation Query",
+        "status": "PASS",
+        "severity": "Critical",
+        "details": "Question found: What's your earliest vivid memory, and why do you ..."
+      },
+      {
+        "name": "Duplicate Response Check",
+        "status": "PASS",
+        "severity": "High",
+        "details": "Existing responses: 0"
+      },
+      {
+        "name": "Response Insertion Query Structure",
+        "status": "PASS",
+        "severity": "High",
+        "details": "Word count calculated: 10, Query structure valid"
+      },
+      {
+        "name": "Actual Response Insertion",
+        "status": "PASS",
+        "severity": "Critical",
+        "details": "Response ID: 12"
+      },
+      {
+        "name": "Response Data Integrity",
+        "status": "PASS",
+        "severity": "Critical",
+        "details": "Response text preserved correctly"
+      }
+    ],
+    "authenticationFlow": [
+      {
+        "name": "Valid Session Processing",
+        "status": "PASS",
+        "severity": "Critical",
+        "details": "User ID: 2, Email: lukemoeller@yahoo.com"
+      },
+      {
+        "name": "Null Session Rejection",
+        "status": "PASS",
+        "severity": "Critical",
+        "details": "Correctly identifies missing session"
+      },
+      {
+        "name": "Email Fallback Logic",
+        "status": "PASS",
+        "severity": "High",
+        "details": "Detects need for email-based user lookup"
+      }
+    ],
+    "dataValidation": [
+      {
+        "name": "Valid Payload 1",
+        "status": "PASS",
+        "severity": "High",
+        "details": "QuestionID: 1, ResponseText: 30 chars"
+      },
+      {
+        "name": "Valid Payload 2",
+        "status": "PASS",
+        "severity": "High",
+        "details": "QuestionID: 1, ResponseText: 36 chars"
+      },
+      {
+        "name": "Valid Payload 3",
+        "status": "PASS",
+        "severity": "High",
+        "details": "QuestionID: 1, ResponseText: 28 chars"
+      },
+      {
+        "name": "Invalid Payload 1 Rejection",
+        "status": "PASS",
+        "severity": "Medium",
+        "details": "Correctly rejected invalid payload"
+      },
+      {
+        "name": "Invalid Payload 2 Rejection",
+        "status": "PASS",
+        "severity": "Medium",
+        "details": "Correctly rejected invalid payload"
+      },
+      {
+        "name": "Invalid Payload 3 Rejection",
+        "status": "PASS",
+        "severity": "Medium",
+        "details": "Correctly rejected invalid payload"
+      },
+      {
+        "name": "Invalid Payload 4 Rejection",
+        "status": "PASS",
+        "severity": "Medium",
+        "details": "Correctly rejected invalid payload"
+      },
+      {
+        "name": "Invalid Payload 5 Rejection",
+        "status": "PASS",
+        "severity": "Medium",
+        "details": "Correctly rejected invalid payload"
+      }
+    ],
+    "responseHandling": [
+      {
+        "name": "Response Quality Assessment 1",
+        "status": "PASS",
+        "severity": "Medium",
+        "details": "Words: 1, Chars: 4, Quality: Low (expected: Low)"
+      },
+      {
+        "name": "Response Quality Assessment 2",
+        "status": "PASS",
+        "severity": "Medium",
+        "details": "Words: 17, Chars: 101, Quality: Medium (expected: Medium)"
+      },
+      {
+        "name": "Response Quality Assessment 3",
+        "status": "PASS",
+        "severity": "Medium",
+        "details": "Words: 42, Chars: 315, Quality: High (expected: High)"
+      }
+    ],
+    "errorScenarios": [
+      {
+        "name": "Invalid Question ID Handling",
+        "status": "PASS",
+        "severity": "High",
+        "details": "Correctly returns no results for invalid question"
+      },
+      {
+        "name": "Error Testing",
+        "status": "FAIL",
+        "severity": "High",
+        "details": "Error during testing: invalid input syntax for type integer: \"1; DROP TABLE responses; --\""
+      }
+    ]
+  },
+  "summary": {
+    "totalTests": 22,
+    "passed": 21,
+    "failed": 1,
+    "critical": []
+  }
+}

@@ -1,0 +1,805 @@
+{
+  "summary": {
+    "totalIssues": 51,
+    "critical": 8,
+    "warnings": 35,
+    "info": 8,
+    "testDate": "2025-08-03T00:40:33.658Z",
+    "testEnvironment": "http://localhost:3000",
+    "totalRequests": 14,
+    "slowRequests": 0,
+    "failedRequests": 2
+  },
+  "issues": {
+    "critical": [
+      {
+        "type": "critical",
+        "category": "functionality",
+        "description": "Invalid HTML structure - missing html tag",
+        "location": "/",
+        "recommendation": "Ensure proper HTML5 document structure"
+      },
+      {
+        "type": "critical",
+        "category": "functionality",
+        "description": "Invalid HTML structure - missing html tag",
+        "location": "/auth/signin",
+        "recommendation": "Ensure proper HTML5 document structure"
+      },
+      {
+        "type": "critical",
+        "category": "functionality",
+        "description": "Invalid HTML structure - missing html tag",
+        "location": "/auth/register",
+        "recommendation": "Ensure proper HTML5 document structure"
+      },
+      {
+        "type": "critical",
+        "category": "functionality",
+        "description": "Invalid HTML structure - missing html tag",
+        "location": "/dashboard",
+        "recommendation": "Ensure proper HTML5 document structure"
+      },
+      {
+        "type": "critical",
+        "category": "functionality",
+        "description": "Invalid HTML structure - missing html tag",
+        "location": "/daily-question",
+        "recommendation": "Ensure proper HTML5 document structure"
+      },
+      {
+        "type": "critical",
+        "category": "functionality",
+        "description": "Invalid HTML structure - missing html tag",
+        "location": "/admin",
+        "recommendation": "Ensure proper HTML5 document structure"
+      },
+      {
+        "type": "critical",
+        "category": "functionality",
+        "description": "Invalid HTML structure - missing html tag",
+        "location": "/training",
+        "recommendation": "Ensure proper HTML5 document structure"
+      },
+      {
+        "type": "critical",
+        "category": "functionality",
+        "description": "Invalid HTML structure - missing html tag",
+        "location": "/ai-echo",
+        "recommendation": "Ensure proper HTML5 document structure"
+      }
+    ],
+    "warnings": [
+      {
+        "type": "warning",
+        "category": "ux",
+        "description": "Missing or empty page title",
+        "location": "/",
+        "recommendation": "Add descriptive page titles for SEO and user orientation"
+      },
+      {
+        "type": "warning",
+        "category": "ux",
+        "description": "No semantic navigation found",
+        "location": "/",
+        "recommendation": "Add semantic navigation elements for better accessibility"
+      },
+      {
+        "type": "warning",
+        "category": "accessibility",
+        "description": "No H1 heading found",
+        "location": "/",
+        "recommendation": "Add H1 heading for proper document structure"
+      },
+      {
+        "type": "warning",
+        "category": "mobile",
+        "description": "Missing viewport meta tag",
+        "location": "/",
+        "recommendation": "Add viewport meta tag for mobile responsiveness"
+      },
+      {
+        "type": "warning",
+        "category": "functionality",
+        "description": "Expected content \"Echoes\" not found on /",
+        "location": "/",
+        "recommendation": "Ensure page content loads correctly",
+        "timestamp": "2025-08-03T00:40:31.525Z"
+      },
+      {
+        "type": "warning",
+        "category": "ux",
+        "description": "Missing or empty page title",
+        "location": "/auth/signin",
+        "recommendation": "Add descriptive page titles for SEO and user orientation"
+      },
+      {
+        "type": "warning",
+        "category": "ux",
+        "description": "No semantic navigation found",
+        "location": "/auth/signin",
+        "recommendation": "Add semantic navigation elements for better accessibility"
+      },
+      {
+        "type": "warning",
+        "category": "accessibility",
+        "description": "No H1 heading found",
+        "location": "/auth/signin",
+        "recommendation": "Add H1 heading for proper document structure"
+      },
+      {
+        "type": "warning",
+        "category": "mobile",
+        "description": "Missing viewport meta tag",
+        "location": "/auth/signin",
+        "recommendation": "Add viewport meta tag for mobile responsiveness"
+      },
+      {
+        "type": "warning",
+        "category": "functionality",
+        "description": "Expected content \"sign in\" not found on /auth/signin",
+        "location": "/auth/signin",
+        "recommendation": "Ensure page content loads correctly",
+        "timestamp": "2025-08-03T00:40:31.845Z"
+      },
+      {
+        "type": "warning",
+        "category": "ux",
+        "description": "Missing or empty page title",
+        "location": "/auth/register",
+        "recommendation": "Add descriptive page titles for SEO and user orientation"
+      },
+      {
+        "type": "warning",
+        "category": "ux",
+        "description": "No semantic navigation found",
+        "location": "/auth/register",
+        "recommendation": "Add semantic navigation elements for better accessibility"
+      },
+      {
+        "type": "warning",
+        "category": "accessibility",
+        "description": "No H1 heading found",
+        "location": "/auth/register",
+        "recommendation": "Add H1 heading for proper document structure"
+      },
+      {
+        "type": "warning",
+        "category": "mobile",
+        "description": "Missing viewport meta tag",
+        "location": "/auth/register",
+        "recommendation": "Add viewport meta tag for mobile responsiveness"
+      },
+      {
+        "type": "warning",
+        "category": "functionality",
+        "description": "Expected content \"register\" not found on /auth/register",
+        "location": "/auth/register",
+        "recommendation": "Ensure page content loads correctly",
+        "timestamp": "2025-08-03T00:40:32.294Z"
+      },
+      {
+        "type": "warning",
+        "category": "ux",
+        "description": "Missing or empty page title",
+        "location": "/dashboard",
+        "recommendation": "Add descriptive page titles for SEO and user orientation"
+      },
+      {
+        "type": "warning",
+        "category": "ux",
+        "description": "No semantic navigation found",
+        "location": "/dashboard",
+        "recommendation": "Add semantic navigation elements for better accessibility"
+      },
+      {
+        "type": "warning",
+        "category": "accessibility",
+        "description": "No H1 heading found",
+        "location": "/dashboard",
+        "recommendation": "Add H1 heading for proper document structure"
+      },
+      {
+        "type": "warning",
+        "category": "mobile",
+        "description": "Missing viewport meta tag",
+        "location": "/dashboard",
+        "recommendation": "Add viewport meta tag for mobile responsiveness"
+      },
+      {
+        "type": "warning",
+        "category": "ux",
+        "description": "Missing or empty page title",
+        "location": "/daily-question",
+        "recommendation": "Add descriptive page titles for SEO and user orientation"
+      },
+      {
+        "type": "warning",
+        "category": "ux",
+        "description": "No semantic navigation found",
+        "location": "/daily-question",
+        "recommendation": "Add semantic navigation elements for better accessibility"
+      },
+      {
+        "type": "warning",
+        "category": "accessibility",
+        "description": "No H1 heading found",
+        "location": "/daily-question",
+        "recommendation": "Add H1 heading for proper document structure"
+      },
+      {
+        "type": "warning",
+        "category": "mobile",
+        "description": "Missing viewport meta tag",
+        "location": "/daily-question",
+        "recommendation": "Add viewport meta tag for mobile responsiveness"
+      },
+      {
+        "type": "warning",
+        "category": "ux",
+        "description": "Missing or empty page title",
+        "location": "/admin",
+        "recommendation": "Add descriptive page titles for SEO and user orientation"
+      },
+      {
+        "type": "warning",
+        "category": "ux",
+        "description": "No semantic navigation found",
+        "location": "/admin",
+        "recommendation": "Add semantic navigation elements for better accessibility"
+      },
+      {
+        "type": "warning",
+        "category": "accessibility",
+        "description": "No H1 heading found",
+        "location": "/admin",
+        "recommendation": "Add H1 heading for proper document structure"
+      },
+      {
+        "type": "warning",
+        "category": "mobile",
+        "description": "Missing viewport meta tag",
+        "location": "/admin",
+        "recommendation": "Add viewport meta tag for mobile responsiveness"
+      },
+      {
+        "type": "warning",
+        "category": "ux",
+        "description": "Missing or empty page title",
+        "location": "/training",
+        "recommendation": "Add descriptive page titles for SEO and user orientation"
+      },
+      {
+        "type": "warning",
+        "category": "ux",
+        "description": "No semantic navigation found",
+        "location": "/training",
+        "recommendation": "Add semantic navigation elements for better accessibility"
+      },
+      {
+        "type": "warning",
+        "category": "accessibility",
+        "description": "No H1 heading found",
+        "location": "/training",
+        "recommendation": "Add H1 heading for proper document structure"
+      },
+      {
+        "type": "warning",
+        "category": "mobile",
+        "description": "Missing viewport meta tag",
+        "location": "/training",
+        "recommendation": "Add viewport meta tag for mobile responsiveness"
+      },
+      {
+        "type": "warning",
+        "category": "ux",
+        "description": "Missing or empty page title",
+        "location": "/ai-echo",
+        "recommendation": "Add descriptive page titles for SEO and user orientation"
+      },
+      {
+        "type": "warning",
+        "category": "ux",
+        "description": "No semantic navigation found",
+        "location": "/ai-echo",
+        "recommendation": "Add semantic navigation elements for better accessibility"
+      },
+      {
+        "type": "warning",
+        "category": "accessibility",
+        "description": "No H1 heading found",
+        "location": "/ai-echo",
+        "recommendation": "Add H1 heading for proper document structure"
+      },
+      {
+        "type": "warning",
+        "category": "mobile",
+        "description": "Missing viewport meta tag",
+        "location": "/ai-echo",
+        "recommendation": "Add viewport meta tag for mobile responsiveness"
+      }
+    ],
+    "info": [
+      {
+        "type": "info",
+        "category": "ux",
+        "description": "Consider adding loading indicators for better UX",
+        "location": "/",
+        "recommendation": "Add loading states for asynchronous operations"
+      },
+      {
+        "type": "info",
+        "category": "ux",
+        "description": "Consider adding loading indicators for better UX",
+        "location": "/auth/signin",
+        "recommendation": "Add loading states for asynchronous operations"
+      },
+      {
+        "type": "info",
+        "category": "ux",
+        "description": "Consider adding loading indicators for better UX",
+        "location": "/auth/register",
+        "recommendation": "Add loading states for asynchronous operations"
+      },
+      {
+        "type": "info",
+        "category": "ux",
+        "description": "Consider adding loading indicators for better UX",
+        "location": "/dashboard",
+        "recommendation": "Add loading states for asynchronous operations"
+      },
+      {
+        "type": "info",
+        "category": "ux",
+        "description": "Consider adding loading indicators for better UX",
+        "location": "/daily-question",
+        "recommendation": "Add loading states for asynchronous operations"
+      },
+      {
+        "type": "info",
+        "category": "ux",
+        "description": "Consider adding loading indicators for better UX",
+        "location": "/admin",
+        "recommendation": "Add loading states for asynchronous operations"
+      },
+      {
+        "type": "info",
+        "category": "ux",
+        "description": "Consider adding loading indicators for better UX",
+        "location": "/training",
+        "recommendation": "Add loading states for asynchronous operations"
+      },
+      {
+        "type": "info",
+        "category": "ux",
+        "description": "Consider adding loading indicators for better UX",
+        "location": "/ai-echo",
+        "recommendation": "Add loading states for asynchronous operations"
+      }
+    ]
+  },
+  "networkAnalysis": {
+    "requests": [
+      {
+        "path": "/",
+        "method": "GET",
+        "statusCode": 200,
+        "statusMessage": "OK",
+        "responseTime": 38,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "x-powered-by": "Next.js",
+          "content-type": "text/html; charset=utf-8",
+          "content-encoding": "gzip",
+          "date": "Sun, 03 Aug 2025 00:40:31 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "bodyLength": 11214,
+        "body": "\u001f�\b\u0000\u0000\u0000\u0000\u0000\u0000\u0003�}�n#ɕ�DӋA7�\f��R.i���./�ӽ�v\u0019�Ơ�\"Cd����̤(�i�\u0017\u0018,l�<.����]`�g~`�\t�s\"\"IJTIU��x{\u0001��[�s\"�ĹE��G���׿���d9����I�Y�MB39�\f����*\f%�-���0�M6�U�&���)W�lr]����\t���\u0010��l�����l\u001e��Y(\u00108!US\rUY\u0017����\u0019?!��ZmV��<PqU\rg��:t'dӇ\u000e[��u8kZxv]5oH\u0017�I?�֡_�0LȲ\u000bWg��o�p3��C9T��Yߟ���i]޶������_�q�\u0015w�H����y9�ź\u000b�0\u000f�,�M`�o\u001e\u001c�\u0010�u\u0017궜OHٟM�YW��\t�\n�l�EW�]5ܞM�v�\u0000v�M�?݆�u9{C\u001f���qP�w�\u0007��ʪ)���XR����l29y\u001a\u0007z�z]��E苪\u0019BהuO߿�X�\u001f�e3���'�0�3\r�&�C\u0006{�!B׵�\u0007�дCq�n����Җ��\u000f\u001acQ��e]����\u001a�p��ٲ���W���4\u0016�˃y�ͫ��\u0013\t�.�C eC>�\u0015\u0019��@�lن�ܶ��\f�v�X\u000e�\tY��o�����\u0013R6s���y��#s�����\u0010�r��M?<i��������rn�����\u000e�\u0014�F�w��oɬ.��l��7����U�&�Y`���ˏ���\u0015E\u0014���M\u0013T���`dh�\u0005#(\u0014#Wu�!��jSפ\u001aª/f\u00016\u0017)/���\f�\\.��+�~]v�\u0019&�/��u\u001e\u0016�XVM�\u000e��P�Cu\u001dH��)T|������궸\f�6�L��-\f\u0003\u0019\\$��0�M�b�\u0015\\L�_��D\u0015u�h�e���dBַ�#�h�\u0013��>\u0003̏���U�\f�e[ρ�EWΫ�\f��\u0016\u001d���UqYoBa\u0018#�UY�7ݺ����*�\u0018���պ�A\t���)2/�7/�t���09\\�K~��<y:��\u000f�pF2�B3G�L�w{�}W0R/^��>\u000b����BD��U��*̫�*�\u0001\u0019d\t�ދv]Ϊᶰ�.qd5����АUW����fX��բ�����բ!�j��\u0011�P����b�&������rh��v\u0005\u0005\u0016�\u000e\u0004R�\u0003���b�U���%O \"\"��S��'�MWB2��v�(2���\b:��\u000b��\u001f`��,,��\\�E9�=$)1b}SX@KF\u0014.�>|\u0000wq�[|M\u0018?�^�(\u001d���iW�\u0017����)\flu����߁p�c~�FG>��8\t����>�\u0010�j~6Y��0�'��PpF\u0000ݫ��\u0016�1wD�後�QD$\u0006�YV�4��pѕ�q��\f��)\u001aڽ��e�\rY\u000f��\\���? �.\u000f ��\b\u0001��Ό\u0010�9�D�\u0014l\u0007\u000e�ׂ\u0003�$Q�'���v����\u001e����vK��y�U�5Y�\u0014�fh�\\��E�p�Dq���m�-�.o�&T�\u0007�{uY\u0018rD~�\u0001u�b�\u0016�Ồ�_EH����\u0010��<V��\u001a~\u001fV֋X�oj�}X��)\u0004���\u0001A�E\u0017��]�����pB~�jGTA^��\f6cG~�\u00196] �\fM����G�:so�?�\u0010Ŭ��.���e�F��QF\u00076�M��;]F�Q\fd:��H�M:�\u0013\riKi\tLγ�E��j\u0016��m\u001cu�Y�\u0006B��\u0015�\u001eL\u001f�o��/��\u001fڮ\n�\t�.�\r|\u0003\u0017��\u000bЦoc��rUշdV6����mO�B�c�\u001ax���\t�Cx\u0013�\u0016�j^b\u0019�ׅUX]\u0006P�\u0002���Pk�&�\u0006D�����{2T�@_���\u001fŸ[f�\u0003gx\u0002�u9\u000b�md\u0017���-��\u0015���\u0015;�l�x��yڊ���6���)�����f�ҽ^<�IvR\f \u0014�(��\u001d~\u0003�y�\u001c�\tܘ}XU�9�v������v3��a��\u001dO�\u001d\"P���zqx����ܹj�U��;�.\u0007d\u001b����-�h�D�r�<��USWM(\u001e{��I����\t��\u0005d�#s\u0010��-\u001c^�m\u0007ʵ�?�\\���R�����pn�ţss\\����P5�$��C����IW�\u001e-�\u000e$���u���dMD�^�!�@=�\u0017$z�&J�\tY\u0006\u0018�l����3�g��ل\u0011F�f\u0004K�|;�4m\u0013&�fU7�\u0006\u000e�����v��[I�nq*\u0018c���br�rVu�:����DX;!�۳��\u0013ҝM��y�MW��uY5\u0003�\u0006�O�}#�\u000b��'`\u001a�1\u000e��z��x�\t\u001c�����o`���#�Y�7�p\u000eǓ��x�i�I��r&�'���&\u0014�d�R�&];�C����\u001a�\u0005I�H�����������l¨�Dn9E��\t\u001b�#\u0000�HA�\u0011�P�\\Qg\u0015I}I��Ʉ�C׾\t�H��AJ��\u001e�YD�z�%ǸÈԆ\bώ>^�\u0017O<�F��\f!�<�T>�\u0013�➤�$u;2M�-(��U�.�Pv�L�\u0013*��6����I�\u0015Ռ�\t�\u0005�[7!7\u0002����[��l>�~�TC6\u0001��p�~���\u000f�݇v\r��:�8g���O��\u0017\u0016�/C�N-ګ�\u001e\\�|r�q,�1t������q�ܧ�Φ�\u0013��T���\u00185c��w�4\n܏�x ܉OH�<�>!�����O&whe�+��|W�߇a��=�\u001d��a��o�gI\u0004\u0012��\u0011�I�\u0003��C{I\u001e�KB\u0018j�N[�\u0018ʵ���\u000bʵ�[JjN�x���öz�\\u��Q��\"\u0000\u0004�H��F�M�r��9��R\u001b=��@�>F+\u001e)H'g��X\u0002�Y�WC�9:��Q-T�Ox*\u0014�+8��PotZ��QЯ~p��4\u001e{�\u0016�M��l��]�\u00137���M��F��X��\u001d-V\u001aE��]��u9,��l��y�\u0015TJ&�R�\u0002��1TY�\bg�Jo�Q�3g\b׌r\u000b�*a��sʵ&\\\u001bʬ!Bx�=�FP�%\u0011FQ)%�)5�N��،[N� RZj�#��c-�F\u0000>DpAai�W�\u000e�\t<�N��=�\n!(�̎4i ��h��Jo�&�G\u0013`s@\u0013�\u00074IsH��\u000741H�T��ğ@���4\u0015BS�\u0018\u001f�R�(ρ&�#J�\u0003��e\u0007D1}H�b�D\t�\u000e�b�\u0011��\u0013��r�\u001d1�2���0�r�\r1�2�8Q�JX�Q� ��T�3A��S.\u0018\u0015�\u0011�\u0015����z�\t7�*Pk��\\Z$�k3\u0015\\Q\u0000��\nh֚j�\tw�r��p�:P�9�,�\u0018U�A�\u001e��ᡚ�d)2��P�Q�Z��\u001b\b\\�QMR_��=�Vq\u000f\u0019pB�\u0003cU��J�>P��{+�nwRK磄7 ��|R�\u001aPR�\u001azo\t�a�ٻ\u001fg�(��<D�X��H�8J,H��Ď5���c�zI�f6\u0011k�0VEb��^��\u001a�eT�&j�1jGq�j'�©�^�l\u001a�\"��S���\u0001�e\u000fٛw���ۛB0b�\u0011SS�'���)�ﮬ���<��@�.�\u0013\u000en!�\t\u0011L�&c���\u0010�^�5F$Ơj���ʷDU�C�O�m.�jN�\u0003��\u000bN\u0016��\u0002�ڕʷ\u00045\u0017]�Y\u001f\t\\���|��q����������?��cD�(��XT}\u0017\u00059�_�5ٯ�5��QD/�\"\u0005L�\"�B(����$�7�\u0016\t�\u0007�#��A\"p��5n2[\u000e1Z]\u0016� \\�,8`�Փ\u0002'O�\u0012C<#G�'���\u001f�����?����\u001f��ů��P_�=\u001cS6�A$:�`�r��~��/ڎ|��d��ʽ��.r�H�ur~\u0011��@.òj�d�v\u0018�l�z�\u000emOɗ˲\u000b1���uu\u0005��}ۤh)\u00065�a��s�,�\u0018�\\�o�+�.�\u0018��\u0002�їٲ��]hȶ��\u001cP]\u0002&�l\u0016 \n�\u001e�Q�9\u00108��ѷFi����nG��\"�SU�懸��`\u0019�{������_ϵ�~ٕ�|��;i̬H�\u0002�\nR\u000bn�\u000e\u0001B1�\"o��v�4ǥ�{bٶ�<B\u0017f�:�$��P��Sg��\u0014�\u001d�\u0002&\f�l��.[#�7M�%�e��\u001d �a\u0015�ϵ�ďn\u001f��ɑ\u0017hە��\u0007y4\u001d�\u0019����O��\\[��ס�%��u��[��0,CG.��n\u0017լ�OH9o���\u0013\u0002���9!mG.�\u0000���\u0004|p�re\u001f�k�m7,c^N\u0007\tA��2��~�\u0014��{\u0003�$�V��f���\u0014\u001c�s�\u001f��yh�\u001c|��OA��\n%&\u001fM\u001e�V��]\u001e�ǔ\u001c���ޞ��{P�o!\u0003\u001c�����B[�����\u0016USDo�\u000b\u000eYt�#'\u000eV蘗�[\u0011\u001f\u001df�=�@�T������V\u001a�\u0005_�[���L~�vo@\u0006��\u000b��T�]����g�����̫E5���0P]rJX{��������\u000e�\n�g\\W{����CO�\u0006s����ВY�:X3�Y\b��\u0003߷��W�=[�\u0011�!�k=�H����.!=5ɞ�-&Qn�Ƞ�|?�w/#�'a���d��%����\u001c\u0018�\u001b�\f8\u0003�٦K�\u0005�K�gH�\t�l\u0005#�M��V\u0013Ɉ�D\n*4��S��P\u0015\u001b(F\u0004<c�-�Q��܀c{���\u0006\u0012�K��g\u0012�il*\u0011��\u000e~�)|�*�\u001e#�s�k36��2wO��>=���\u0011 �1\u0015\f\u001e�\b�4\u0001�D���\u0001���{�\t�s��\u0011׷\u0000V$6r\u001c+��?\u0006l�U�\u0013\n��c\u001b��8��{���\\\u0005�ɓ�s�\u0011Ǚڛ(���y�8NT�\nN��,a[��g8E��<��#�y��<A8?yzr%6�\u001d��ę���\u0018��X�\u0013\u0006�h�i�Yɴ�Jl�;�\t���L��8��F�wHC\t�$W�:h����\rM�J��\u0015�k&\u0015\u0017��ZE���;n�zh,SO�Ɔa��Ͼ��@���L�g���̹�M�b����6d/��)W럦\u0014�;�Ǻ+�滬�{�\f\u001e�G>m�m�7��\u00124���,C�\rW�\u001e�?nB\u001fE~y\t\t�\u0007V�V�\r�MS��&�my�'�x���\u001b\u000er��e\u00077�P�����\b�Ӟ�>�+�WD��i��i@��HE�vj\n�8�\u0011��\n�=���\u0004k�\u0015s���\u0017�r�\rDT)g�O%uңLr�;\u0002ik�DX\u0013I\u0019s65v�S�\u001d\u0013D�؜O\u0019�ZZɡ�C�tW��\u0015\u0010��=\f�Bʋ�� �Sm��Fl\u0015�N@`\u001d�1{�����\u0017�Qτ��\t3��*e|z\u001a��\u0014������D|����z�8Ѓ�Oi���\"�\u0002�7\u0010�t\t�Djj�V������c�Lb�p�C�4M��;oF�\"�#\u0010�3\u0003\bJ�!\u0004L�2\u0006\bv�z��Q'#��V��z\u0015\tV�pE\u0005�3h�!(\u000bi��\"\u000fϨ�J�i~<�\u0013h�9��O\u0005���I=\u0004N�eiH��3��#M�ra�H8\t�r#]���\u000bI�\u0010B�4\u001dp�{\u0012�����\u001a��/ao��z����.e��`d��l\u001dʮ�I�\u000e(`�\\ܶݼ?!�YƢ\b��\u0019�v��t֮��n\u0000k��ӥ�p\u0003\u0006`O6ͬm��\u0005�\u0000�}тP�\u0003*��r\u0000\t�j��G!_���|��(_Ag��\u0011Ũ\u0010B�\u0012\n�9��ED����8����`�1Ƨ��a\u001f�(E�#wXE���Uz�Tbʜ\u001c�H\u001f\u001f���p\u001a�uz�4�gD�8\u0019�;d\u001cU�%ō��1�G=.�� �Q獻�5�4\u0018)�c\t�\rA�F��%֓<l�_I\u000f�j\rD�&�����'��f�;�\u0007�-=\u001f%\u001cveDz�^����\f`�csu�\u0017�#���&�\u0017����\u0016TK3�\"6#�ZXj���\\$,�\\)�{\u000b��$���Wp\u0004��؄���\u0017���\u001e\u0010\u0016\u001cq��/k�>����\u001e�c��a\u001ab\u000f��\u001d\u0013s���<\u0012\u001b�`���~\u0019�a��N#~O\u0012������\ntB��\u0019���-���lUա\u001f�&���s�a\u000e��\u0013�Bo�\u001b�̫��j��\u0007���(���T�PΖ�\u0013�\u0002Gu\u0013��M\bsR\r?\u001e��\u001cZ�􄋝\u001c\u0011In�rş�D��[�o,By ���\u0005�\u001bK��\u0012��\u0004�\u0016��\u0004)F�x%�T�4���=���r*�^�<\n��>�J��Mԅِ�$�^�)�\u0017�;%�\u0014\u001a}��mڮ�u\u0018\u0002������\b�ʺ�~�\r��t�tV�����*\u0006�@�IFb�B�CyKր�\u0010c��\u0016���Q�\u0001x\f���fFgh�C����R��\u000eˤ\u0018�V�l��������'��>񮻏S�\u0015do��e��\\��nRp�\u0003��\u0007�C\u001b\u0007)��\u001aq!=�\nҦ\r�.�\u0003�p\u0005ݝq\u001e�\"\u001cYPϼ�\u0007���\u0014�K4��XJ*�H���\u0000+�&�J�J�W\u0012LV���c��c+Hb\u0015\u000e���\n���\bk'��\u0014^�\u0004\u0006�uN\u0003�Z8�֊�8��\u0002�\u0017i��\u0017���S�m�\u0000{'��\u0005\u001b��@�c:��\n��!v��j�\u0017���\t�\u0014q����+j4��h�\u0014ةF*\r�9��Tj�\u00143\u0004�[��\r��ᷲ\u001a�\u0015$&'�\u0015��kp�zʘ\u0015�v�fh���(T�s�T��Eߛ\u0012\u0016�u|���:N\u0014\u0007&�ؓੰ@��^H`�A*��;8�(�������\u000eW�Qk�Q+�8�\br*u��\b͑�JCN���z|�\u0015\u000e�e�\u00011\u000b��c���l�Ԡ\u000ezj�v\u0019�r�T�\\/�Q\u0012�\u0011Q��0��(1�0��P$w�r�w�'\u0018\u0018�ݮ:���w\u0006��{��L#R\u000e6)��i$�\b�>\t/��\u0002���>\t\u0001�\u0007\u0012\u0011����؝Ƈ�\u0003��\\\rY�\u001a�+n��)ޕ��3�IV\t\u0001�� #\u0014�Rzlo�\u0001\u001c�O0�ԁy�\u0007K��\u0007㬃�y \u001d�=`\u000b7\\8�=E=�;��\fl|M%�W�R�Tt%9����ƥ/�@���,\u001ax\t�N��B�\r��ZoAPp�-\u0001UZr\u0003[�k\t ��\u0002(� �\u001a�\u0012\f\u001b�P�\u0015�H\u001dWОK�5r�)G\fe\u000e��A�r�\u0011f̂\u0000��@{f�B��\f�fR+�,$��=4f��\u0000�%\u0016o�D�d�$�2!�\u001b�q�\u0013K��Ƣ�r΢S\\{\u000f\u001bՀ|�Tp\u0006\u0006��V#�V+cPp[\r�I.��\nM���=7(\u0001!!�K\u0002�����&�j���\u0010�\u001a\u000b��r���\u0002,\f�C�\u000bؘP\u0000\b3X�\u001eB@�J�@p!����\u0010ઇ�\u0014\f�\u0002�H80���`��FBacJ`?���J��Kj��\u0001�\u00180x���L\u00016h6Y�5�ޠ�p¨���\n\u0003��<\u00148�]pI��hj�bn\n�2�`���h\u0007\u001b�a�\u0016pSBR\u0001NUC53LE�T��9'�z\b��Jb�\u0012 �9��{��\u0017\u0006\u0002&�D\u000bs)A\u0016A��\u0001H�z�3\u0012��X�7�B�\u0004Q\u001aW��\u001e��p\u0010)�r@���Nش�$� 5�u�\u001c�f� \u000f� ��5U�+X�\\9\u0000�\u0014\u0012H5�r\u0001�W��V�m2-\u0018h\n\u001c�H\u001b)�1�V��&�:���\u0002G�Ľ�\u0005$�W \u0017\u001d����)4\u001c`%�\u0001�Y��Vr;��a\u0006����\u0007�\b���q��\u0012�,h�`c����-+�\u0000�\u001a�\u0017��+\u0018]��S\bʄ��k���.�2\n�\u000b�A�\tj��\u0017#u\u0002�BOw\f��\u001bY�~\u0005�p�\t'�L��+��D���L��C5�(\u0003\u0015S��,��\u0001VJ�,:�#��\u0014fY��\u0002���R9�\u0011\u0016�\u0013p�{�����\u0003F\u001a�\"#��5�8C�\b����� /\u0000\u0006�qN\u0019�\u0013<\u0012��r��ã���2�\u001c�\u001c�\n�\u0007�N�\u0013\\�\u001d�,�'M�b��\u0018���\u0011\u0016�Cz�Q�\u0002^+`x\f\u0013(���\u0019��\u001d�\r\nmgQC�J�\b\u001a\u0017\u0015K\u0005�=�R\u0014�\u0012o6i�+T�\f\u0000��ή)�_qO�z��s��VpnA�\u0004�\t� �\n&*C\\\tt�s\u000fS\u0006��G\u0007_�=4U #\u000fU�����y\u0013�L�>�E��ߖw��>���*��YzO$�W�2�������զ\u001e�d^V�힅\u0007\u001e\u0015҅~�6}8�u����D;\u0012ލ\u0012��\u0002#\u0006���H7��U�\r��(�>}����n��\t\u0018�s\u0007\n��`�D\u0018��� %4hz~\u0007��\u0000u5Üz��^i�f��\fş�\u0015B\r��\fC��7bP�\u0004��0��G',s\u0012`�=(\u0011�]\u0003 �$h\u0004�\u001a4\u0017��:�b�8\u0013B:��r��w\u0012�i���\u0007�\u001f��H.ܾ�\u000335\u0019�p?\u0007u\"/\f\u001a7,Q\u0005�\t|� v\n&U*� ya0\u000eAY%A\u0001��\u001cEXj�A��&�\u0017�X�\u0000%���S#��\u000e�h���s��E\u001e\u000f�\u0004���<�!>�3� ��3{�W��N\u0013�U�x�\u0018g�5���w�\u0016��\u0003kFr�\u0014S\u0000c�P2j�F�3#/�\u000f\u000eZ(��\u0006�9\u000b\u0011\f��Q\u001fڃ���]l\u000e���\u0017�p\u001e����8O����@\bS�=Pr/��/M4��S�\u0000\u0018MY��\t7A�\bJp��\u0011�T*���ţ�����\u0011�G�1�A{i�ڙhqK�+hpe�%��G�/�R`vp\u001d�~�%DPQ�\u0016n�b,�j�\u00161�88\u0004�=6�Fst�z�q~�s��ĳQ�|-�Aa��[�\u000bFHn�T�Ù}�d�*zF\f\u00186#���\f�\t\u001c��`��j\u0010`�C��z��K-�g�\u0011��� AgP\u0002TN<'�\u0010>ï\u0010\u0013-��:+�\u001b�1\u001cQbd\".L�:�e\u0004mQx�P��H�#�\u0015�\u001d�!�\u0002S�\n�{+-, \u000b�\u0016C[\u0015\u0016E��4�kP<5�Qr;p�H�q�c\u0018���Q��\u000eb !s}��[��}O���\u00078\u0019Rz�߇��y��\n<��\u0006<�7�9�X�\u0014�G78|o!xr�{{'�5\\�5$���p�\u001c��}�aӅ�:�o��i\u0000�\u000f��#9��s�n|�)\\�\u001b��\u001a�g���;A����Oɗ�0�ʚ�EM\f��_�K�\u0016r'�\u0019�!����)����]6\u000f\u001d$��d�u���I�������x\u0002=H�^w�u5�\u0005\u0003��C\r��ܬ�\u0014�m��\\W]۬��j�N�\u0011���\u0001\u0004R�܌v�\u0010 �\u0004o��6�\u0019���\u0001�\u0001C��\u001cj���u�0��\u001a�<f���^�y4m�\u001d�J��^�SnT�M�fd]\u0018rY��̻v\r7����LN5����q]�=��S\u0016Zj�M��zq���\u000fܵ�\"�z�X�2�b�W�M��W\u000f\u0004�v��\u000e&u�ݮa:J|�w;��\u0010�|�`\u001e�a (��4���3T�n(��Q�m�¿������sM�/q��/�\u0016���)ػN\u0019/��\\ϝ���V:\u000f��J��-Y�M۽���v�߻��-��O���~���������Ǘ������x�4K�0\u0007\u0011\r�(eS<)?�Ï�w��s���\to�Fq�]\u001d}{o�%�n�j�{�'���y�Żf��\u0003���D��\u00007o@�!Uׅu]�\u0002�3\u001d�����Nq��S\u0012߾{\t�\u0017XQ�o\n\r�\u0006_���C�{\u0013h���߻�����y���o羺���ǋ�wÞ�[V������c|a�!�q�=3�8�g���\u0012����\b\b��� |�w\n�r�4�瀏��\u0014��ʣ���-�6�ȿ���\u0000\u0000\u0000���)N.�,(��(N�IӋ��K�(�O�E���D�j�\u0015�\u0016ghD\u001b�jZ�HBōt�Jsrb5m��\u0006\u0002\u0000\u0000\u0000��lP=o�0\u0010�/7�\u0014�8M\u000b�h�t`�ԡ#\u0017E�{n-\u0005���\b�߫\u001aFƧ���e\u0013]H/L�\u0015}��7�V�#�,��\u0000����\b2\u0013��N��\u0003}9-�ֶZW�\u0010���r�\"��hm�P ��'��`���\u0011ݷ�\b-B��\u001c(����.\u001d��^�a�:\u00049�y<&a�_�g�~��F==��ir(�y �\u000e}پ�\u0011�>\\K�u\u0013�)�O�\u0013E�\u000bz�[y��\u000f\u0000\u0000���V]o�0\u0014�/\u0016\u000f %Xh�֢j/��McR�J{�\u00112�M��\\G�CA\u0015�}�\u0003��\u0004P�\u001esϽ�\u001c�������}����l��r�d�\u0017vџ�\u0002�a�c�H��y��\u0014l87�Ղ\u0019�!E-`�iQ(��,�BZGc%\u0001\u001d�u�k\u0004t���F\u0017\u000e���e$�2�o(сA�J�\u0011븓1�\u0017\u0005�T�GY�C\u00140�H���5�U\u0011��������<�'��W��Z�累8\n��z-ήj1GX���\u0006;)\u0002\u0012^(�H0�\u0018ޞPq��w�\u0002\f�(`�%E�.�Y1Uڿr\"�w�\u0018`��?m1~\r�\u0006P�\t\u0013���A�+� �5:X�k\u000b�/��/=�\n~Kx͵q\u000f�h�'G{b��2���\u0014`��Y\u001fw-</�9[`�6M2\u001f����\u00168�y��P\u0012_\u000e�MQ�0�\u0005�\u000e\u00155ޜ���#\\H�4/����U���mI�3Oa��(��g�N��s\u0015�8~�t�7����\u0019{c\u0004y\u0006��KC\u0002F\u0000���\u0019�\u0012\f#\u001b���i��.���Wk�t�H�ý�-#\u0001\u0016J\u0005o�(��\u0019�X\u0003��\u000b��\u0001dd|Pzw��sÕ\u0002��o��������\u0005H3�V�Eէ������C�1['ǌ�\n\u0014�H�j/y�٭\u0015�nؿ����j.�\u001f:�Oꦩ3��P���\u0004tc\u001d\u0004�h\u0013E\f��I��m=f\u0012\r���\u000f�/\u0000\u0000\u0000���Vݪ�F\u0010~�A\u001c8-x\u001d��`B\u000b=iI!��\u0004za\u001d\u000e+�HڞՎ�\u001d�2!��Gh�r�w�#��-׎��O/�fg�w�o��gN���G�\u000f\u001f\u001e,���\u000f�Ɨ�-G�(�Ю�h�D\u001fЭ�%����ן���\n��wĿPcU\u0012\r�T\u001f���wҝ�\u001d��A���\u0019���G�\u0006/\u0018,��;.'I4��1�OI�\u0019����ON���J�d\u0014��٣��`]�\f�-�qk��*в���F��x\u0019�P�b�\u0005�Jm�C۹�Xj\u000f�%����[��[�9�>�w��SSzu>7�-�Edd��!�F��3��|�G���A���I,���y��&�q�\"�����א� �nF�ν���ˌ��\u001c\u001f��<���T�~\u001d\u001a٢:\r�+�G�<l��]!��U�P\u0001�9p�`���&tJ�!�E��P4Za��Tf��\u0004�\u0012�V�I\u000b\u0019YֶA�\u001dzt+m�p��>��x��\"��\u000fC��]�&���#�h�,�f�&?5�d���`��ay���!{~\u000ef�����hzж�aީ�Pҗ)�\u0003{Ԑߐ\u001bg�\rU�\u0010ǽ��h��C�f�|��?\u001a�:���u�\u0019�\b��v�\u0006\u0017�\u0004���\u0016#��NY�J7\u0015��\u0012�s�,BS�N?��z͚l�\tr\u001er�\u001a/V�����\u001a�\u0012�d����)aX���Ai/S�jQ�\u000e�\b\\�e���?�Zf�7b\u0016\u0003S����+���V�b9}Y��P�b\n�&$\u0012\u0006{\u0004i!J�Q��\u0018JZ�[��0/��t������ 6��h\u0002��,�=���\u001f���(�T\u001a-\u000b&� wT��\u0001S�\na��\u001f���\f�\u0016SH�)t����8���RN/��!cw�v�=9���\u001da��1��\r�\u001f1\u0010IA?v�wU�����_>{\u0004���P�x���'�h0\u000bY�\t�_Zl��o�)�t�\u0007�t���R*Z��=\u0018Ni\f���ns������S2n�S\u000fӟ_l�e�F�߿z��&�\u0017\u0000\u0000���V�n�6\u0014~\u0015B0�\u00150])i��(v��7\u000b�v�\u001aBà�#�\u001d�Cʶ\u0010�)v]\u0014��{�\t�\b\u0003)[�c;u�\u0002�e\u001d~:���x�76CQ�_-�b2�kX�y1�\u001b[�r����=�2ɭ��+`єE�ю*�E��������^�1��,�*!s\u0004\u001d���V�ᘳ�a6�c�(`r�`�X7R�{\u000f\u001e���C��2\r\u0012\t%�Z��4��%��>\u001ef�p\r\tG7��\u0001c�P\u0004//r.dK?5`�0���\t'�&��1�I�\u0014\u0012VD8P�f�\u001d )yMω��%]V�\u0001A��\u001cr*K�\u001a�\u0001׷.�8&�Y\u0000N����j+��e�\u0016rm�ρr)I� \u000f\u000fg���룷5�O��l%�K����l�!�'\u000b�#z\u0012�%\u001f���?]U�\u0019�n��\b\u0016p!tI\u0014(�\u0002�PY�u\u001auЁ����Īi��f��ᐶ���j_��d���Zj5}�E�\u0019U\u0018t�\"�\u0006*E��#�m�O��\u000eu�\f\u001f|��Ji�_���|�Jn�u$m\u001c�Ƒ�`i���Ü�C����\u0001wi/\u000eu��\u0002�%�AM�&��\t�-Q���;%\u0012�3K��&�)�U�[!0�ħ\r��>/i�1_��1��A(\u0003�,i�HI\u0014_ѥ\u0007�\u0015�3d����D\r<��]�2�>J΃��.N\u000bV\tM+j3\u0004�d�}l�\u0013E�Hj%�\\�v�\u0019�\")Шut\u00171qfЙ�ƌ��\u0017��t\u001b`�\u001cD(�.\u0003\u0016��i���=��|�?��2�8;.��M���=F�#�n��\u001a j�\\J���\u0001�\u000em�d����P*��=wU�g�:\u001b�\b\u0010\rv5��\u000f�[�J?��w=�6\u001c�́�%w�\u001b\u001b\u001ff�\u0005��X4�2-��<��#z�{\u0010m�;/�n�ر\r�|،N�����{\u0016�Mgn\fυ��E/��\u0016p\u0011vZ�\u000f���A}\u0015X����{���߸\u00076�d2�\u0004�\\�r㇣�WSO�t§������\u0017�?J�\u0003\u0000\u0000���S�j�0\u0010�\u0017�\u0004�:\"�lפ-��6\u0010��\u0016��1F+�עZɌ�%!�߃�uC��\u00173�˙�s�"
+      },
+      {
+        "path": "/auth/signin",
+        "method": "GET",
+        "statusCode": 200,
+        "statusMessage": "OK",
+        "responseTime": 317,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "x-powered-by": "Next.js",
+          "content-type": "text/html; charset=utf-8",
+          "content-encoding": "gzip",
+          "date": "Sun, 03 Aug 2025 00:40:31 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "bodyLength": 4784,
+        "body": "\u001f�\b\u0000\u0000\u0000\u0000\u0000\u0000\u0003�W�n�6\u0010~�\t[�dZk;�]WR�&)�C�\u0000)P\u0014EaP�HbL�,9�]��g��I\nJ����N�\u001aȩ�B\u0012G�O���p6��틟}�\nZ�L��+\u0018a���eeޢPe�!\t��\b�\n�S�/X�\u0011[�a��\u001aW�\u0005b �%�T��V�\u0016\n�Z\"\u001f\u0017G��&-\f�R\u0018,N��\u0013k��ݍ`\u0006ⵦB�%�#�#�QCT\u0006\u000b�ҷ���\u0010�\u0014,�`0��Ġ\rX\u0017,����,� -3\u0019c&�ό\u0018\\O�2�g�����㓋��g'�\u0017�\f� �}@�\n�Ă%��{\u0001�\r�\u0001�\u0013���\u0005�2hO\fj$پ\u000b�\u0005MC��[�c]��똭��B^\u001f�k\\V�\u0013(� ���\tm����~\u0010q��`�̳\t�3\u0000��܋\u0006#ז0Xa�����2�S�E�Xm��� �M\"\u001e\u0002�!�� \u0004�׮��a�8��m\u001e��\u0018W\t�?�\u0012i2X�����7�g�h��\u0015N��ٝ:~\u0011P\u0010����5P+\bP�\u000e#\f�\u000f@�뛖�\u0011x\f�Ya4\rG �����u�\u001aE�G�'r�>��>��ޙ��f�A��8�\u001b��0�ZU��\u0000҈\u0018\u000bvu5>�$:��\u000b�\u000b���\u0011�_s^�J/g���\u001a:myˣ\f�\u00164a\u0017���}Hf�z��U�+!����\u000f~�\u001f�=�Q���\u0006*\u0017ԴC�������.�\u0006 �B�\u0015�\u001d�x�\u001b�Z\"_�N��6�\u000b��@�B\"\u001f���\u0013���\u0006y�/5���.g�G�t�\u0002\nB^k�p�MKӦӵa�/h��\u0010~\u0010�:�ڳ2�3¨\u0014�I��\tw�g�{�X�\u0016ȍ�ѶG�zm\u0012�'�<=�%�|�gJ/��J�{�\u000bV�\u000b�,�ݻ\u0015�Y|��܈\n�m#Gw;T����XY�:��\u0011\u0003W:�\u0003D]�>D\u0017x�`a�[���༐�\u0006~�`P�P0�6�|�ny6~�̵�=\u0001\r\u001eg��d��d1�t�D���\u0018o|¸C�3�\u0003?�ٯ�\u001cqu\u001d�v\u0015km�r\u0003�ج\u001aNA��E@K�l\u001b���\r�7Bb��py0�P;�G��QW\u0006/]OF[�B��j����0]\u000e�7����r'#O\u0016\f���{ǃ�%�}?�8��c\u0010��^\u0007T\u0005c�\u0014�O\r#;@�]Zݮ����BZ�8\u001e}Y\u0016z\u0011��\u0005��w��-\u0017Ş\u0011�8Q�\u0007݉0@���D��\u0012��D�S�v�q�o�\u001c\u00050\u000b�噘��K���Y��X\u0013�=�����\u0007�(��'rvΞ�����~�\\��p*\u0019�VA��4\u001f*�{�8&L�Y#�h.�/\u001bv�����\u0012-��+\u0007�\u000e�z�r\u0012����sI���.w�R�Q̾]lF��\u001e_�����0�|�\u0012�)��W��͉���ٔ�2O\u0005��u�����9�|��7_�OϿ#h�r\u001cڄ����,\r>�y\t�z�g������p1�����p����l��>9�}�oρ)�_\u0000\u0000\u0000���)N.�,(��(N�IӋ��K�(�O�E���D�j�\u0015�\u0016ghD\u001b�jZ�HBōt�Jsrb5m��\u0006\u0002\u0000\u0000\u0000��lP=o�0\u0010�/7�Rj�)4(��t����E�e��Rp,�I�\u0010���ad|z�zK6х�b��:O��Y\u0011���W\u0005��{�G����trF��ത��U]\u0019CT*k�7\u0016A�\u000e�V\b\u0005�\u001d|B(�\b&\u000e����#4\b�NS���u�a���g��Y�\u0010d��ᜄa^������B}��zQ�PNSO\b-����\"x}����&�c�;�#E�\u001bzh_����\u001f\u0000\u0000\u0000���V�N�0\u0014~��B\u001aHq���\u0001B���Mb\bmh7uU��I��ؖ}R�\u0010����n{�)\t-\rm\nB�M������q����\n��\u001cȤ7\u001e+(q��L��a蓽�CF��1��\u0014\u001c�X}���\u0004�@�\u0018ƹ�\u000b\t.��A,\u001c\u0006�\u0014�0�tn�\u0002�.��V\u0017\b���1�\u000f\u0019y&\u0014\n�*.�\u0002#\u000e9�(��B�4�\u0017]5��g��\u0011S\u0007��׬�\u0004\u001b�wZ�^�\u0014�k����\u001a�ܘ�\u0017�\u0005N�J��v����Y����L23\u0014C�\u000b���ሩ��HN�;]����&\u001cZP1X�X�S��H�@#�\u0010Jܴa�����oz\"$�\u0014pk��sQ���d�1ܦ�<�\u0011S���\u001b��\"\u0006�ޯz5��u�W\u000e5X�m[�^��j�Wm0�}���B�,N;P\u001ai�\u000b\u0015w����\u0013\u000e�}�\u000b!\u0017\"���B�/Rn\u0016�b~��s�)\\�\u0010���+Q�RO��+\u0012_�t������?>�gD�\u001c\u00189�\u0002�\u0019\u00015�_~���e䁩�v[u�]<\u001f�\u0015��\r��x>�̊vh��r�ٚ,�~\u0001\u001e��\u0002��eĵ@\tk\u0000CF��r�ǈ�\n)�{F\"ɝ���$Z!u�������G7B�\u0014E��W]Et��^ݕ�B\t͢\u0001\u001e\u0001=���|Bwk�(\u00132��j��L8�c�ip�\u0003z�Kᐑ�Q����XL��I(��A#-=g*�;\u001a�\u000e<C\u0007��\b���3\u0013�����M\u001a5ˠ��6�(\u0018����O��gd+�7��!5�)#�'��bX�~ߓP3Ԃ�%T���vN��\u001f�\u0000\u0000\u0000���V͎�H\u0010~���\u0004+���\t#\u0014�]���J�\u0003\u001c\u0010��Q�]��iW����\b�3p��\n��'�\u0011���LBfF����`[]�]���~\u0011\no[�3�+���+9/�m\f���h�dIQ[g<R�L��o���\u0004Xs|�@Xj2��\u0000�%H����\u001a�k��\u0006�q�*Z��\u0007亸\u0000aX��7�B\u0013\u0014Lb)\"�\u001e\u0003������n]X�\u0001\u001al�[\f�,���/�\u0019�F�W_��t�}agڛ3&A�,\u0019d\tҢ��G�@�%�\u0019�N�]^F\u0011�c��;�a�z�Ùc�{�fY�W?z3\u001agɀ�s�/YR{,{�F�:g�Mo�\u0007�;��\t^s�IQ8\u001d��m\r��%T��\u0015X�&�\u0002I�ç\u0018Ė��rY[���\u0002\u0015���\u0016<G2hTc@p%*4P2�j��؀�T).ˀ�:P�޾���\u0015ˤ\nv�\u0003�\\Ġ\u00166��ᔣ�\u0005\u0011\u0013���#�o\u0013v���W��`lйC3m�v�Q�@���r��V\u0017V��Y\n±��h_�@cI�j6yޮ�Ю�\u0004�uW�Õ\u001aA^��[T��\u0014j^��n%�i�iM߼��\u0019�&\u000f���\u0006{c\u0017;��تShE��Ah�N���8y�*��E\u0012%�<�����@X\u0015ܔ�[m��&��@h�\u0004r�\u0006��g�7Nӻk�'w��s�B\u0012��&�ў�)4�:9���~`,9:ӏ\rg/�\u001b$\u0015��u~p����;�?{�\u0011����� �1\u0015\u001d\u001e�J��\u0004�'�6̺��Uw �%���Z\u001ajmxٝߝé�\u0003\u0013��\u0017�b\u0018ZMw��#7^�C�~~���^`\u001e����G��ܯn�:�\u0019�\u0011w\u0013����\u001f�K�����\u0013���'o+�/�\t��uk�9b���?��!ԏ��O����x���\u0017�\u0017\u0000\u0000\u0000���V݊�F\u0014~�A\u0018���Z�zwcB!d�Rj���ǈ�t$M�\u001fqf�\b~�ҫ�^\u001f��Ȗ��K�&`d�������#��ɐ��g\u0003��'���M�yݘ��6\u000e\u0003�Hb�`�J�\u0010�/\u00164\bi�U\\�\b�\u0006+\u001a<0.Z�\u0001c�V�\u0006�]����{�|O�P5B�_h�\tf�\u001fL�\u000f�y�0����\u001f��\\5@j\u0004\u0003��$\u0012�F\u000e�����/+]\b8\u0010w�2-��+�������|\r��;�l\u001d���Ņ|o\u0019(\u000bH�膤e�iYh��rAP7*�<\u0002�\"ˀ�\u001as��W���t*۾x���]\u000e2|pc&2��������Z\u001bK��\u0012�-)4��Zw>��\u001be�*nj�q��5v?�\u0001[b,Ԅ+��\u0006���e-��\u001bTВ�\u0019\"�)�{D\u0004�W�dgMX]��\u0000/B�\nV/��<|QzV\u0018�'�\f��\b�� OQ�\bA$;DO�Y\u001e\"�XML�r�-c�j`\u0019\\%�\u0006��\u0013Q\u001c{\rQ��\f��*�\"�!��%܂4ge}n��E���Jd9\u0007e#��\u0014I�Z��-\u0017��\u0001/SZf�&J��\u000b��J1\u0000(�*����6�m���g{J��9��\f\u0016��*��Y�g(��:\u001d�\u0002a��\u001bx�\f�\u0010 �ԍ\u0005�\u001dZ��\u0012\u0017��@)A�\r�U��r�\u000bi\u0000�\u001a�\u0011ux��Ѷ½�V���ѿW{�\u0005Y\u000bfa��~��ũOG��\u0013i�\u0015�>���O\\���8�vgc�\u0000���ޤ*^�\u001e��@��Yk�sǮ�E���\u0011p��̻\u000fZ�o\u0007�`\f+�,\u001b�����+[=��;��w����ٲw+W���~\u001c�l\u0000[mwT-�h�\f��\r\u0017�oݜr؃еc�{2c�n\u0010\n~��hPl\u0018v��L�q2q���'�p�-g�/\u0004�]'�<EN��Dӓ$ټ��c������\u0018N�\u001f=Zl`\u0000�\u0011 `�}7P����\r\r�+�\u001c. ���ﴋ��\u001f��1̪���\u001f����8-��� �jt=�[�������q�y$4Ȃ�\u000f�~<���\u001f\u0000\u0000���Tۊ\u0013A\u0010��&\u000f\nM�F�ɆUAQ\u0014\u0005�}�az\bmOM��R�t׈A��2�l���_�oC���:�zn��!��\u0002�/7\u001b�?��i,Ó�h5\u0004�2�U��\nr�٪�U��:�\u0003Ag�\u001dp�{�2\u000f˜{q�]B�`պ�j!�ŗ�U�FD���^$͏9g�O��\u001f�H�C�̀C�\n���\u001b�uA�>S�*��\u0010\u0001�Ǒ!��t�g!�U\u0005�; ��x8��\u001f��)�/���_��4g�\u0018�|<�j�>\u0003Ji�.\u0003\u0000\u000b:d�%^�}W�\u001d\u0007_�R*�R�n\u001fG^�R��~e�\u0017fe^>7�����C\u0007�Az�\u000b��p4.�R��\rt�&V-�'Se#�#se�nZݴ\u0002�8b�\u0016>\u0011C��x*\\�\u000e\u000bh�\u0002\u0005\u000e\u000e?��N����Y\u001doe��������.E\u0002�#\u0013s-��PJ��-�;�~\u00187���ڧ7���\u000f\u0000\u0000����k�0\u0010��\u0015�\u0006\u0012;N�#1�`�\u000eև�a}���ȗD�|�tr�P��\u0017;\u001d5+\u001b���@z�!��՝�#�}N�J��\u0011�M�Z!�p�Mh\u001aڝ}��A�\u0014W\u000feP�-�+��\f�I\u001a'�<�\u0016e0.�\u001a��\u0016�WW\u0007@�v\u001c+\u0005����ڱ50É�bN�K%[�K]\u001b��e�6\u0014�%2V6��\\�\u001b�42�8�\r��\"\fC��RIq�iP8��g�#\u0013;�*\u000b��u3@7ٟ��W�,��\u001du�\u0010�b\u0012\u001dX.�<Hw\u001c3��d\u0005�5\u000e`��-3�:�7��$���W��]��qqʏ��\u0016̧��4�V�\u001d�\u000f�,��\u001a\"��Cd��F�&\\N��\b�wXG�+Xպj\u0014P�\u0016lTIr�е�\n��kB`\u000f`#n���-��A'k\b+8�{*�i1�gI>\u001b��\u000f&�e�8}ѽ]�A����O�7\u0003ƟeI���O�J��͑��j���c�\u001b:\u0015L�\u0015�\r�O�\"����!��,��\"�ՠ��y�\u0017\u001fR{����\u001f��-�E�\u0006�|o-?z2=��LO�'ӓ����Y����l�y4=�\u001eM��\u001bD��g����!��y����d\r�q�J�9䎥q�?&�$w���V��>�\"WQ;�R�.�\"��X-�(|~�un�\u001b\u001c/�|T\u0006�%\u0006_F���\u000f�'\u0000\u0000\u0000��t�MK\u00031\u0010���\u0010<(d��=��\u0015D<x\u0010\u000f\u001e�Rb2kF�ɒL���ߥ[�X�m>ޙyff�M��o3�v�\\\u0006��\u001d�%��y-E=���J�)!���`\\)!?�\b�C%�J�\b�}L<$M\f���Ě,���\fV�#�\u00021i_e�=6��No�+�o�Юj�\u001b\u0013W�$��iP�W�M�J|-��zOf�N/�g(�V��r&�8X�\u0007=y�0\f\u0005\u000f��\f�-<�)7G�[�_�b�w����\u0011t��G`�\u0019и�\u0019��$`\u0017˛�,�ǔcОx+A\u0007\u000bk�6v'\b�G\u0004��U�>����dޕ-T\u0018OC�^\u0005���]�|�\u001b\u0000\u0000����O�O�����(�ͱ\u0003\u0000#<\u0011\u001b�I\u0000\u0000"
+      },
+      {
+        "path": "/auth/register",
+        "method": "GET",
+        "statusCode": 200,
+        "statusMessage": "OK",
+        "responseTime": 447,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "x-powered-by": "Next.js",
+          "content-type": "text/html; charset=utf-8",
+          "content-encoding": "gzip",
+          "date": "Sun, 03 Aug 2025 00:40:32 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "bodyLength": 4803,
+        "body": "\u001f�\b\u0000\u0000\u0000\u0000\u0000\u0000\u0003�W�n�6\u0010�\u0015��i��q�\u001a�R#I�\u0014M\u0013 })�%G\u0012c�d���O��~Z���.ή�v�\u001aHQ ��+��Gs9C\u000e�'/߾���w�XC�)�42\u0003�.8Z^�\r�*�\u0016\t�l �G*xG�8��$��b��\u001a7�\u0005�L:Kh��\u001b��)\u0014��D1L����4\u0018\u0011%\u0018,N�X\u000b[�v�G�\f$*M�tk\fG��\u0018\u0006\rX\u0019,�K�6�^�����z��A$Κ�U��+�[�\"\u0001i��\u00183�>3л��e����ɳ��'�'_�.�gg�) \u0010>�D�Vb�\u0013�ս\u0000�\u0006��Ɓ�\fb��\f�\u0013g\u0015�l�\u0005킦���m��u�6�� ��?�5.+�\u0011�� �Yނ�\u0002�?��A�,8/�l\u0004�\u0004@�^x�1\nm\t�\u0005\u0013�?���AGM\u0016�֑0d\t�QpS*\u001e\u0003�!��(\u0004�HT���q�8P�֏¨�[�\u0011\u000f�D�\f��d�\"{[�7�g�h��\u0015���ٝJ~\u0011\u0010\b\u0019Xv��Q\u0003�P6\u000e#�]\u0017\u00185��\u001b�G�c�΂��\u001f1��mtT���U$\u001fDԿ�\u0000����I\u0004����6\u0013\u000b�{�Tgp��lܬVN�L\u001a���WW�Ï��\u0015�K\\H^�O��J�2Wz=�U\u0006���V4\"ʀh�&l����ϒ�����\u0016+��uH�g~+��=�A�J���\\P�\n\tA1J��'Q��\u0013@l@���-ۈ�3&m�b#Z��ژ\u0006!�aуDы��3���\u0013�`_ڶOoV9K\"b�W�(F\u0001䵶� ]74.Zn\r/�\u0014_J�:Ky֜���1\u0006�؎�mG�k>/�\u0013\u0004b2!h[���|=p��S��/�L���?�jOb�˼r��ųc�b:����\r���6np�E���\u0019\u001cjJXg�y� ����P\u0017�\u000b�\u0005�j\u0017�q\u001bT�\u0014�\u0007��\u0017�\u0016�U.\u0014<���ߥ�$\u001e����2��wĨ�8\u001a��\u0012Ո�Ŝϙ\u000f�����'F�;t:e�\u0017K6{\u0016�+��\"Үb�\r^L@�iV\u000b\n`����F�M|�d7Hހ��\u0019���`fY�d\u0017�ZG�2x�:2��\u0018��W���C�4\u001c�O�,�C�����\u0005gZM)�u��߻Ʋ�\u000e9\u000b�[�\u0003��s�\u0006ӥ]\";����Q؂6�|��\u000e�iT�§�ŧ)�{�J�طËc���\u0003�<ĸqA����t�\\7j_�����1�{\u0014��?\u000f����j�\u0003ښ����Qo�|�����7]$�B\u0006��\u0016��\u000fw9��!�ͫ���\u0019T�!z\u00039\u001ej�6�&\u001cIo�&�ߥ�!��C��\b:u���q!~�tz7\\t\u0004��R\u001c�r ��\\'\u001bA\u0010j\u001c*�\u0007�B�GO��.'�t�����}��\u001a�_�����C�8��X}|*�حZMw;�1Ke���io�ii�\u000f����K\u0013\u0010T�\u001aX\u000fm<�`�S+̄(Y\u000e{\\��\u001a�O�\f)�77��6\u0017um���{][�m��L���\u0013!�����F�����[��\u0000\u0000\u0000���)N.�,(��(N�IӋ��K�(�O�E���D�j�\u0015�\u0016ghD\u001b�jZ�HBōt�Jsrb5m��\u0006\u0002\u0000\u0000\u0000��lP=k�0\u0010�/75�J�\u0012'�$��!C�Cǜ1B=�\u0002G\u0016:ŭ\t��JƎ���۲M>�=��D�\u0007�ɽ\u0013��_\u000fGU�j\u000f�G\u0004Y\b��do�>���2No��D�r�~d\u0011���F�\u0010�\u00182BuA�id~K��\u0007�\u0016��y�TПN�m�\u000e����2K\u0013�\u001c�<������Nm��zR��MSB9�\u0003!t\u0018���\u0010��V�n�(L\u0005�S�(!\\1@����\u0007�\u0000\u0000\u0000���V�N�0\u0014~��B\u001aHq���\u0001B���Mb\bmh7uU��I��ؖ}R�\u0010����n{�)\t--M\nB�M������q����\n��\u001cȤ7\u001e+(q��L��a蓽�CF��1��\u0014\u001c�X}���\u0004�@�\u0018ƹ�\u000b\t.��A,\u001c\u0006�\u0014�0�tn�\u0002�.��V\u0017\b���1�\u000f\u0019y&\u0014\n�*.�\u0002#\u000e9�(��B�4�\u0017]5��g��\u0011S\u0007��׬�\u0004\u001b�wZ�^�\u0014�k����\u001a�ܘ�\u0017�\u0005\u0016R�\u0010lP�AW�\r���=�\u0011�lŐ�B\"#~8b��&��N\u0017��&|�\t�\u0016T\f�&V�\u0014!7�#�H+�\u00127m��1�`雞\b\t?\u0005�\u001am�\\�ˣn2�\u0018oS\\\u001d鈩��ԍ�S\u0011�u�W��QԺ�+G\u001b��vY�^��j��6\u0018��@H�n\u0016�\u001d(�4х�;\\���\u0013\u000e�}�\u000b!\u0017\"���B�/Rn\u0016�b~��s�)\\�\u0010���+Q�RO��-�/V:ԗ�m��\u001f��3�x\u000e�\u001cW������/?�N�2����r[u\u0005^<\u001f�\u0016@�\f��x>�LK;,��r�ٚ��~\u0001\u001e��\u0002��Uĵ@\tk\u0000CF��r�ǈ�\n)�{F\"ɝ���$Z!u�������G7B�\u0014E��W]Et��^ݕ�B\t͢\u0001\u001e\u0001=���|Bwk�(\u00132��j��L8�c�ip�\u0003z�Kᐑ�Q����XL��I(��A#-=g*�;\u001a�\u000e<C\u0007��\b���3\u0013�����M\u001a5ˠ��6V(\u0018����O��gd+�7��!5�)#�'��bX�~ߓP3Ԃ$�����?�\u001f\u0000\u0000\u0000���V͎�6\u0010~��\u0010 -`:��Y\u0004F�\u0002�\u001cZ �9\u0014�e,(r$1Kͨ��?\b�\u0019z�h�-O�G($�w����\u000b�؃$pș�8�ǡ�F\u0013\\'�E����p#�ոK��f1\u0019ez���FEf\u001a�m@*�y��$\u0010\u0011�\b[N/W\bkM\u0016\u0003Z�\u0002i\u0010<��lA�v~\f�Q^F����{@��\u0015\bú���\u0018M`��QB�\u0002F\f+Gu?\u0017��q�\"��rp\u0018�Ev�\\^/\u000b�L��>\u0015\u0019�\u0016\u0007`\u0017:�\u000b&A�\u00015�j����Pd�\u0005M����D�N]�����׳\u001d.<\u0013>�(�\u0017����i��(y?�TdM�jX���ؔ��\u0003����\u0002����R\u0018�c�y���w���\u0001'�Fe�\u0004\u0003|LQ\\��\u000f׍\u0013��6���Aw\u00108�E�Z\u000b�\u001bQ���IT�֥\u0016��ZqUE\u0014ՓZ\u000f�{�):qLʰ�\u0010�b��Z��J�sN2\u0000\"&�jj�8}�ؿ\u001e�ߤ��uQ�\u001e��c�oG�\nI�.��$w�8٪�9\b'�(ѡF�֑j�b���,�ۨ\u0019t�\u001e�Ǎ�@Y��;T��\u001c\u001a^a��-�y�+�P�^�\u0005Mfϒ��{�V\u0007��g�S�Љ�a��V����Iq�Z�A[�$JX\u0005�\u0002��큰2�V\u001c�\u001f��Ƕ\f� tj\u0006%\u0007�������X�٣P\u0006-�H�qW�!ڛ<��Tg�2�uh\u0018kN�\u000emû+�\u001bI����\u001f���}���/�}\u0004��ճ�:�y\n��Y�N�A���NY�T��\u0011\u0006��<���Zc�-���{p8��`S���I\u000ec��Q�\u0003sӍ?�럿���$1���a�'�����:U\u0019�\u0016w\u0017���ȿ����\r��S �B3t��VZ^/\u000f\u0013>�%���������:EP_���?�S�������\u0001\u0000\u0000���V݊�F\u0014~�A\u0018��Ƶ���ƄBȦ��\u0014��;�\u0011c�H�0?���k\u0011�,�W}�>B��-ˑ��M��ҙ���}G�;�����\u0016d1MS\r{�\u0016Ӻ���u\u0012G�Q\u0005�h\u0014q�w�25��ٌE1��J�\u001cA�h��\u0007.dK>5`�0ڲ谉�,�\u0004�\\�X\u0014�F��\u000b�2ɭ��+\b�!�\u001d濽����N�\u0006H�`\u0001wB�D�2( \u0014ۄ���e�\u000b\t{�/43�X�\b�h�H�k��k\u0010>g�Y'��E/.\u0014z�@;@R�\u001b�-ifTa�����it\u000e9\u0005�E�\u0001�\u001a�\u0001�_��O㩬���7Jw9������-MƳ����!Kc\u001d�6�h�Ha�4���a��(�T\t[\u0003^��_c��\u000e�%�AM�&�i�H(y֒ϦA\r-��%\n���S\"���$;i\u0012\\\u0005x\u0016\u0002Ӱx\u00115���2��1?���� ���<Ѣ��(��O�Y�)o�!��\t�K�j�\u0019\\%�E��\u0013Q�\u0004\r1��\f�\u0012�V�f\b��n�p��IY�\u001b�D�~%�\u0012y.@;�\f�\")Ш#���83�eL�\u0004�D�~{�W9%\u0007\u0000%�ep�\u0011�F�mk��ٞҴN�>�Y���'K��\u0019�p��\u000e�_�0Y�\r<j�\\J���\u0001�\u000em@r��Yd�T�݊���s>��,\u0002D�݈:����Z��F�u��\u0018ޮ�́�%wp��~��٩OǢ�\u0017i!4�!��賏\\�q�x�vg��\u0001����t2_<|a�>1�4<\u0017�]ߋ�\u0005�#�.�Yp\u001f���\u000e��Z^vYV\b5G��W�z:�v\u0002K�.k�g��-|\u0019���ːg\u0003�b�az6D�f\u0000v�\b����)�\u001dHS{�'�\u0016�\n�\u0010�s�\u0006�c����\u001b/��E\b���W�D\n-���/\u0004�G\u0002=Ǝ��T�4]���c���C��\u0010�\u0014p�谁\u0001�G���;�\u001da�ao�7,\u001a.�|��hj?��F�p\b��1�Vg�7~0�6:0�\u0015}\u001b~�|���!^���e�L����w?\u001e�E�\u000f\u0000\u0000���TѮ�0\f��h\u000f E+�0�;]@\u0002�@ ��\u000f<4�\u0014R���(v\u0011\u0013ڿ�zc\\�[������9�q{C����\t�[�v\u0011~�[摆\u0007��J[U�\u000f�P��⇀m�hU���RR�jk�b�-t!B+i\u0002��\u0001��a!�\u0017g�gt\fVmk�\u0016\u0012[|�X�㈨\u001e�;I�4��y���M\u001ac�/l���4\"�9�Zdݑ��H�*��\u0010\u0001?������t��Hm\u0015A��ȟ\u001c\u000f���B�8��/n�u}щ!~��GVM�/�RJ�e\u0000`A�\u0002��+9���q�'�\\�\u0015�C\u001ay�^|f֫'fc�>��Z��:\u0017��B� =䓙�p2�$��%�!�;�U���T�H��LTu��F`�Fl_»�P<d�\n��C\u0002mU���÷�ڳgf}v�lN��c���������)B�\u0012s-��@\u0014b��U_���٨��7��/�\u000b\u0000\u0000����k�0\u0010��\u0015�\u0006\u0012;N�#1�`�\u000eև�a}���ȗD�|�tr�P��\u0017;\u001d5+\u001b���@z�!��՝�#�}N�J��\u0011�M�Z!�p�Mh\u001aڝ}��A�\u0014W\u000feP�-�+��\f�I\u001a'�<�\u0016e0.�\u001a��\u0016�WW\u0007@�v\u001c+\u0005����ڱ50É�bN�K%[�K]\u001b��e�6\u0014�%2V6��\\�\u001b�42�8�\r��\"\fC��RIq�iP8��g�#\u0013;�*\u000b��u3@7ٟ��W�,��\u001du�\u0010�b\u0012\u001dX.�<Hw\u001c3��d\u0005�5\u000e`��-3�:�7��$���W��]��qqʏ��\u0016̧��4�V�\u001d�\u000f�,��\u001a\"��Cd��F�&\\N��\b�wXG�+Xպj\u0014P�\u0016lTIr�е�\n��kB`\u000f`#n���-��A'k\b+8�{*�i1�gI>\u001b��\u000f&�e�8}ѽ]�A����O�7\u0003ƟeI���O�J��͑��j���c�\u001b:\u0015L�\u0015�\r�O�\"����!��,��\"�ՠ��y�\u0017\u001fR{����\u001f��-�E�\u0006�|o-?z2=��LO�'ӓ����Y����l�y4=�\u001eM��\u001bD��g����!��y����d\r�q�J�9䎥q�?&�$w���V��>�\"WQ;�R�.�\"��X-�(|~�un�\u001b\u001c/�|T\u0006�%\u0006_F���\u000f�'\u0000\u0000\u0000��t�MK\u00031\u0010���\u0010<(d��=��\u0015D<x\u0010\u000f\u001e�Rb2kF�ɒL���ߥ[�X�m>ޙyff�M��o3�v�\\\u0006��\u001d�%��y-E=���J�)!���`\\)!?�\b�C%�J�\b�}L<$M\f���Ě,���\fV�#�\u00021i_e�=6��No�+�o�Юj�\u001b\u0013W�$��iP�W�M�J|-��zOf�N/�g(�V��r&�8X�\u0007=y�0\f\u0005\u000f��\f�-<�)7G�[�_�b�w����\u0011t��G`�\u0019и�\u0019��$`\u0017˛�,�ǔcОx+A\u0007\u000bk�6v'\b�G\u0004��U�>����dޕ-T\u0018OC�^\u0005���]�|�\u001b\u0000\u0000����O�O�����(�ͱ\u0003\u0000�>�\u0004�K\u0000\u0000"
+      },
+      {
+        "path": "/dashboard",
+        "method": "GET",
+        "statusCode": 307,
+        "statusMessage": "Temporary Redirect",
+        "responseTime": 12,
+        "headers": {
+          "location": "/api/auth/signin?callbackUrl=%2Fdashboard",
+          "date": "Sun, 03 Aug 2025 00:40:32 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "bodyLength": 41,
+        "body": "/api/auth/signin?callbackUrl=%2Fdashboard"
+      },
+      {
+        "path": "/daily-question",
+        "method": "GET",
+        "statusCode": 307,
+        "statusMessage": "Temporary Redirect",
+        "responseTime": 4,
+        "headers": {
+          "location": "/api/auth/signin?callbackUrl=%2Fdaily-question",
+          "date": "Sun, 03 Aug 2025 00:40:32 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "bodyLength": 46,
+        "body": "/api/auth/signin?callbackUrl=%2Fdaily-question"
+      },
+      {
+        "path": "/admin",
+        "method": "GET",
+        "statusCode": 307,
+        "statusMessage": "Temporary Redirect",
+        "responseTime": 3,
+        "headers": {
+          "location": "/api/auth/signin?callbackUrl=%2Fadmin",
+          "date": "Sun, 03 Aug 2025 00:40:32 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "bodyLength": 37,
+        "body": "/api/auth/signin?callbackUrl=%2Fadmin"
+      },
+      {
+        "path": "/training",
+        "method": "GET",
+        "statusCode": 307,
+        "statusMessage": "Temporary Redirect",
+        "responseTime": 4,
+        "headers": {
+          "location": "/api/auth/signin?callbackUrl=%2Ftraining",
+          "date": "Sun, 03 Aug 2025 00:40:32 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "bodyLength": 40,
+        "body": "/api/auth/signin?callbackUrl=%2Ftraining"
+      },
+      {
+        "path": "/ai-echo",
+        "method": "GET",
+        "statusCode": 200,
+        "statusMessage": "OK",
+        "responseTime": 299,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "x-powered-by": "Next.js",
+          "content-type": "text/html; charset=utf-8",
+          "content-encoding": "gzip",
+          "date": "Sun, 03 Aug 2025 00:40:32 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "bodyLength": 4128,
+        "body": "\u001f�\b\u0000\u0000\u0000\u0000\u0000\u0000\u0003��MO�0\u0010���`���@[`\u000fq*D9 ���^zZ�ړ��ؖ=ɒ��*��\n-PԽ8�h���\u000fOy�������\u000bh�sU9���7J�\u0017U�\u0012���\u0011t��\u001b�\u0012=�r!���cGJ\f��1$\u0016��g���\u001an���j���\f��l�ɬё:�A����߆\u0007��-+\u001d\u0006J3�3��\u0007�\u001c)\u001f����w��)�yt�[\"\u0016�&��(���Ȍlu�s.0���\u0018z��?\r������������ŉ\u0000��2&�d�kRb\u0002,_\u0004<\u0015\u0010\u0013��F\u0000f%�N6���X�7ɆdyT�\u000b�����bM���n~����*�P�I�p�C�%���y�<z����b\u000bz\u0003\u0010c�\u0011\u001b��z�����m�oV�V�nC11�\u0002튰\u000f�R\ni/�\u000f,��{�_(\u0001���^�ƅ\u0015:�jHl�Qu�ېẆ+*����\u00036�u��?z�牐\t���%p�\fS\u0015)�\u0018�\u0004܆�i9� R����<�\u0000����&t\f�)\u0006��O�hn��oj�\u0018�X[��?\u001f���\u001d=��؎�U0#h�9+�\\n~�bGKZh:Ԣ*\u000f�|'eU\u001a;<�Վ^�2�D��2uYj��\u001e&��\u001e\u001f��F��\u0003y�$4�<�'4�\"t\rl��P�<=<�:x����`�\u0003��˶��4�]n�:����ءڭ\u0007R\u0016\u001b��L�+��~�\u0005\u0000\u0000���)N.�,(��(N�IӋ��K�(�O�E���D�j�\u0015�\u0016ghD\u001b�jZ�HBōt�Jsrb5m��\u0006\u0002\u0000\u0000\u0000��lP�j�0\u0014��;��J��\u0017&M�\f\u0019\n\u001d:�\u001a#ԫV��BWqjB��T���p��\r��c�2�Nt]���9\u0011��=;�\nTsx;\"�BH�&{+O�鍤�qz��%��s�3�(.�s\u001a�BpC�\b�\u0015����=�/\u001f\u0010\u001a�B�)RA:���Z\f��F�,M��7�p��2��W�Z��Z-_�b�,����\u0010Z\fu��\"\u0004s����&\nc�\u001f�FJ\b7\f�>m��_\u0000\u0000\u0000���V�N�0\u0014~��B\u001aHq���\u0000����&1�6����\\�$�pl�>� ĳ�rW{�=���6\u0005��&R|����8V��p��G\u000f*�M&\u001aJ�$=[�l{4\b��ї\u0011#��Zjy\n�N����v�^�M\f��ą\u0002\u001fU�(�\u001e#�$h��ɭѠ�G\u0015ڙ\u0002��~zF�\u0011#O�R#8�UU`�#G)\"�\u0015��\u0001>�\u0019�!#����߄�f�&ؠ��������\u0018��\u000e׸��F\\R\u0010��j'�˹�Ve��6xf\"��\u0017\n\u0019\t\u0007c�?l\"-��L��i�\u0007�p�@��h�LN\u0011r�8\u0002\u0015F#��i�|��\u0005K_�T*�!��\u001a�g�l��ɴc�Mqy�c���S����\u0018���匢�\u0015/\u001cdpθ�X�ԡմ���`��\u0007BI}�8�H\u001b��)t��b^oOx��]\b���2<�:}�r��\u0015�#d�3O�|���\u000f_�:Uf�\u0015]��b�C�\u0005^�����{F4ρ��*��\u0011�7��wp7�\u0018y`���V]x�O�k\u0005 n\u0003.\f��'��\u001d��'�u�&˭����\u0000��2�J��5�\u0011#[u9�c$ԅR�=#Bq�/f<��H=�rjT\u001c���ZꔢL3\f����*��RШ�Y��\u0005Ѓ~?ȧt�\u0016\u0011�T�\u0003]�^e�\u0007�\u001c��Ԁ��0�TJ��<���ϝ��ۚ�2�\u001eT\u0018\u0015x[)��Ao?�t��\u0010P�w�����=�^�Q�\fKUmc�����~��<��l\r�͡mH�zJa��8\\\fk��\u0007\n�o�:P��xY��w����\u0000\u0000\u0000���V�n�F\u0010~�\u0001\u0011 -�U(Y1\u0002!h�:�\u0016\bzh\u000eE!\n�rwHn��awg�����C�E�ly�>BAʲ��6�Co=������|���m4�u�]D_�//\t7rY��\u0014�o\u0016�Q��@Dl#l9�\\!�5Y\fh��\n�A�Xk�\u0005\t��1�Gy\u0019�N�bo\u0001�6W \f�\u0006�Nb4�a\u0012G\t�\u000b\u00181�\u001cս.�k�8Eh���0���z��^\u00164���}*2�-\u0016ټ�.t�\u0017L�$E6*2�� ��a��Ȯ\u000b���7�!�0����g\u0019��g\u001b\\x&|�jQd/\u0006����i��(y?�TdM�j����ؔ��\u001d���y\u001b�\u0006�/()\u0010���.��:Ɵ�98�PU\u001e7�\u0004ۨ\f�`��)�����q���\u0006\u0015�:�\u000e\u0002'�hUkAp#*�P1�jѺ�BpT+����zP�a\u000f;E'�I\u0019�\u001c\"TlRT+\u0017]�q�I���\t�R\r\u001e�\u000f\t��C��S�.�ң�w���(\\!I�E�Ur����z��p2�\u0012\u001dj\u0014h\u001d�F-fo��\u0012���A��\u0013�Q\u0013(k�p��u�C�+\f��<�w�\u0019��\u0013����Y\u0014��ao��\u0000��(v�\u001c:Q9�\u0010ڪ�y�8�OY�:h�D\t�\u0000U�v<\u0010V�ۊ���=�ؖA\u001b�N͠�`1�|vv�<<�f�h*\u0003�j$�+���M�C[��c��:\f�5'o����\u0015������ʏN:��|G�\u0017�n��u�l��|���qcֺSg�?e�c�-\u0014�~\u0004�=1\u000f�g���h��\u000f�S{\u000f6\u0005=,��0v�\u001eM@n���x���\u001f��\u0004��=\u001c>�\bs\u001c��\u001dT�2c?��<�?����R���>r\n�[h��;�J���a�'���V��0����P�\u0010��_��|ʖ߾}u���/\u0000\u0000\u0000���V��F\u0014}�A\u0018��Ƶ���քBȦ��\u0004��\u001e#�ҕ4a>ĝ��&�YB~���\beF�,�v�P\nƒ��yΕ��f(j��\u0005Y��T�֥Ÿnl�r��\u0011��ɄE1��J�\u001cA�hƢ\u0007.�|h�:a�e�~\u0015/Y4\n�\\lX\u0014�F��3�2ɭ}�\u0015\u0004G\u0007[G�\"�Z�\u001a����o�vB7@j\u0004\u000b�\u0011�$\n�A\u0001!�*|���.$l�����ĪY�G�DJ^�W�\u0016�c&�u4OnX��D��\f�\u0003$5�!�fF\u0015\u0006\u001d�N\b�F�SPk�\u0019���\u001c�p�?�Oe�%�����A�\u000f~�D�ir>뿿���̍ud�8��#���8���='�S%l\r8L;���\r��X\u00075\u0011��L�DBɳ\u001d�d\u001a԰#\u0015�D\u0001מwJ$�\u0017�dGM8S��\u0000OB`\u001afϢ�8|Y\u0006V8�r9�0\be@�'Z4R\u0012ŷ�ɃՖ��\u0019b+��`\u0019�V\u0003��\"i,\u001a\u0015���$h���y�*�iEm�\u0000:�\b\u0007�\u001e����N\u0014�o�V\"�\u0005hG��k$\u0005\u001au(n:!��x9�e\u0004~�L�|��rJ�\n�\\�\u0001�=�\u001b\r���wW{J��9��\f&�u��漋ӗ�h��ǿP�h~�C�\u001c�� �4�\u0003�\u0003v���_�\"\u000b�\u0002�\u0016�Um���*f\u0011 \u001alG��\u001b\f�n'��h��0��]��\u001c�Zr\u0007����]�@]8\u0016��H\u000b�!\u000f.\u001d��~\u0006����۞\rm�:���&��t��E�����\\xv}/z\u0013l����f\u0001�k!���W���l�,\u0010j�~k/l�x<n\u0005��\rs㇫i�f>\r�����\u0003�-WLO�վ�\u0015�n��o��\u0006��=�\u0001ɭ\u0005�@(����A���rz0qA!�L�\r��\u0013\\~D�\u000er&����(M\u0017o~{����3����\u001d<:l���\u0011 �����qؼ�\r���6�/\u0012����S*����p̪���o���\u000e����\r�%>��{\u001f/C��ew�\\�����q\u000f���q\u0015��\u000f�<���\u0007\u0000\u0000��|R�J\u00031\u0010��a\u000f\n�kԶ�R\u0015\u0014EA�Ѓ�Ͳ��l\u001bL'!Ɋ���e�*\u001eZoa�7o�e\u0011��.^\u00074���\t?cݎ\\\u0017�'%g�Q��&l\u00040\u0001\u00117�Ȉ\u0002楀,ղ�B\u0000��\u0018��W@˸5\u0018\u0004�\u0005d�e�i�A\b��`;j��\u001d\u0019���d�ڳ�,}\u001aM��q&��\u0004x4�\u001a��\u001a1���c��y�E\u001e��Z�*�\\:�\u001b��]\u001c�\u0010n>��t|�\u000b>�8\u001f\u0017��v\u001e\u00156H\n�F��Q��Pކ���J��M\u0004d3\u0001�F�߆�\u0005��be���v���'��\u0015��\u0013�4\u0001�\u0000M:ji\u001eQ6Cf|:�Ƌ^V���7i��n�%����\u0012t�CдZ\u001a�\u0013�+��9AP�.��\u0003}\u0001\u0000\u0000����k�0\u0010��\u0015�\u0006\u0012;N�#1�`�\u000eև�a}���ȗD�|�tr�P��\u0017;\u001d5+\u001b���@z�!��՝�#�}N�J��\u0011�M�Z!�p�Mh\u001aڝ}��A�\u0014W\u000feP�-�+��\f�I\u001a'�<�\u0016e0.�\u001a��\u0016�WW\u0007@�v\u001c+\u0005����ڱ50É�bN�K%[�K]\u001b��e�6\u0014�%2V6��\\�\u001b�42�8�\r��\"\fC��RIq�iP8��g�#\u0013;�*\u000b��u3@7ٟ��W�,��\u001du�\u0010�b\u0012\u001dX.�<Hw\u001c3��d\u0005�5\u000e`��-3�:�7��$���W��]��qqʏ��\u0016̧��4�V�\u001d�\u000f�,��\u001a\"��Cd��F�&\\N��\b�wXG�+Xպj\u0014P�\u0016lTIr�е�\n��kB`\u000f`#n���-��A'k\b+8�{*�i1�gI>\u001b��\u000f&�e�8}ѽ]�A����O�7\u0003ƟeI���O�J��͑��j���c�\u001b:\u0015L�\u0015�\r�O�\"����!��,��\"�ՠ��y�\u0017\u001fR{����\u001f��-�E�\u0006�|o-?z2=��LO�'ӓ����Y����l�y4=�\u001eM��\u001bD��g����!��y����d\r�q�J�9䎥q�?&�$w���V��>�\"WQ;�R�.�\"��X-�(|~�un�\u001b\u001c/�|T\u0006�%\u0006_F���\u000f�'\u0000\u0000\u0000��t�MK\u00031\u0010���\u0010<(d��=��\u0015D<x\u0010\u000f\u001e�Rb2kF�ɒL���ߥ[�X�m>ޙyff�M��o3�v�\\\u0006��\u001d�%��y-E=���J�)!���`\\)!?�\b�C%�J�\b�}L<$M\f���Ě,���\fV�#�\u00021i_e�=6��No�+�o�Юj�\u001b\u0013W�$��iP�W�M�J|-��zOf�N/�g(�V��r&�8X�\u0007=y�0\f\u0005\u000f��\f�-<�)7G�[�_�b�w����\u0011t��G`�\u0019и�\u0019��$`\u0017˛�,�ǔcОx+A\u0007\u000bk�6v'\b�G\u0004��U�>����dޕ-T\u0018OC�^\u0005���]�|�\u001b\u0000\u0000����O�O�����(�ͱ\u0003\u0000E�[�%?\u0000\u0000"
+      },
+      {
+        "path": "/api/health",
+        "method": "GET",
+        "statusCode": 200,
+        "statusMessage": "OK",
+        "responseTime": 226,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch",
+          "content-type": "application/json",
+          "date": "Sun, 03 Aug 2025 00:40:32 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "bodyLength": 280,
+        "body": "{\"status\":\"healthy\",\"timestamp\":\"2025-08-03T00:40:32.847Z\",\"version\":\"1.0.0\",\"uptime\":37717.925953124,\"checks\":{\"database\":\"up\",\"redis\":\"up\",\"filesystem\":\"up\",\"external_apis\":\"up\"},\"performance\":{\"response_time_ms\":36,\"memory_usage_mb\":433,\"cpu_usage_percent\":18.099595292985192}}"
+      },
+      {
+        "path": "/api/questions/daily",
+        "method": "GET",
+        "statusCode": 307,
+        "statusMessage": "Temporary Redirect",
+        "responseTime": 5,
+        "headers": {
+          "location": "/api/auth/signin?callbackUrl=%2Fapi%2Fquestions%2Fdaily",
+          "date": "Sun, 03 Aug 2025 00:40:32 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "bodyLength": 55,
+        "body": "/api/auth/signin?callbackUrl=%2Fapi%2Fquestions%2Fdaily"
+      },
+      {
+        "path": "/api/responses",
+        "method": "GET",
+        "statusCode": 307,
+        "statusMessage": "Temporary Redirect",
+        "responseTime": 6,
+        "headers": {
+          "location": "/api/auth/signin?callbackUrl=%2Fapi%2Fresponses",
+          "date": "Sun, 03 Aug 2025 00:40:32 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "bodyLength": 47,
+        "body": "/api/auth/signin?callbackUrl=%2Fapi%2Fresponses"
+      },
+      {
+        "path": "/api/admin/users",
+        "method": "GET",
+        "statusCode": 403,
+        "statusMessage": "Forbidden",
+        "responseTime": 785,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch",
+          "content-type": "application/json",
+          "date": "Sun, 03 Aug 2025 00:40:33 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "bodyLength": 33,
+        "body": "{\"error\":\"Admin access required\"}"
+      },
+      {
+        "path": "/api/training/status",
+        "method": "GET",
+        "statusCode": 307,
+        "statusMessage": "Temporary Redirect",
+        "responseTime": 8,
+        "headers": {
+          "location": "/api/auth/signin?callbackUrl=%2Fapi%2Ftraining%2Fstatus",
+          "date": "Sun, 03 Aug 2025 00:40:33 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "bodyLength": 55,
+        "body": "/api/auth/signin?callbackUrl=%2Fapi%2Ftraining%2Fstatus"
+      },
+      {
+        "path": "/favicon.ico",
+        "method": "GET",
+        "statusCode": 404,
+        "statusMessage": "Not Found",
+        "responseTime": 4,
+        "headers": {
+          "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+          "date": "Sun, 03 Aug 2025 00:40:33 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "bodyLength": 0,
+        "body": ""
+      }
+    ],
+    "slowRequests": [],
+    "failedRequests": [
+      {
+        "path": "/api/admin/users",
+        "method": "GET",
+        "statusCode": 403,
+        "statusMessage": "Forbidden",
+        "responseTime": 785,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch",
+          "content-type": "application/json",
+          "date": "Sun, 03 Aug 2025 00:40:33 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "bodyLength": 33,
+        "body": "{\"error\":\"Admin access required\"}"
+      },
+      {
+        "path": "/favicon.ico",
+        "method": "GET",
+        "statusCode": 404,
+        "statusMessage": "Not Found",
+        "responseTime": 4,
+        "headers": {
+          "cache-control": "private, no-cache, no-store, max-age=0, must-revalidate",
+          "date": "Sun, 03 Aug 2025 00:40:33 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "bodyLength": 0,
+        "body": ""
+      }
+    ]
+  },
+  "recommendations": {
+    "immediate": [
+      {
+        "issue": "Invalid HTML structure - missing html tag",
+        "action": "Ensure proper HTML5 document structure",
+        "location": "/"
+      },
+      {
+        "issue": "Invalid HTML structure - missing html tag",
+        "action": "Ensure proper HTML5 document structure",
+        "location": "/auth/signin"
+      },
+      {
+        "issue": "Invalid HTML structure - missing html tag",
+        "action": "Ensure proper HTML5 document structure",
+        "location": "/auth/register"
+      },
+      {
+        "issue": "Invalid HTML structure - missing html tag",
+        "action": "Ensure proper HTML5 document structure",
+        "location": "/dashboard"
+      },
+      {
+        "issue": "Invalid HTML structure - missing html tag",
+        "action": "Ensure proper HTML5 document structure",
+        "location": "/daily-question"
+      },
+      {
+        "issue": "Invalid HTML structure - missing html tag",
+        "action": "Ensure proper HTML5 document structure",
+        "location": "/admin"
+      },
+      {
+        "issue": "Invalid HTML structure - missing html tag",
+        "action": "Ensure proper HTML5 document structure",
+        "location": "/training"
+      },
+      {
+        "issue": "Invalid HTML structure - missing html tag",
+        "action": "Ensure proper HTML5 document structure",
+        "location": "/ai-echo"
+      }
+    ],
+    "shortTerm": [
+      {
+        "issue": "Missing or empty page title",
+        "action": "Add descriptive page titles for SEO and user orientation",
+        "location": "/"
+      },
+      {
+        "issue": "No semantic navigation found",
+        "action": "Add semantic navigation elements for better accessibility",
+        "location": "/"
+      },
+      {
+        "issue": "No H1 heading found",
+        "action": "Add H1 heading for proper document structure",
+        "location": "/"
+      },
+      {
+        "issue": "Missing viewport meta tag",
+        "action": "Add viewport meta tag for mobile responsiveness",
+        "location": "/"
+      },
+      {
+        "issue": "Expected content \"Echoes\" not found on /",
+        "action": "Ensure page content loads correctly",
+        "location": "/"
+      },
+      {
+        "issue": "Missing or empty page title",
+        "action": "Add descriptive page titles for SEO and user orientation",
+        "location": "/auth/signin"
+      },
+      {
+        "issue": "No semantic navigation found",
+        "action": "Add semantic navigation elements for better accessibility",
+        "location": "/auth/signin"
+      },
+      {
+        "issue": "No H1 heading found",
+        "action": "Add H1 heading for proper document structure",
+        "location": "/auth/signin"
+      },
+      {
+        "issue": "Missing viewport meta tag",
+        "action": "Add viewport meta tag for mobile responsiveness",
+        "location": "/auth/signin"
+      },
+      {
+        "issue": "Expected content \"sign in\" not found on /auth/signin",
+        "action": "Ensure page content loads correctly",
+        "location": "/auth/signin"
+      }
+    ],
+    "longTerm": [
+      {
+        "issue": "Consider adding loading indicators for better UX",
+        "action": "Add loading states for asynchronous operations",
+        "location": "/"
+      },
+      {
+        "issue": "Consider adding loading indicators for better UX",
+        "action": "Add loading states for asynchronous operations",
+        "location": "/auth/signin"
+      },
+      {
+        "issue": "Consider adding loading indicators for better UX",
+        "action": "Add loading states for asynchronous operations",
+        "location": "/auth/register"
+      },
+      {
+        "issue": "Consider adding loading indicators for better UX",
+        "action": "Add loading states for asynchronous operations",
+        "location": "/dashboard"
+      },
+      {
+        "issue": "Consider adding loading indicators for better UX",
+        "action": "Add loading states for asynchronous operations",
+        "location": "/daily-question"
+      },
+      {
+        "issue": "Consider adding loading indicators for better UX",
+        "action": "Add loading states for asynchronous operations",
+        "location": "/admin"
+      },
+      {
+        "issue": "Consider adding loading indicators for better UX",
+        "action": "Add loading states for asynchronous operations",
+        "location": "/training"
+      },
+      {
+        "issue": "Consider adding loading indicators for better UX",
+        "action": "Add loading states for asynchronous operations",
+        "location": "/ai-echo"
+      }
+    ]
+  }
+}

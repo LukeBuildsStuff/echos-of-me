@@ -1,0 +1,27 @@
+{
+  "testName": "Daily Reflection Submission End-to-End Test",
+  "testDate": "2025-08-02T11:46:07.772Z",
+  "testUser": "lukemoeller@yahoo.com",
+  "results": {
+    "userFlow": [
+      {
+        "name": "Test Execution",
+        "status": "FAIL",
+        "severity": "Critical",
+        "details": "Failed to launch the browser process!\n/home/luke/.cache/puppeteer/chrome/linux-138.0.7204.168/chrome-linux64/chrome: error while loading shared libraries: libatk-1.0.so.0: cannot open shared object file: No such file or directory\n\n\nTROUBLESHOOTING: https://pptr.dev/troubleshooting\n"
+      }
+    ],
+    "formData": [],
+    "apiTesting": [],
+    "database": [],
+    "errorScenarios": []
+  },
+  "summary": {
+    "totalTests": 1,
+    "passed": 0,
+    "failed": 1,
+    "critical": [
+      "Test Execution"
+    ]
+  }
+}

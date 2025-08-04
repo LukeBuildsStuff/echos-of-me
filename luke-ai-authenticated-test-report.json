@@ -1,0 +1,19 @@
+{
+  "authentication": {
+    "success": false,
+    "error": "Request failed with status code 500",
+    "timestamp": "2025-08-03T16:39:57.807Z"
+  },
+  "aiChatTests": [],
+  "consoleCapture": [],
+  "responseAnalysis": [],
+  "overallAssessment": {
+    "authentication": false,
+    "totalTests": 0,
+    "successfulTests": 0,
+    "authenticResponses": 0,
+    "trainedModelResponses": 0,
+    "avgConfidence": 0,
+    "avgResponseLength": 0
+  }
+}

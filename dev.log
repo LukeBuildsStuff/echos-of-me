@@ -1,0 +1,54 @@
+
+> echosofme@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use, trying 3001 instead.
+ ⚠ Port 3001 is in use, trying 3002 instead.
+  ▲ Next.js 14.2.30
+  - Local:        http://localhost:3002
+  - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 1278ms
+ ○ Compiling /auth/signin ...
+ ✓ Compiled /auth/signin in 2.9s (655 modules)
+ HEAD /auth/signin 200 in 3082ms
+ ⨯ Error: Event handlers cannot be passed to Client Component props.
+  <button className=... onClick={function onClick} children=...>
+                                ^^^^^^^^^^^^^^^^^^
+If you need interactivity, consider converting part of this to a Client Component.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+digest: "3451463568"
+ ✓ Compiled in 387ms (325 modules)
+ ⨯ Error: Event handlers cannot be passed to Client Component props.
+  <button className=... onClick={function onClick} children=...>
+                                ^^^^^^^^^^^^^^^^^^
+If you need interactivity, consider converting part of this to a Client Component.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+digest: "3451463568"
+ GET /auth/signin 200 in 30ms
+ ✓ Compiled /auth/register in 218ms (638 modules)
+ HEAD /auth/register 200 in 304ms
+ ⨯ Error: Event handlers cannot be passed to Client Component props.
+  <button className=... onClick={function onClick} children=...>
+                                ^^^^^^^^^^^^^^^^^^
+If you need interactivity, consider converting part of this to a Client Component.
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+    at stringify (<anonymous>)
+digest: "3451463568"
+ ✓ Compiled /middleware in 298ms (174 modules)
+[?25h

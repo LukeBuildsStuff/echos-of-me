@@ -1,0 +1,175 @@
+{
+  "timestamp": "2025-08-03T12:15:25.328Z",
+  "baseUrl": "http://localhost:3001",
+  "user": "lukemoeller@yahoo.com",
+  "tests": [
+    {
+      "name": "Landing Page",
+      "status": "passed",
+      "message": "Landing page loaded with expected content",
+      "timestamp": "2025-08-03T12:15:25.488Z",
+      "statusCode": 200,
+      "contentFound": {
+        "Echoes of Me": false,
+        "Echos Of Me": true,
+        "Sign In": true,
+        "Login": false,
+        "Welcome": false
+      }
+    },
+    {
+      "name": "Authentication",
+      "status": "passed",
+      "message": "Authentication successful - session cookie received",
+      "timestamp": "2025-08-03T12:15:26.596Z",
+      "statusCode": 200,
+      "hasCookie": true
+    },
+    {
+      "name": "Dashboard Access",
+      "status": "warning",
+      "message": "Redirected - may need to re-authenticate",
+      "timestamp": "2025-08-03T12:15:26.607Z",
+      "statusCode": 307,
+      "location": "/api/auth/signin?callbackUrl=%2Fdashboard"
+    },
+    {
+      "name": "AI Echo Page Access",
+      "status": "warning",
+      "message": "Page loaded but chat interface not detected",
+      "timestamp": "2025-08-03T12:15:27.694Z",
+      "statusCode": 200,
+      "contentFound": {
+        "textarea": false,
+        "input": false,
+        "Send": false,
+        "Message": true,
+        "Chat": false,
+        "AI Echo": true
+      }
+    },
+    {
+      "name": "AI Chat API",
+      "status": "failed",
+      "message": "AI Chat API not working",
+      "timestamp": "2025-08-03T12:15:33.723Z"
+    },
+    {
+      "name": "Chat History API",
+      "status": "failed",
+      "message": "Chat history API not accessible",
+      "timestamp": "2025-08-03T12:15:33.728Z",
+      "statusCode": 307
+    },
+    {
+      "name": "Voice Synthesis API",
+      "status": "failed",
+      "message": "Voice synthesis API error",
+      "timestamp": "2025-08-03T12:15:33.732Z",
+      "statusCode": 307
+    }
+  ],
+  "chatInteractions": [
+    {
+      "messageNumber": 1,
+      "userMessage": "Hello, this is a test message. Can you respond?",
+      "statusCode": 307,
+      "responseLength": 52,
+      "timestamp": "2025-08-03T12:15:27.703Z"
+    },
+    {
+      "messageNumber": 2,
+      "userMessage": "What is your name?",
+      "statusCode": 307,
+      "responseLength": 52,
+      "timestamp": "2025-08-03T12:15:29.707Z"
+    },
+    {
+      "messageNumber": 3,
+      "userMessage": "Tell me about yourself",
+      "statusCode": 307,
+      "responseLength": 52,
+      "timestamp": "2025-08-03T12:15:31.716Z"
+    },
+    {
+      "messageNumber": 4,
+      "userMessage": "What can you help me with?",
+      "statusCode": 307,
+      "responseLength": 52,
+      "timestamp": "2025-08-03T12:15:33.723Z"
+    }
+  ],
+  "errors": [],
+  "apiResponses": [
+    {
+      "test": "Landing Page",
+      "url": "http://localhost:3001/",
+      "statusCode": 200,
+      "contentLength": 42911
+    },
+    {
+      "test": "Authentication",
+      "url": "http://localhost:3001/api/auth/callback/credentials",
+      "statusCode": 200,
+      "hasSetCookie": true
+    },
+    {
+      "test": "Dashboard Access",
+      "url": "http://localhost:3001/dashboard",
+      "statusCode": 307,
+      "contentLength": 41
+    },
+    {
+      "test": "AI Echo Page",
+      "url": "http://localhost:3001/ai-echo",
+      "statusCode": 200,
+      "contentLength": 15947
+    },
+    {
+      "test": "Chat Message 1",
+      "url": "http://localhost:3001/api/ai-echo/chat",
+      "statusCode": 307,
+      "requestData": "{\"message\":\"Hello, this is a test message. Can you respond?\",\"userId\":\"test-user\",\"context\":{\"familyMember\":\"test\"}}",
+      "responseLength": 52
+    },
+    {
+      "test": "Chat Message 2",
+      "url": "http://localhost:3001/api/ai-echo/chat",
+      "statusCode": 307,
+      "requestData": "{\"message\":\"What is your name?\",\"userId\":\"test-user\",\"context\":{\"familyMember\":\"test\"}}",
+      "responseLength": 52
+    },
+    {
+      "test": "Chat Message 3",
+      "url": "http://localhost:3001/api/ai-echo/chat",
+      "statusCode": 307,
+      "requestData": "{\"message\":\"Tell me about yourself\",\"userId\":\"test-user\",\"context\":{\"familyMember\":\"test\"}}",
+      "responseLength": 52
+    },
+    {
+      "test": "Chat Message 4",
+      "url": "http://localhost:3001/api/ai-echo/chat",
+      "statusCode": 307,
+      "requestData": "{\"message\":\"What can you help me with?\",\"userId\":\"test-user\",\"context\":{\"familyMember\":\"test\"}}",
+      "responseLength": 52
+    },
+    {
+      "test": "Chat History",
+      "url": "http://localhost:3001/api/ai-echo/history",
+      "statusCode": 307,
+      "responseLength": 55
+    },
+    {
+      "test": "Voice Synthesis",
+      "url": "http://localhost:3001/api/voice/synthesize",
+      "statusCode": 307
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "passed": 2,
+    "failed": 3,
+    "warnings": 2,
+    "partial": 0
+  }
+}

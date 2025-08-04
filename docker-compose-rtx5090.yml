@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  luke-ai-rtx5090:
+    image: nvcr.io/nvidia/pytorch:25.04-py3
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=0
+      - CUDA_VISIBLE_DEVICES=0
+    volumes:
+      - .:/app
+      - /home/luke/personal-ai-clone/web:/app/web
+    working_dir: /app/web
+    ports:
+      - "8000:8000"
+    command: bash -c "pip install transformers peft accelerate && python luke_ai_inference_engine.py status"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]

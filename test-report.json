@@ -1,0 +1,477 @@
+{
+  "testSummary": {
+    "timestamp": "2025-08-01T00:22:43.030Z",
+    "totalErrors": 0,
+    "totalWarnings": 1
+  },
+  "results": {
+    "mainSite": {
+      "Homepage": {
+        "success": true,
+        "status": 200,
+        "responseTime": 66,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Fri, 01 Aug 2025 00:22:32 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "contentLength": 48736,
+        "contentType": "text/html; charset=utf-8"
+      },
+      "Dashboard": {
+        "success": true,
+        "status": 200,
+        "responseTime": 1078,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Fri, 01 Aug 2025 00:22:33 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "contentLength": 23219,
+        "contentType": "text/html; charset=utf-8"
+      },
+      "Daily Question": {
+        "success": true,
+        "status": 200,
+        "responseTime": 322,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Fri, 01 Aug 2025 00:22:33 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "contentLength": 23096,
+        "contentType": "text/html; charset=utf-8"
+      },
+      "Training Page": {
+        "success": true,
+        "status": 200,
+        "responseTime": 318,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Fri, 01 Aug 2025 00:22:34 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "contentLength": 22842,
+        "contentType": "text/html; charset=utf-8"
+      },
+      "AI Echo": {
+        "success": true,
+        "status": 200,
+        "responseTime": 329,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Fri, 01 Aug 2025 00:22:34 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "contentLength": 23098,
+        "contentType": "text/html; charset=utf-8"
+      },
+      "Sign In": {
+        "success": true,
+        "status": 200,
+        "responseTime": 39,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Fri, 01 Aug 2025 00:22:34 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "contentLength": 25357,
+        "contentType": "text/html; charset=utf-8"
+      },
+      "Register": {
+        "success": true,
+        "status": 200,
+        "responseTime": 376,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Fri, 01 Aug 2025 00:22:34 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "contentLength": 25901,
+        "contentType": "text/html; charset=utf-8"
+      }
+    },
+    "externalSite": {
+      "External Homepage": {
+        "success": true,
+        "status": 200,
+        "responseTime": 51,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Fri, 01 Aug 2025 00:22:35 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "contentLength": 48736,
+        "contentType": "text/html; charset=utf-8"
+      },
+      "External Admin Portal": {
+        "success": true,
+        "status": 200,
+        "responseTime": 59,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Fri, 01 Aug 2025 00:22:35 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "contentLength": 46024,
+        "contentType": "text/html; charset=utf-8"
+      }
+    },
+    "adminPortal": {
+      "Admin Dashboard": {
+        "success": true,
+        "status": 200,
+        "responseTime": 39,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Fri, 01 Aug 2025 00:22:35 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "contentLength": 46024,
+        "contentType": "text/html; charset=utf-8"
+      },
+      "Admin Users": {
+        "success": true,
+        "status": 200,
+        "responseTime": 823,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Fri, 01 Aug 2025 00:22:35 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "contentLength": 47149,
+        "contentType": "text/html; charset=utf-8"
+      },
+      "Admin Training": {
+        "success": true,
+        "status": 200,
+        "responseTime": 464,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Fri, 01 Aug 2025 00:22:36 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "contentLength": 49166,
+        "contentType": "text/html; charset=utf-8"
+      },
+      "System Monitoring": {
+        "success": true,
+        "status": 200,
+        "responseTime": 416,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Fri, 01 Aug 2025 00:22:36 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "contentLength": 49309,
+        "contentType": "text/html; charset=utf-8"
+      },
+      "GPU Monitoring": {
+        "success": true,
+        "status": 200,
+        "responseTime": 441,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Fri, 01 Aug 2025 00:22:37 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "contentLength": 34899,
+        "contentType": "text/html; charset=utf-8"
+      },
+      "Admin Settings": {
+        "success": true,
+        "status": 200,
+        "responseTime": 540,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Fri, 01 Aug 2025 00:22:37 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "contentLength": 47557,
+        "contentType": "text/html; charset=utf-8"
+      },
+      "Admin Security": {
+        "success": true,
+        "status": 200,
+        "responseTime": 520,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Fri, 01 Aug 2025 00:22:38 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "contentLength": 47560,
+        "contentType": "text/html; charset=utf-8"
+      },
+      "Admin Reports": {
+        "success": true,
+        "status": 200,
+        "responseTime": 555,
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding",
+          "link": "</_next/static/media/e4af272ccee01ff0-s.p.woff2>; rel=preload; as=\"font\"; crossorigin=\"\"; type=\"font/woff2\"",
+          "cache-control": "no-store, must-revalidate",
+          "content-type": "text/html; charset=utf-8",
+          "date": "Fri, 01 Aug 2025 00:22:38 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        },
+        "contentLength": 48276,
+        "contentType": "text/html; charset=utf-8"
+      }
+    },
+    "apiEndpoints": {
+      "Health Check": {
+        "success": true,
+        "status": 200,
+        "responseTime": 72,
+        "data": {
+          "status": "healthy",
+          "timestamp": "2025-08-01T00:22:38.943Z",
+          "version": "1.0.0",
+          "uptime": 4775.415163238,
+          "checks": {
+            "database": "up",
+            "redis": "up",
+            "filesystem": "up",
+            "external_apis": "up"
+          },
+          "performance": {
+            "response_time_ms": 48,
+            "memory_usage_mb": 757,
+            "cpu_usage_percent": 35.57237628432062
+          }
+        },
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch",
+          "content-type": "application/json",
+          "date": "Fri, 01 Aug 2025 00:22:38 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        }
+      },
+      "Daily Status": {
+        "success": true,
+        "status": 401,
+        "responseTime": 636,
+        "data": {
+          "error": "Unauthorized"
+        },
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch",
+          "content-type": "application/json",
+          "date": "Fri, 01 Aug 2025 00:22:39 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        }
+      },
+      "Admin Analytics": {
+        "success": true,
+        "status": 403,
+        "responseTime": 1128,
+        "data": {
+          "error": "Admin access required"
+        },
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch",
+          "content-type": "application/json",
+          "date": "Fri, 01 Aug 2025 00:22:40 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        }
+      },
+      "Database Health": {
+        "success": true,
+        "status": 403,
+        "responseTime": 327,
+        "data": {
+          "error": "Admin access required"
+        },
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch",
+          "content-type": "application/json",
+          "date": "Fri, 01 Aug 2025 00:22:41 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        }
+      },
+      "Admin Monitoring": {
+        "success": true,
+        "status": 403,
+        "responseTime": 398,
+        "data": {
+          "error": "Admin access required"
+        },
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch",
+          "content-type": "application/json",
+          "date": "Fri, 01 Aug 2025 00:22:41 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        }
+      },
+      "Admin Settings API": {
+        "success": true,
+        "status": 403,
+        "responseTime": 322,
+        "data": {
+          "error": "Admin access required"
+        },
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch",
+          "content-type": "application/json",
+          "date": "Fri, 01 Aug 2025 00:22:41 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        }
+      },
+      "Admin User List": {
+        "success": true,
+        "status": 403,
+        "responseTime": 370,
+        "data": {
+          "error": "Admin access required"
+        },
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch",
+          "content-type": "application/json",
+          "date": "Fri, 01 Aug 2025 00:22:42 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        }
+      },
+      "Training Status": {
+        "success": true,
+        "status": 401,
+        "responseTime": 330,
+        "data": {
+          "error": "Unauthorized"
+        },
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch",
+          "content-type": "application/json",
+          "date": "Fri, 01 Aug 2025 00:22:42 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        }
+      },
+      "Voice Health": {
+        "success": true,
+        "status": 401,
+        "responseTime": 332,
+        "data": {
+          "error": "Unauthorized"
+        },
+        "headers": {
+          "vary": "RSC, Next-Router-State-Tree, Next-Router-Prefetch",
+          "content-type": "application/json",
+          "date": "Fri, 01 Aug 2025 00:22:42 GMT",
+          "connection": "keep-alive",
+          "keep-alive": "timeout=5",
+          "transfer-encoding": "chunked"
+        }
+      }
+    },
+    "errors": [],
+    "warnings": [
+      {
+        "message": "⚠ Missing security headers (X-Frame-Options, CSP)",
+        "timestamp": "2025-08-01T00:22:43.030Z"
+      }
+    ],
+    "performance": {},
+    "mobile": {}
+  },
+  "recommendations": [
+    "Warnings found that should be addressed for better security and performance",
+    "Slow API endpoints detected: Admin Analytics: 1128ms"
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "timestamp": "2025-08-03T13:12:03.140Z",
+  "testSuite": "Luke AI Echo Verification",
+  "totalTests": 10,
+  "passedTests": 2,
+  "failedTests": 7,
+  "warningTests": 1,
+  "successRate": 20,
+  "results": [
+    {
+      "test": "Login Page Access",
+      "status": "✅ PASS",
+      "details": "Signin page accessible"
+    },
+    {
+      "test": "AI Echo Page Access",
+      "status": "⚠️ PARTIAL",
+      "details": "Page loads but missing some expected elements"
+    },
+    {
+      "test": "AI Response: \"What's the most important thin...\"",
+      "status": "❌ FAIL",
+      "details": "HTTP 401"
+    },
+    {
+      "test": "AI Response: \"Tell me about your philosophy ...\"",
+      "status": "❌ FAIL",
+      "details": "HTTP 401"
+    },
+    {
+      "test": "AI Response: \"What advice would you give abo...\"",
+      "status": "❌ FAIL",
+      "details": "HTTP 401"
+    },
+    {
+      "test": "AI Response: \"What matters most to you in re...\"",
+      "status": "❌ FAIL",
+      "details": "HTTP 401"
+    },
+    {
+      "test": "Voice Synthesis",
+      "status": "❌ FAIL",
+      "details": "HTTP 401"
+    },
+    {
+      "test": "Health Check: /api/health",
+      "status": "✅ PASS",
+      "details": "Status: healthy"
+    },
+    {
+      "test": "Health Check: /api/models/health",
+      "status": "❌ FAIL",
+      "details": "HTTP 401"
+    },
+    {
+      "test": "Health Check: /api/voice/health",
+      "status": "❌ FAIL",
+      "details": "HTTP 401"
+    }
+  ]
+}

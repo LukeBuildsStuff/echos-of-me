@@ -1,0 +1,114 @@
+{
+  "timestamp": "2025-07-31T16:02:57.147Z",
+  "summary": {
+    "totalPages": 11,
+    "pagesExist": 11,
+    "pagesWithErrors": 11,
+    "pagesWithReact": 2,
+    "statusCodes": {
+      "200": 2,
+      "500": 9
+    }
+  },
+  "results": [
+    {
+      "url": "http://localhost:3002/admin",
+      "statusCode": 200,
+      "exists": true,
+      "title": "Echos Of Me",
+      "hasReactComponents": true,
+      "hasError": true,
+      "contentLength": 46142
+    },
+    {
+      "url": "http://localhost:3002/admin/users",
+      "statusCode": 200,
+      "exists": true,
+      "title": "Echos Of Me",
+      "hasReactComponents": true,
+      "hasError": true,
+      "contentLength": 46883
+    },
+    {
+      "url": "http://localhost:3002/admin/settings",
+      "statusCode": 500,
+      "exists": true,
+      "title": "No title",
+      "hasReactComponents": false,
+      "hasError": true,
+      "contentLength": 21
+    },
+    {
+      "url": "http://localhost:3002/admin/training",
+      "statusCode": 500,
+      "exists": true,
+      "title": "No title",
+      "hasReactComponents": false,
+      "hasError": true,
+      "contentLength": 21
+    },
+    {
+      "url": "http://localhost:3002/admin/monitoring/system",
+      "statusCode": 500,
+      "exists": true,
+      "title": "No title",
+      "hasReactComponents": false,
+      "hasError": true,
+      "contentLength": 21
+    },
+    {
+      "url": "http://localhost:3002/admin/monitoring/gpu",
+      "statusCode": 500,
+      "exists": true,
+      "title": "No title",
+      "hasReactComponents": false,
+      "hasError": true,
+      "contentLength": 21
+    },
+    {
+      "url": "http://localhost:3002/admin/security",
+      "statusCode": 500,
+      "exists": true,
+      "title": "No title",
+      "hasReactComponents": false,
+      "hasError": true,
+      "contentLength": 21
+    },
+    {
+      "url": "http://localhost:3002/admin/reports",
+      "statusCode": 500,
+      "exists": true,
+      "title": "No title",
+      "hasReactComponents": false,
+      "hasError": true,
+      "contentLength": 21
+    },
+    {
+      "url": "http://localhost:3002/admin/users/analytics",
+      "statusCode": 500,
+      "exists": true,
+      "title": "No title",
+      "hasReactComponents": false,
+      "hasError": true,
+      "contentLength": 21
+    },
+    {
+      "url": "http://localhost:3002/admin/content/moderation",
+      "statusCode": 500,
+      "exists": true,
+      "title": "No title",
+      "hasReactComponents": false,
+      "hasError": true,
+      "contentLength": 21
+    },
+    {
+      "url": "http://localhost:3002/admin/error-recovery",
+      "statusCode": 500,
+      "exists": true,
+      "title": "No title",
+      "hasReactComponents": false,
+      "hasError": true,
+      "contentLength": 21
+    }
+  ]
+}

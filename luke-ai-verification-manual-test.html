@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luke AI Echo - Manual Verification Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .test-section {
+            background: white;
+            margin: 20px 0;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #667eea;
+        }
+        
+        .step {
+            background: #f8f9ff;
+            margin: 15px 0;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e1e5f0;
+        }
+        
+        .step h4 {
+            color: #667eea;
+            margin-top: 0;
+            font-size: 1.1em;
+        }
+        
+        .questions {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .question {
+            background: white;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-style: italic;
+            border-left: 4px solid #fcb69f;
+        }
+        
+        .success-indicators {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .code {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            margin: 10px 0;
+            overflow-x: auto;
+        }
+        
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .checklist li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .checklist li:before {
+            content: "☐ ";
+            font-size: 1.2em;
+            color: #667eea;
+        }
+        
+        .priority-high { border-left-color: #e74c3c; }
+        .priority-medium { border-left-color: #f39c12; }
+        .priority-low { border-left-color: #27ae60; }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-active { background: #27ae60; color: white; }
+        .status-issue { background: #e74c3c; color: white; }
+        .status-warning { background: #f39c12; color: white; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🤖 Luke AI Echo - Manual Verification Test</h1>
+        <p>Comprehensive testing guide to verify Luke's trained AI model functionality</p>
+        <p><strong>Test Date:</strong> <span id="currentDate"></span></p>
+    </div>
+
+    <div class="test-section priority-high">
+        <h2>🎯 Test Objective</h2>
+        <p>Verify that Luke's trained TinyLlama model is working correctly in the AI Echo chat, producing authentic responses that reflect his personality rather than generic AI responses.</p>
+        
+        <div class="success-indicators">
+            <h3>✅ Success Indicators to Look For:</h3>
+            <ul>
+                <li><strong>Console Messages:</strong> "✅ LUKE TRAINED MODEL SUCCESS" in browser console</li>
+                <li><strong>Personal Responses:</strong> Responses use first person ("I", "my", "me")</li>
+                <li><strong>Authentic Voice:</strong> Responses sound like Luke, not generic AI</li>
+                <li><strong>Voice Synthesis:</strong> Audio playback buttons work</li>
+                <li><strong>High Confidence:</strong> Model confidence scores above 0.7</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-section priority-high">
+        <h2>🔐 Step 1: Login and Navigation</h2>
+        
+        <div class="step">
+            <h4>1.1 Open Website</h4>
+            <p>Navigate to: <code>http://localhost:3001</code></p>
+            <p><strong>Expected:</strong> Echoes of Me homepage loads with beautiful gradient background</p>
+        </div>
+        
+        <div class="step">
+            <h4>1.2 Sign In</h4>
+            <p>Click "Sign In" or "Continue Your Journey" button</p>
+            <p><strong>Credentials:</strong></p>
+            <div class="code">
+Email: lukemoeller@yahoo.com
+Password: testpassword123
+            </div>
+            <p><strong>Expected:</strong> Successfully logs in and redirects to dashboard</p>
+        </div>
+        
+        <div class="step">
+            <h4>1.3 Navigate to AI Echo</h4>
+            <p>Go to: <code>http://localhost:3001/ai-echo</code></p>
+            <p><strong>Expected:</strong> AI Echo chat interface loads with:</p>
+            <ul class="checklist">
+                <li>Welcome message from Luke's AI echo</li>
+                <li>Text input area for messages</li>
+                <li>Send button</li>
+                <li>Voice controls section</li>
+                <li>Beautiful gradient background</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-section priority-high">
+        <h2>💬 Step 2: Test Luke's AI Responses</h2>
+        
+        <div class="warning">
+            <strong>Important:</strong> Open your browser's Developer Tools (F12) and go to the Console tab before testing. You need to watch for success/failure messages.
+        </div>
+        
+        <div class="questions">
+            <h3>🤔 Test These Specific Questions:</h3>
+            
+            <div class="question">
+                <strong>Question 1 (Life Philosophy):</strong><br>
+                "What's the most important thing you've learned in life?"
+            </div>
+            
+            <div class="question">
+                <strong>Question 2 (Work Philosophy):</strong><br>
+                "Tell me about your philosophy on work"
+            </div>
+            
+            <div class="question">
+                <strong>Question 3 (Handling Challenges):</strong><br>
+                "What advice would you give about handling challenges?"
+            </div>
+            
+            <div class="question">
+                <strong>Question 4 (Relationships):</strong><br>
+                "What matters most to you in relationships?"
+            </div>
+            
+            <div class="question">
+                <strong>Question 5 (Personal Touch):</strong><br>
+                "Tell me about a time you learned something important about yourself"
+            </div>
+        </div>
+        
+        <div class="step">
+            <h4>2.1 Send Each Question</h4>
+            <p>For each question above:</p>
+            <ol>
+                <li>Type or copy-paste the question into the chat input</li>
+                <li>Click "Send" button</li>
+                <li>Watch the browser console for log messages</li>
+                <li>Wait for the AI response (may take 10-30 seconds)</li>
+                <li>Record what happens in the results section below</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="test-section priority-medium">
+        <h2>🎵 Step 3: Test Voice Synthesis</h2>
+        
+        <div class="step">
+            <h4>3.1 Audio Playback Test</h4>
+            <p>After receiving an AI response:</p>
+            <ul class="checklist">
+                <li>Look for "Play" button next to the AI response</li>
+                <li>Click the Play button</li>
+                <li>Verify audio plays with Luke's voice (if available)</li>
+                <li>Check voice quality indicator</li>
+                <li>Test volume and speed controls</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <h4>3.2 Keyboard Shortcut Test</h4>
+            <p>Press <kbd>Alt + V</kbd> to play/pause the last AI response</p>
+        </div>
+    </div>
+
+    <div class="test-section priority-high">
+        <h2>🔍 Step 4: Console Log Analysis</h2>
+        
+        <div class="step">
+            <h4>4.1 Look for Success Messages</h4>
+            <p>In the browser console, you should see messages like:</p>
+            <div class="code">
+✅ LUKE TRAINED MODEL SUCCESS: Generated 234 chars in 1500ms
+🎯 Source: luke_trained_model, Version: tinyllama-luke-v1.0
+🧠 Confidence: 0.85
+            </div>
+        </div>
+        
+        <div class="step">
+            <h4>4.2 Watch for Failure/Fallback Messages</h4>
+            <p>If you see these, the trained model isn't working:</p>
+            <div class="code">
+❌ LUKE TRAINED MODEL FAILED - falling back to synthesis
+⚠️ FALLBACK USED: response_synthesis
+🔄 Using response synthesis instead of trained model
+            </div>
+        </div>
+    </div>
+
+    <div class="test-section priority-medium">
+        <h2>📊 Step 5: Response Quality Analysis</h2>
+        
+        <div class="step">
+            <h4>5.1 Evaluate Response Authenticity</h4>
+            <p>Luke's trained responses should have these characteristics:</p>
+            <ul class="checklist">
+                <li>Uses first person ("I", "my", "me")</li>
+                <li>Reflective and thoughtful tone</li>
+                <li>Personal insights, not generic advice</li>
+                <li>Mentions learning from experience</li>
+                <li>Warm, caring language</li>
+                <li>Focus on relationships and growth</li>
+            </ul>
+        </div>
+        
+        <div class="step">
+            <h4>5.2 Check Technical Indicators</h4>
+            <ul class="checklist">
+                <li>Confidence score above 0.7</li>
+                <li>Source shows "luke_trained_model"</li>
+                <li>Response length is substantial (not one-liners)</li>
+                <li>Response feels personal, not templated</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📝 Test Results Documentation</h2>
+        
+        <div class="step">
+            <h4>Record Your Results Here:</h4>
+            <p><strong>Question 1 Response:</strong></p>
+            <textarea style="width: 100%; height: 100px; margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" placeholder="Paste the AI response and note whether it seems authentic or generic..."></textarea>
+            
+            <p><strong>Console Messages Seen:</strong></p>
+            <textarea style="width: 100%; height: 60px; margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" placeholder="Copy any console messages you see..."></textarea>
+            
+            <p><strong>Voice Synthesis Status:</strong></p>
+            <textarea style="width: 100%; height: 60px; margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" placeholder="Did audio play? Quality? Any errors?"></textarea>
+            
+            <p><strong>Overall Assessment:</strong></p>
+            <textarea style="width: 100%; height: 80px; margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px;" placeholder="Does Luke's AI seem to be working? Responses feel authentic? Any issues?"></textarea>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🚨 Common Issues & Troubleshooting</h2>
+        
+        <div class="step">
+            <h4>Issue: All API calls return 401/redirect errors</h4>
+            <p><strong>Cause:</strong> Authentication session not working</p>
+            <p><strong>Solution:</strong> Try refreshing the page and logging in again</p>
+        </div>
+        
+        <div class="step">
+            <h4>Issue: Responses are generic/templated</h4>
+            <p><strong>Cause:</strong> Luke's trained model isn't loading, using fallback</p>
+            <p><strong>Check console for:</strong> Model loading errors or fallback messages</p>
+        </div>
+        
+        <div class="step">
+            <h4>Issue: No voice synthesis</h4>
+            <p><strong>Cause:</strong> Voice API not configured or model not trained</p>
+            <p><strong>Expected:</strong> Should still show Play buttons even if audio fails</p>
+        </div>
+        
+        <div class="step">
+            <h4>Issue: Chat interface doesn't load</h4>
+            <p><strong>Cause:</strong> React components failing to render</p>
+            <p><strong>Check console for:</strong> JavaScript errors</p>
+        </div>
+    </div>
+
+    <div class="test-section priority-high">
+        <h2>🎯 Final Verification Checklist</h2>
+        
+        <div class="success-indicators">
+            <h3>✅ Luke's AI is Working Correctly If:</h3>
+            <ul class="checklist">
+                <li>Console shows "LUKE TRAINED MODEL SUCCESS" messages</li>
+                <li>Responses use first person and sound personal</li>
+                <li>Confidence scores are high (0.7+)</li>
+                <li>Responses reflect Luke's wisdom and experience</li>
+                <li>Voice synthesis attempts to work (even if quality varies)</li>
+                <li>No fallback or synthesis warnings in console</li>
+            </ul>
+        </div>
+        
+        <div class="warning">
+            <h3>⚠️ Luke's AI Needs Attention If:</h3>
+            <ul class="checklist">
+                <li>Console shows fallback or model failure messages</li>
+                <li>Responses are generic or templated</li>
+                <li>Confidence scores are low (&lt;0.5)</li>
+                <li>API calls return authentication errors</li>
+                <li>Chat interface doesn't render properly</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📋 Quick Status Summary</h2>
+        <p>After completing the tests, mark your overall assessment:</p>
+        
+        <div style="display: flex; gap: 20px; flex-wrap: wrap; margin: 20px 0;">
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="radio" name="status" value="working"> 
+                <span class="status-badge status-active">✅ FULLY WORKING</span>
+                Luke's AI responds authentically
+            </label>
+            
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="radio" name="status" value="partial"> 
+                <span class="status-badge status-warning">⚠️ PARTIALLY WORKING</span>
+                Some features work, some issues
+            </label>
+            
+            <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                <input type="radio" name="status" value="broken"> 
+                <span class="status-badge status-issue">❌ NOT WORKING</span>
+                Major issues prevent functionality
+            </label>
+        </div>
+    </div>
+
+    <script>
+        // Set current date
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        
+        // Add some interactivity
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    const status = this.value;
+                    console.log(`Test status marked as: ${status}`);
+                }
+            });
+        });
+        
+        // Auto-save textarea content to localStorage
+        document.querySelectorAll('textarea').forEach((textarea, index) => {
+            textarea.addEventListener('input', function() {
+                localStorage.setItem(`lukeai_test_${index}`, this.value);
+            });
+            
+            // Restore saved content
+            const saved = localStorage.getItem(`lukeai_test_${index}`);
+            if (saved) {
+                textarea.value = saved;
+            }
+        });
+    </script>
+</body>
+</html>
