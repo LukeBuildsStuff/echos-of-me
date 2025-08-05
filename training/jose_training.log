@@ -1,0 +1,154 @@
+2025-08-05 08:44:33,128 - INFO - 🎭 Jose Character Fine-tuning Pipeline Starting...
+2025-08-05 08:44:33,174 - INFO - 🔍 Verifying RTX 5090 compatibility for Jose training...
+2025-08-05 08:44:33,175 - INFO - PyTorch version: 2.4.1+cu121
+2025-08-05 08:44:33,175 - INFO - CUDA device capability: (12, 0)
+2025-08-05 08:44:33,175 - INFO - GPU memory: 31.8 GB
+2025-08-05 08:44:33,175 - INFO - GPU: NVIDIA GeForce RTX 5090
+2025-08-05 08:44:33,175 - INFO - ✅ RTX 5090 compatibility verified for Jose training
+2025-08-05 08:44:33,175 - INFO - 🎭 Starting Jose Character Training on RTX 5090
+2025-08-05 08:44:33,175 - INFO - Character: Jose - Brooklyn construction worker with authentic NY speech patterns
+2025-08-05 08:44:33,175 - INFO - 📂 Step 1: Loading Jose character data...
+2025-08-05 08:44:33,175 - INFO - 📚 Loading Jose character training data...
+2025-08-05 08:44:33,175 - INFO - 📊 Loaded 150 Jose character examples
+2025-08-05 08:44:33,175 - INFO - ✅ Prepared 150 training examples for Jose
+2025-08-05 08:44:33,175 - INFO - 🎭 Sample Jose responses:
+2025-08-05 08:44:33,175 - INFO - 
+--- Jose Example 1 ---
+2025-08-05 08:44:33,175 - INFO - Q: What's a daily habit you have that others might find odd?
+2025-08-05 08:44:33,175 - INFO - A: Daily life for me is about routine and family. Get up early, work hard, come home to the people I love. Ain't complicated, but it works for me and mine....
+2025-08-05 08:44:33,175 - INFO - 
+--- Jose Example 2 ---
+2025-08-05 08:44:33,175 - INFO - Q: How has technology changed the way you live your daily life?
+2025-08-05 08:44:33,175 - INFO - A: Daily life for me is about routine and family. Get up early, work hard, come home to the people I love. Ain't complicated, but it works for me and mine....
+2025-08-05 08:44:33,175 - INFO - 🔧 Step 2: Preparing character dataset...
+2025-08-05 08:44:33,175 - INFO - 🔧 Preparing Jose character dataset...
+2025-08-05 08:44:33,294 - ERROR - ❌ Jose training failed: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct.
+401 Client Error. (Request ID: Root=1-6891fcb1-03cc119f4fd1b9251f24e34e;f37ea767-4fa2-429b-9b95-f34292e7e314)
+
+Cannot access gated repo for url https://huggingface.co/meta-llama/Llama-3.1-8B-Instruct/resolve/main/config.json.
+Access to model meta-llama/Llama-3.1-8B-Instruct is restricted. You must have access to it and be authenticated to access it. Please log in.
+2025-08-05 08:45:34,877 - INFO - 🎭 Jose Character Fine-tuning Pipeline Starting...
+2025-08-05 08:45:34,921 - INFO - 🔍 Verifying RTX 5090 compatibility for Jose training...
+2025-08-05 08:45:34,921 - INFO - PyTorch version: 2.4.1+cu121
+2025-08-05 08:45:34,921 - INFO - CUDA device capability: (12, 0)
+2025-08-05 08:45:34,921 - INFO - GPU memory: 31.8 GB
+2025-08-05 08:45:34,921 - INFO - GPU: NVIDIA GeForce RTX 5090
+2025-08-05 08:45:34,921 - INFO - ✅ RTX 5090 compatibility verified for Jose training
+2025-08-05 08:45:34,921 - INFO - 🎭 Starting Jose Character Training on RTX 5090
+2025-08-05 08:45:34,921 - INFO - Character: Jose - Brooklyn construction worker with authentic NY speech patterns
+2025-08-05 08:45:34,921 - INFO - 📂 Step 1: Loading Jose character data...
+2025-08-05 08:45:34,921 - INFO - 📚 Loading Jose character training data...
+2025-08-05 08:45:34,922 - INFO - 📊 Loaded 150 Jose character examples
+2025-08-05 08:45:34,922 - INFO - ✅ Prepared 150 training examples for Jose
+2025-08-05 08:45:34,922 - INFO - 🎭 Sample Jose responses:
+2025-08-05 08:45:34,922 - INFO - 
+--- Jose Example 1 ---
+2025-08-05 08:45:34,922 - INFO - Q: What's a daily habit you have that others might find odd?
+2025-08-05 08:45:34,922 - INFO - A: Daily life for me is about routine and family. Get up early, work hard, come home to the people I love. Ain't complicated, but it works for me and mine....
+2025-08-05 08:45:34,922 - INFO - 
+--- Jose Example 2 ---
+2025-08-05 08:45:34,922 - INFO - Q: How has technology changed the way you live your daily life?
+2025-08-05 08:45:34,922 - INFO - A: Daily life for me is about routine and family. Get up early, work hard, come home to the people I love. Ain't complicated, but it works for me and mine....
+2025-08-05 08:45:34,922 - INFO - 🔧 Step 2: Preparing character dataset...
+2025-08-05 08:45:34,922 - INFO - 🔧 Preparing Jose character dataset...
+2025-08-05 08:45:35,044 - ERROR - ❌ Jose training failed: You are trying to access a gated repo.
+Make sure to have access to it at https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2.
+401 Client Error. (Request ID: Root=1-6891fcef-33d9dc4731a407145077ceae;238abd7d-7bf4-4e85-b5d2-61e9e72d5705)
+
+Cannot access gated repo for url https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2/resolve/main/config.json.
+Access to model mistralai/Mistral-7B-Instruct-v0.2 is restricted. You must have access to it and be authenticated to access it. Please log in.
+2025-08-05 08:46:37,939 - INFO - 🎭 Jose Character Fine-tuning Pipeline Starting...
+2025-08-05 08:46:37,999 - INFO - 🔍 Verifying RTX 5090 compatibility for Jose training...
+2025-08-05 08:46:37,999 - INFO - PyTorch version: 2.4.1+cu121
+2025-08-05 08:46:37,999 - INFO - CUDA device capability: (12, 0)
+2025-08-05 08:46:37,999 - INFO - GPU memory: 31.8 GB
+2025-08-05 08:46:37,999 - INFO - GPU: NVIDIA GeForce RTX 5090
+2025-08-05 08:46:37,999 - INFO - ✅ RTX 5090 compatibility verified for Jose training
+2025-08-05 08:46:37,999 - INFO - 🎭 Starting Jose Character Training on RTX 5090
+2025-08-05 08:46:37,999 - INFO - Character: Jose - Brooklyn construction worker with authentic NY speech patterns
+2025-08-05 08:46:37,999 - INFO - 📂 Step 1: Loading Jose character data...
+2025-08-05 08:46:37,999 - INFO - 📚 Loading Jose character training data...
+2025-08-05 08:46:37,999 - INFO - 📊 Loaded 150 Jose character examples
+2025-08-05 08:46:37,999 - INFO - ✅ Prepared 150 training examples for Jose
+2025-08-05 08:46:37,999 - INFO - 🎭 Sample Jose responses:
+2025-08-05 08:46:37,999 - INFO - 
+--- Jose Example 1 ---
+2025-08-05 08:46:37,999 - INFO - Q: What's a daily habit you have that others might find odd?
+2025-08-05 08:46:37,999 - INFO - A: Daily life for me is about routine and family. Get up early, work hard, come home to the people I love. Ain't complicated, but it works for me and mine....
+2025-08-05 08:46:38,000 - INFO - 
+--- Jose Example 2 ---
+2025-08-05 08:46:38,000 - INFO - Q: How has technology changed the way you live your daily life?
+2025-08-05 08:46:38,000 - INFO - A: Daily life for me is about routine and family. Get up early, work hard, come home to the people I love. Ain't complicated, but it works for me and mine....
+2025-08-05 08:46:38,000 - INFO - 🔧 Step 2: Preparing character dataset...
+2025-08-05 08:46:38,000 - INFO - 🔧 Preparing Jose character dataset...
+2025-08-05 08:46:38,614 - INFO - ✅ Dataset prepared: 150 Jose character examples
+2025-08-05 08:46:38,614 - INFO - 🚀 Step 3: Setting up TinyLlama 1.1B model...
+2025-08-05 08:46:38,614 - INFO - 🚀 Setting up TinyLlama 1.1B for Jose character training...
+2025-08-05 08:46:38,988 - ERROR - ❌ Jose training failed: FlashAttention2 has been toggled on, but it cannot be used due to the following error: the package flash_attn seems to be not installed. Please refer to the documentation of https://huggingface.co/docs/transformers/perf_infer_gpu_one#flashattention-2 to install Flash Attention 2.
+2025-08-05 08:46:52,828 - INFO - 🎭 Jose Character Fine-tuning Pipeline Starting...
+2025-08-05 08:46:52,886 - INFO - 🔍 Verifying RTX 5090 compatibility for Jose training...
+2025-08-05 08:46:52,886 - INFO - PyTorch version: 2.4.1+cu121
+2025-08-05 08:46:52,886 - INFO - CUDA device capability: (12, 0)
+2025-08-05 08:46:52,886 - INFO - GPU memory: 31.8 GB
+2025-08-05 08:46:52,886 - INFO - GPU: NVIDIA GeForce RTX 5090
+2025-08-05 08:46:52,886 - INFO - ✅ RTX 5090 compatibility verified for Jose training
+2025-08-05 08:46:52,886 - INFO - 🎭 Starting Jose Character Training on RTX 5090
+2025-08-05 08:46:52,886 - INFO - Character: Jose - Brooklyn construction worker with authentic NY speech patterns
+2025-08-05 08:46:52,886 - INFO - 📂 Step 1: Loading Jose character data...
+2025-08-05 08:46:52,886 - INFO - 📚 Loading Jose character training data...
+2025-08-05 08:46:52,887 - INFO - 📊 Loaded 150 Jose character examples
+2025-08-05 08:46:52,887 - INFO - ✅ Prepared 150 training examples for Jose
+2025-08-05 08:46:52,887 - INFO - 🎭 Sample Jose responses:
+2025-08-05 08:46:52,887 - INFO - 
+--- Jose Example 1 ---
+2025-08-05 08:46:52,887 - INFO - Q: What's a daily habit you have that others might find odd?
+2025-08-05 08:46:52,887 - INFO - A: Daily life for me is about routine and family. Get up early, work hard, come home to the people I love. Ain't complicated, but it works for me and mine....
+2025-08-05 08:46:52,887 - INFO - 
+--- Jose Example 2 ---
+2025-08-05 08:46:52,887 - INFO - Q: How has technology changed the way you live your daily life?
+2025-08-05 08:46:52,887 - INFO - A: Daily life for me is about routine and family. Get up early, work hard, come home to the people I love. Ain't complicated, but it works for me and mine....
+2025-08-05 08:46:52,887 - INFO - 🔧 Step 2: Preparing character dataset...
+2025-08-05 08:46:52,887 - INFO - 🔧 Preparing Jose character dataset...
+2025-08-05 08:46:53,079 - INFO - ✅ Dataset prepared: 150 Jose character examples
+2025-08-05 08:46:53,079 - INFO - 🚀 Step 3: Setting up TinyLlama 1.1B model...
+2025-08-05 08:46:53,079 - INFO - 🚀 Setting up TinyLlama 1.1B for Jose character training...
+2025-08-05 08:46:53,515 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-08-05 08:46:53,978 - ERROR - ❌ Jose training failed: CUDA error: no kernel image is available for execution on the device
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+
+2025-08-05 09:43:07,515 - INFO - 🎭 Jose Character Fine-tuning Pipeline Starting...
+2025-08-05 09:43:07,581 - INFO - 🔍 Verifying RTX 5090 compatibility for Jose training...
+2025-08-05 09:43:07,581 - INFO - PyTorch version: 2.4.1+cu121
+2025-08-05 09:43:07,581 - INFO - CUDA device capability: (12, 0)
+2025-08-05 09:43:07,581 - INFO - GPU memory: 31.8 GB
+2025-08-05 09:43:07,581 - INFO - GPU: NVIDIA GeForce RTX 5090
+2025-08-05 09:43:07,581 - INFO - ✅ RTX 5090 compatibility verified for Jose training
+2025-08-05 09:43:07,581 - INFO - 🎭 Starting Jose Character Training on RTX 5090
+2025-08-05 09:43:07,581 - INFO - Character: Jose - Brooklyn construction worker with authentic NY speech patterns
+2025-08-05 09:43:07,581 - INFO - 📂 Step 1: Loading Jose character data...
+2025-08-05 09:43:07,581 - INFO - 📚 Loading Jose character training data...
+2025-08-05 09:43:07,581 - INFO - 📊 Loaded 69 Jose character examples
+2025-08-05 09:43:07,581 - INFO - ✅ Prepared 69 training examples for Jose
+2025-08-05 09:43:07,581 - INFO - 🎭 Sample Jose responses:
+2025-08-05 09:43:07,581 - INFO - 
+--- Jose Example 1 ---
+2025-08-05 09:43:07,581 - INFO - Q: Hi, how are you doing?
+2025-08-05 09:43:07,581 - INFO - A: Hey there, buddy! I'm doin' alright, just got off a job site in Bensonhurst. Been pourin' concrete all day - my back's tellin' me about it, but hey, that's the job, ya know what I'm sayin'?...
+2025-08-05 09:43:07,581 - INFO - 
+--- Jose Example 2 ---
+2025-08-05 09:43:07,581 - INFO - Q: What do you do for work?
+2025-08-05 09:43:07,581 - INFO - A: I'm in construction, been doin' it for over twenty years now. Started right outta high school here in Brooklyn. I do everything - concrete, framing, electrical work, you name it. Been workin' mostly c...
+2025-08-05 09:43:07,582 - INFO - 🔧 Step 2: Preparing character dataset...
+2025-08-05 09:43:07,582 - INFO - 🔧 Preparing Jose character dataset...
+2025-08-05 09:43:07,803 - INFO - ✅ Dataset prepared: 69 Jose character examples
+2025-08-05 09:43:07,803 - INFO - 🚀 Step 3: Setting up TinyLlama 1.1B model...
+2025-08-05 09:43:07,803 - INFO - 🚀 Setting up TinyLlama 1.1B for Jose character training...
+2025-08-05 09:43:08,396 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-08-05 09:43:08,855 - ERROR - ❌ Jose training failed: CUDA error: no kernel image is available for execution on the device
+CUDA kernel errors might be asynchronously reported at some other API call, so the stacktrace below might be incorrect.
+For debugging consider passing CUDA_LAUNCH_BLOCKING=1
+Compile with `TORCH_USE_CUDA_DSA` to enable device-side assertions.
+

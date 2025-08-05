@@ -1,0 +1,15 @@
+{
+  "model_name": "Jose Construction Worker",
+  "base_model": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+  "training_date": "2025-08-05T15:26:33.767101",
+  "training_time_seconds": 221.02588391304016,
+  "dataset_path": "/workspace/jose_final_training_dataset.json",
+  "lora_config": {
+    "task_type": "CAUSAL_LM",
+    "peft_type": "LORA",
+    "auto_mapping": null,
+    "base_model_name_or_path": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+    "revision": null,
+    "inference_mode": false,
+    "r": 32,
+    "target_modules": 

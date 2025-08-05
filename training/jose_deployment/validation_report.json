@@ -1,0 +1,12 @@
+{
+  "character": "Jose",
+  "validation_date": "2025-08-05",
+  "total_responses": 69,
+  "valid_responses": 67,
+  "character_grade": "A",
+  "brooklyn_dialect_score": 0.7101449275362319,
+  "construction_expertise_score": 0.6956521739130435,
+  "personality_consistency_score": 0.2463768115942029,
+  "overall_authenticity": 0.9710144927536232,
+  "ready_for_deployment": true
+}

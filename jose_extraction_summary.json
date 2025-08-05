@@ -1,0 +1,17 @@
+{
+  "extraction_completed": "20250805_111649",
+  "database_source": "postgresql://echosofme:***@localhost:5432/echosofme_dev",
+  "user_id": 2,
+  "user_email": "lukemoeller@yahoo.com",
+  "character": "Jose - Brooklyn Construction Worker",
+  "total_responses_extracted": 150,
+  "valid_training_entries": 150,
+  "files_created": [
+    "jose_complete_training_dataset_20250805_111649.json",
+    "jose_conversation_dataset_20250805_111649.json",
+    "jose_training_data_20250805_111649.jsonl",
+    "jose_final_training_dataset.json"
+  ],
+  "dataset_ready_for_training": true,
+  "recommended_file": "jose_final_training_dataset.json"
+}

@@ -1,0 +1,41 @@
+# Jose Character Training Requirements - RTX 5090 Optimized
+# Author: Claude Code (LLM Fine-tuning Specialist)
+
+# Core PyTorch with RTX 5090 support
+torch>=2.1.0
+torchvision>=0.16.0
+torchaudio>=2.1.0
+
+# Transformers and PEFT for Llama 3.1
+transformers>=4.44.0
+peft>=0.12.0
+accelerate>=0.33.0
+
+# Quantization and optimization
+bitsandbytes>=0.43.0
+flash-attn>=2.6.0  # Flash Attention 2 for RTX 5090
+
+# Data processing
+datasets>=2.20.0
+tokenizers>=0.19.0
+
+# Training utilities
+tensorboard>=2.16.0
+wandb>=0.17.0
+tqdm>=4.66.0
+
+# System utilities
+psutil>=6.0.0
+nvidia-ml-py3>=7.352.0
+
+# Data handling
+numpy>=1.24.0
+scipy>=1.11.0
+pandas>=2.0.0
+
+# Configuration and logging
+pyyaml>=6.0
+safetensors>=0.4.0
+
+# Optional: For advanced monitoring
+gpustat>=1.1.0

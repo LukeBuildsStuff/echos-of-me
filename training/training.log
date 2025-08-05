@@ -95,3 +95,44 @@ LINE 3:             SET status = 'failed', progress = 0.0, updated_a...
 2025-08-03 02:47:01,743 - INFO - Training duration: 105.57 seconds (1.8 minutes)
 2025-08-03 02:47:01,863 - INFO - Training status updated: completed (progress: 100.0%)
 2025-08-03 02:47:01,864 - INFO - Training result: {'status': 'completed', 'duration': 105.56877851486206, 'model_path': '/training/final_model', 'training_examples': 117, 'final_loss': 1.786651971605089}
+2025-08-05 13:01:59,365 - INFO - RTX 5090 Training Pipeline Starting...
+2025-08-05 13:01:59,402 - INFO - Verifying RTX 5090 compatibility...
+2025-08-05 13:01:59,402 - INFO - PyTorch version: 2.7.0a0+79aa17489c.nv25.04
+2025-08-05 13:01:59,402 - INFO - CUDA device capability: (12, 0)
+2025-08-05 13:01:59,402 - INFO - GPU memory: 31.8 GB
+2025-08-05 13:01:59,402 - INFO - GPU: NVIDIA GeForce RTX 5090
+2025-08-05 13:01:59,403 - INFO - RTX 5090 compatibility verified ✓
+2025-08-05 13:01:59,403 - INFO - 🚀 Starting RTX 5090 Training Pipeline for 'Echoes of Me'
+2025-08-05 13:01:59,431 - INFO - Training status updated: running (progress: 0.0%)
+2025-08-05 13:01:59,431 - INFO - Loading training data from PostgreSQL...
+2025-08-05 13:01:59,441 - INFO - Loaded 150 training examples
+2025-08-05 13:01:59,441 - INFO - Total words: 6981
+2025-08-05 13:01:59,451 - INFO - Training status updated: running (progress: 10.0%)
+2025-08-05 13:01:59,451 - INFO - Preparing dataset...
+2025-08-05 13:02:00,138 - WARNING - Parameter 'function'=<function RTX5090TrainingPipeline.prepare_dataset.<locals>.tokenize_function at 0x7f4e5d5c4f40> of the transform datasets.arrow_dataset.Dataset._map_single couldn't be hashed properly, a random hash was used instead. Make sure your transforms and parameters are serializable with pickle or dill for the dataset fingerprinting and caching to work. If you reuse this transform, the caching mechanism will consider it to be different from the previous calls and recompute everything. This warning is only showed once. Subsequent hashing failures won't be showed.
+2025-08-05 13:02:00,168 - INFO - Dataset prepared with 150 examples
+2025-08-05 13:02:00,175 - INFO - Training status updated: running (progress: 20.0%)
+2025-08-05 13:02:00,176 - INFO - Setting up Mistral-7B with QLoRA...
+2025-08-05 13:02:48,442 - INFO - We will use 90% of the memory on device 0 for storing the model, and 10% for the buffer to avoid OOM. You can set `max_memory` in to a higher value to use more memory (at your own risk).
+2025-08-05 13:02:50,160 - INFO - Model setup complete ✓
+2025-08-05 13:02:50,170 - INFO - Training status updated: running (progress: 30.0%)
+2025-08-05 13:02:50,170 - INFO - Setting up trainer...
+2025-08-05 13:02:50,376 - INFO - Trainer setup complete ✓
+2025-08-05 13:02:50,383 - INFO - Training status updated: running (progress: 40.0%)
+2025-08-05 13:02:50,383 - INFO - GPU Memory - Allocated: 1.01GB, Reserved: 1.53GB
+2025-08-05 13:02:50,383 - INFO - 🔥 Beginning training on RTX 5090...
+2025-08-05 13:03:16,994 - INFO - Training status updated: running (progress: 48.8%)
+2025-08-05 13:03:16,995 - INFO - GPU Memory - Allocated: 1.12GB, Reserved: 1.73GB
+2025-08-05 13:03:41,370 - INFO - Training status updated: running (progress: 57.5%)
+2025-08-05 13:03:41,371 - INFO - GPU Memory - Allocated: 1.12GB, Reserved: 1.73GB
+2025-08-05 13:04:06,507 - INFO - Training status updated: running (progress: 66.3%)
+2025-08-05 13:04:06,508 - INFO - GPU Memory - Allocated: 1.12GB, Reserved: 1.73GB
+2025-08-05 13:04:31,017 - INFO - Training status updated: running (progress: 75.1%)
+2025-08-05 13:04:31,017 - INFO - GPU Memory - Allocated: 1.12GB, Reserved: 1.73GB
+2025-08-05 13:04:56,077 - INFO - Training status updated: running (progress: 83.9%)
+2025-08-05 13:04:56,077 - INFO - GPU Memory - Allocated: 1.12GB, Reserved: 1.73GB
+2025-08-05 13:05:13,607 - INFO - Training status updated: running (progress: 95.0%)
+2025-08-05 13:05:13,919 - INFO - ✅ Training completed successfully!
+2025-08-05 13:05:13,919 - INFO - Training duration: 143.54 seconds (2.4 minutes)
+2025-08-05 13:05:13,926 - INFO - Training status updated: completed (progress: 100.0%)
+2025-08-05 13:05:13,927 - INFO - Training result: {'status': 'completed', 'duration': 143.53567099571228, 'model_path': '/training/final_model', 'training_examples': 150, 'final_loss': 1.4701587359110515}

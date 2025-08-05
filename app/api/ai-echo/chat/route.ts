@@ -9,7 +9,7 @@ import { lukeAIModelEngine } from '@/lib/luke-ai-model-engine'
  * Enhanced AI Echo Chat API
  * 
  * This endpoint connects with the RTX 5090 GPU container for high-performance inference.
- * It uses Luke's trained model running on the GPU container, with intelligent fallbacks.
+ * It uses Jose's trained Brooklyn construction worker model running on the GPU container, with intelligent fallbacks.
  */
 
 export async function POST(request: NextRequest) {
@@ -124,7 +124,7 @@ export async function POST(request: NextRequest) {
     let modelEngineStatus = null
 
     if (!isDemo) {
-      console.log(`🤖 [LUKE AI] Starting chat for user ${user.id}`)
+      console.log(`🤖 [JOSE AI] Starting chat for user ${user.id}`)
       console.log(`   📝 Message: "${message.substring(0, 100)}${message.length > 100 ? '...' : ''}"`)
       console.log(`   👤 Available training responses: ${responses.rows.length}`)
       console.log(`   🗂️ Available models in DB: ${availableModels.rows.length}`)
@@ -132,7 +132,7 @@ export async function POST(request: NextRequest) {
       // Check Luke AI model status first
       try {
         modelEngineStatus = await lukeAIModelEngine.getStatus()
-        console.log(`📊 [LUKE AI] Engine Status:`, {
+        console.log(`📊 [JOSE AI] Engine Status:`, {
           isModelLoaded: modelEngineStatus.model_loaded,
           device: modelEngineStatus.device,
           inferenceCount: modelEngineStatus.inference_count,
@@ -141,12 +141,12 @@ export async function POST(request: NextRequest) {
             `${(modelEngineStatus.gpu_memory.usage_percent * 100).toFixed(1)}%` : 'N/A'
         })
       } catch (statusError) {
-        console.error(`❌ [LUKE AI] Failed to get status:`, statusError.message)
+        console.error(`❌ [JOSE AI] Failed to get status:`, statusError.message)
       }
       
       // Start Luke's AI model if not ready
       if (!lukeAIModelEngine.isReady() || !modelEngineStatus?.model_loaded) {
-        console.log(`⚡ [LUKE AI] Model not ready - initializing...`)
+        console.log(`⚡ [JOSE AI] Model not ready - initializing...`)
         console.log(`   🔧 Engine ready: ${lukeAIModelEngine.isReady()}`)
         console.log(`   🔧 Model loaded: ${modelEngineStatus?.model_loaded || false}`)
         
@@ -207,13 +207,13 @@ export async function POST(request: NextRequest) {
         aiResponse = {
           response: lukeResponse.content,
           confidence: lukeResponse.metadata?.confidence || 0.9,
-          source: 'luke_trained_model',
-          modelVersion: lukeResponse.metadata?.modelVersion || 'tinyllama-luke-v1.0',
-          emotionalTone: lukeResponse.metadata?.emotionalTone || 'warm',
+          source: 'jose_trained_model',
+          modelVersion: lukeResponse.metadata?.modelVersion || 'tinyllama-jose-v1.0',
+          emotionalTone: lukeResponse.metadata?.emotionalTone || 'authentic',
           responseTime: lukeResponse.metadata?.responseTime || processingTime
         }
         
-        console.log(`✅ [LUKE AI] RTX 5090 GPU RESPONSE GENERATED SUCCESSFULLY!`)
+        console.log(`✅ [JOSE AI] RTX 5090 GPU RESPONSE GENERATED SUCCESSFULLY!`)
         console.log(`   📏 Response length: ${lukeResponse.content.length} chars`)
         console.log(`   ⏱️ Generation time: ${processingTime}ms`)
         console.log(`   📊 Confidence: ${aiResponse.confidence}`)
@@ -337,7 +337,7 @@ export async function POST(request: NextRequest) {
     // Final response logging
     const responseSummary = {
       source: aiResponse.source,
-      isAuthentic: aiResponse.source === 'luke_trained_model',
+      isAuthentic: aiResponse.source === 'jose_trained_model',
       confidence: aiResponse.confidence,
       responseLength: aiResponse.response.length,
       sessionId: chatSession?.id,
@@ -347,7 +347,7 @@ export async function POST(request: NextRequest) {
     }
     
     console.log(`📋 [RESPONSE SUMMARY] Final response details:`)
-    console.log(`   🎯 Source: ${responseSummary.source} ${responseSummary.isAuthentic ? '(AUTHENTIC LUKE)' : '(FALLBACK)'}`)
+    console.log(`   🎯 Source: ${responseSummary.source} ${responseSummary.isAuthentic ? '(AUTHENTIC JOSE)' : '(FALLBACK)'}`)
     console.log(`   📊 Confidence: ${responseSummary.confidence}`)
     console.log(`   📏 Length: ${responseSummary.responseLength} chars`)
     console.log(`   🎙️ Voice: ${responseSummary.hasVoice ? 'Generated' : 'Not requested'}`)
@@ -370,10 +370,10 @@ export async function POST(request: NextRequest) {
       },
       modelInfo: {
         modelType: 'TinyLlama-1.1B-Chat-v1.0',
-        trainedModel: aiResponse.source === 'luke_trained_model',
-        deploymentStatus: aiResponse.source === 'luke_trained_model' ? 'deployed' : 'fallback',
-        modelCapabilities: aiResponse.source === 'luke_trained_model' 
-          ? ['conversation', 'context_aware', 'persona_based', 'rtx5090_optimized', 'streaming', 'real_time', 'luke_personality']
+        trainedModel: aiResponse.source === 'jose_trained_model',
+        deploymentStatus: aiResponse.source === 'jose_trained_model' ? 'deployed' : 'fallback',
+        modelCapabilities: aiResponse.source === 'jose_trained_model' 
+          ? ['conversation', 'context_aware', 'persona_based', 'rtx5090_optimized', 'streaming', 'real_time', 'jose_brooklyn_construction_worker']
           : ['response_synthesis', 'fallback'],
         voiceCapabilities: voiceResponse ? ['voice_synthesis', 'rtx5090_optimized', 'real_time'] : [],
         engineStatus: modelEngineStatus

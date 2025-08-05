@@ -1,0 +1,23 @@
+{
+  "character": "Jose",
+  "deployment_id": "jose-deploy-20250805-094717",
+  "deployment_date": "2025-08-05T09:47:17.609130",
+  "files": [
+    "training_data.json",
+    "training_data.jsonl",
+    "model_config.json",
+    "validation_report.json",
+    "training_config.json"
+  ],
+  "status": "ready_for_deployment",
+  "model_type": "character_responses",
+  "validation_passed": true,
+  "authenticity_score": 0.971,
+  "deployment_notes": [
+    "Jose character has 97.1% authentic response validation",
+    "Strong Brooklyn dialect representation (71%)",
+    "Good construction expertise coverage (69.6%)",
+    "Character receives Grade A for authenticity",
+    "Ready for production deployment"
+  ]
+}

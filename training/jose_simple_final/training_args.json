@@ -1,0 +1,8 @@
+{
+  "character": "Jose",
+  "background": "Brooklyn construction worker",
+  "training_examples": 150,
+  "base_model": "TinyLlama/TinyLlama-1.1B-Chat-v1.0",
+  "training_method": "LoRA fine-tuning",
+  "character_consistency_score": 83.8
+}
