@@ -411,6 +411,14 @@ function buildEnhancedPersonaContext(user: any, responses: any[], additionalCont
     context.push(`You are a ${personRole}.`)
   }
   
+  // Add temporal context for the user themselves
+  if (user.birthday) {
+    const age = calculateAge(user.birthday)
+    if (age !== null) {
+      context.push(`You are ${age} years old.`)
+    }
+  }
+  
   // Add family member specific traits
   if (familyContext?.traits && familyContext.traits.length > 0) {
     context.push(`Your personality traits include: ${familyContext.traits.join(', ')}.`)
@@ -451,7 +459,19 @@ function buildEnhancedPersonaContext(user: any, responses: any[], additionalCont
     context.push(relationshipGuidance)
   }
   
-  context.push('Respond in a warm, caring tone that reflects the personality and wisdom shown in these memories. Draw from the full depth of life experiences shared, speaking with the authentic voice and perspective of this beloved family member.')
+  // Add important people with temporal awareness
+  if (user.important_people) {
+    const importantPeople = parseImportantPeople(user.important_people)
+    if (importantPeople.length > 0) {
+      context.push('Important people in your life:')
+      importantPeople.slice(0, 3).forEach(person => {
+        const temporalInfo = formatPersonTemporalContext(person)
+        context.push(`${person.name} (${person.relationship}${temporalInfo ? ', ' + temporalInfo : ''})`)
+      })
+    }
+  }
+  
+  context.push('Respond in a warm, caring tone that reflects the personality and wisdom shown in these memories. Use age-appropriate language and temporal awareness when referencing people. For those who have passed away, speak of them with love and in appropriate past tense. For living people, reference their current age and circumstances when relevant. Draw from the full depth of life experiences shared, speaking with the authentic voice and perspective of this beloved family member.')
   
   return context.join(' ')
 }
@@ -651,6 +671,106 @@ function detectMessageEmotion(content: string): string {
   if (lowerContent.includes('comfort') || lowerContent.includes('here') || lowerContent.includes('support')) return 'comforting'
   
   return 'warm'
+}
+
+/**
+ * Calculate age from birthday
+ */
+function calculateAge(birthday: string, referenceDate?: string): number | null {
+  if (!birthday) return null
+  
+  const birth = new Date(birthday)
+  const reference = new Date(referenceDate || new Date())
+  let age = reference.getFullYear() - birth.getFullYear()
+  const monthDiff = reference.getMonth() - birth.getMonth()
+  
+  if (monthDiff < 0 || (monthDiff === 0 && reference.getDate() < birth.getDate())) {
+    age--
+  }
+  
+  return age
+}
+
+/**
+ * Calculate years since a memorial date
+ */
+function calculateYearsSince(memorialDate: string, referenceDate?: string): number | null {
+  if (!memorialDate) return null
+  
+  const memorial = new Date(memorialDate)
+  const reference = new Date(referenceDate || new Date())
+  let years = reference.getFullYear() - memorial.getFullYear()
+  const monthDiff = reference.getMonth() - memorial.getMonth()
+  
+  if (monthDiff < 0 || (monthDiff === 0 && reference.getDate() < memorial.getDate())) {
+    years--
+  }
+  
+  return years
+}
+
+/**
+ * Parse important people with temporal data
+ */
+function parseImportantPeople(importantPeopleJson: any): Array<{name: string, relationship?: string, birthday?: string, memorial_date?: string}> {
+  try {
+    if (importantPeopleJson && typeof importantPeopleJson === 'object') {
+      if (Array.isArray(importantPeopleJson)) {
+        return importantPeopleJson.map((p: any) => ({
+          name: p.name,
+          relationship: p.relationship,
+          birthday: p.birthday,
+          memorial_date: p.memorial_date
+        })).filter(p => p.name)
+      } else {
+        return Object.values(importantPeopleJson).map((p: any) => ({
+          name: p.name,
+          relationship: p.relationship,
+          birthday: p.birthday,
+          memorial_date: p.memorial_date
+        })).filter(p => p.name)
+      }
+    }
+    if (typeof importantPeopleJson === 'string') {
+      const parsed = JSON.parse(importantPeopleJson)
+      return parsed.map((p: any) => ({
+        name: p.name,
+        relationship: p.relationship,
+        birthday: p.birthday,
+        memorial_date: p.memorial_date
+      })).filter(p => p.name)
+    }
+  } catch (e) {
+    // Ignore parsing errors
+  }
+  return []
+}
+
+/**
+ * Format temporal context for a person
+ */
+function formatPersonTemporalContext(person: {name: string, relationship?: string, birthday?: string, memorial_date?: string}, referenceDate?: string): string {
+  if (person.memorial_date) {
+    const yearsSince = calculateYearsSince(person.memorial_date, referenceDate)
+    if (yearsSince !== null) {
+      if (yearsSince === 0) {
+        return 'who passed away recently'
+      } else if (yearsSince === 1) {
+        return 'who passed away a year ago'
+      } else {
+        return `who passed away ${yearsSince} years ago`
+      }
+    } else {
+      return 'who has passed away'
+    }
+  } else if (person.birthday) {
+    const age = calculateAge(person.birthday, referenceDate)
+    if (age !== null) {
+      return `who is ${age} years old`
+    }
+  }
+  
+  return ''
 }
 
 function createPersonalizedFallbackResponse(userMessage: string): string {

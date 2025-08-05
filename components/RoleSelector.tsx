@@ -5,6 +5,8 @@ import { FamilyRole } from '@/lib/family-role-questions'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 
 interface RoleSelectorProps {
   onComplete: (profile: UserRoleProfile) => void
@@ -21,6 +23,8 @@ export interface UserRoleProfile {
   importantPeople?: Array<{
     name: string
     relationship: string
+    birthday?: string
+    memorial_date?: string
   }>
   significantEvents?: string[]
   culturalBackground?: string[]
@@ -69,7 +73,7 @@ export default function RoleSelector({ onComplete, onCancel, initialProfile }: R
   const [profile, setProfile] = useState<Partial<UserRoleProfile>>(initialProfile || {})
   const [childCount, setChildCount] = useState(0)
   const [tempChildBirthdays, setTempChildBirthdays] = useState<string[]>([])
-  const [importantPeople, setImportantPeople] = useState<Array<{name: string, relationship: string}>>([{name: '', relationship: ''}])
+  const [importantPeople, setImportantPeople] = useState<Array<{name: string, relationship: string, birthday?: string, memorial_date?: string}>>([{name: '', relationship: ''}])
 
   const handlePrimaryRoleSelect = (role: FamilyRole) => {
     setProfile({ ...profile, primaryRole: role, secondaryRoles: [] })
@@ -103,6 +107,13 @@ export default function RoleSelector({ onComplete, onCancel, initialProfile }: R
     setStep(4)
   }
 
+  // Helper function to update person fields
+  const updatePersonField = (index: number, field: string, value: string) => {
+    const updated = [...importantPeople]
+    updated[index] = { ...updated[index], [field]: value }
+    setImportantPeople(updated)
+  }
+
   const handleComplete = () => {
     console.log('=== handleComplete called ===')
     
@@ -111,15 +122,25 @@ export default function RoleSelector({ onComplete, onCancel, initialProfile }: R
       return
     }
 
-    // Simple, safe filtering
+    // Simple, safe filtering with date fields
     const safeImportantPeople = []
     if (importantPeople && Array.isArray(importantPeople)) {
       for (const person of importantPeople) {
         if (person && person.name && person.relationship) {
-          safeImportantPeople.push({
+          const personData: any = {
             name: person.name.trim(),
             relationship: person.relationship.trim()
-          })
+          }
+          
+          // Add optional date fields if they exist
+          if (person.birthday && person.birthday.trim()) {
+            personData.birthday = person.birthday.trim()
+          }
+          if (person.memorial_date && person.memorial_date.trim()) {
+            personData.memorial_date = person.memorial_date.trim()
+          }
+          
+          safeImportantPeople.push(personData)
         }
       }
     }
@@ -307,62 +328,94 @@ export default function RoleSelector({ onComplete, onCancel, initialProfile }: R
                     Tell us about the souls your legacy will touch most deeply
                   </p>
                   {importantPeople.map((person, index) => (
-                    <div key={index} className="flex gap-3 mb-3">
-                      <input
-                        type="text"
-                        value={person.name}
-                        onChange={(e) => {
-                          const updated = [...importantPeople]
-                          updated[index].name = e.target.value
-                          setImportantPeople(updated)
-                        }}
-                        className="flex-1 px-comfort py-3 bg-white/50 backdrop-blur-sm border-2 border-hope-200 rounded-embrace focus:border-hope-400 focus:ring-4 focus:ring-hope-100 font-compassionate transition-all duration-300"
-                        placeholder="Name"
-                      />
-                      <Select
-                        value={person.relationship}
-                        onValueChange={(value) => {
-                          const updated = [...importantPeople]
-                          updated[index].relationship = value
-                          setImportantPeople(updated)
-                        }}
-                      >
-                        <SelectTrigger className="flex-1 border-2 border-hope-200 rounded-embrace">
-                          <SelectValue placeholder="Relationship" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="daughter">Daughter</SelectItem>
-                          <SelectItem value="son">Son</SelectItem>
-                          <SelectItem value="spouse">Spouse</SelectItem>
-                          <SelectItem value="partner">Partner</SelectItem>
-                          <SelectItem value="mother">Mother</SelectItem>
-                          <SelectItem value="father">Father</SelectItem>
-                          <SelectItem value="sister">Sister</SelectItem>
-                          <SelectItem value="brother">Brother</SelectItem>
-                          <SelectItem value="grandmother">Grandmother</SelectItem>
-                          <SelectItem value="grandfather">Grandfather</SelectItem>
-                          <SelectItem value="granddaughter">Granddaughter</SelectItem>
-                          <SelectItem value="grandson">Grandson</SelectItem>
-                          <SelectItem value="niece">Niece</SelectItem>
-                          <SelectItem value="nephew">Nephew</SelectItem>
-                          <SelectItem value="best friend">Best Friend</SelectItem>
-                          <SelectItem value="close friend">Close Friend</SelectItem>
-                          <SelectItem value="mentor">Mentor</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      {importantPeople.length > 1 && (
-                        <Button
-                          onClick={() => {
-                            const updated = importantPeople.filter((_, i) => i !== index)
-                            setImportantPeople(updated)
-                          }}
-                          variant="ghost"
-                          className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-embrace"
+                    <div key={index} className="border border-hope-100 rounded-embrace p-4 mb-4 bg-white/30 backdrop-blur-sm">
+                      {/* Name and Relationship Row */}
+                      <div className="flex gap-3 mb-4">
+                        <input
+                          type="text"
+                          value={person.name}
+                          onChange={(e) => updatePersonField(index, 'name', e.target.value)}
+                          className="flex-1 px-comfort py-3 bg-white/50 backdrop-blur-sm border-2 border-hope-200 rounded-embrace focus:border-hope-400 focus:ring-4 focus:ring-hope-100 font-compassionate transition-all duration-300"
+                          placeholder="Name"
+                        />
+                        <Select
+                          value={person.relationship}
+                          onValueChange={(value) => updatePersonField(index, 'relationship', value)}
                         >
-                          ✕
-                        </Button>
-                      )}
+                          <SelectTrigger className="flex-1 border-2 border-hope-200 rounded-embrace">
+                            <SelectValue placeholder="Relationship" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="daughter">Daughter</SelectItem>
+                            <SelectItem value="son">Son</SelectItem>
+                            <SelectItem value="spouse">Spouse</SelectItem>
+                            <SelectItem value="partner">Partner</SelectItem>
+                            <SelectItem value="mother">Mother</SelectItem>
+                            <SelectItem value="father">Father</SelectItem>
+                            <SelectItem value="sister">Sister</SelectItem>
+                            <SelectItem value="brother">Brother</SelectItem>
+                            <SelectItem value="grandmother">Grandmother</SelectItem>
+                            <SelectItem value="grandfather">Grandfather</SelectItem>
+                            <SelectItem value="granddaughter">Granddaughter</SelectItem>
+                            <SelectItem value="grandson">Grandson</SelectItem>
+                            <SelectItem value="niece">Niece</SelectItem>
+                            <SelectItem value="nephew">Nephew</SelectItem>
+                            <SelectItem value="best friend">Best Friend</SelectItem>
+                            <SelectItem value="close friend">Close Friend</SelectItem>
+                            <SelectItem value="mentor">Mentor</SelectItem>
+                            <SelectItem value="other">Other</SelectItem>
+                          </SelectContent>
+                        </Select>
+                        {importantPeople.length > 1 && (
+                          <Button
+                            onClick={() => {
+                              const updated = importantPeople.filter((_, i) => i !== index)
+                              setImportantPeople(updated)
+                            }}
+                            variant="ghost"
+                            className="px-3 py-2 text-red-600 hover:bg-red-50 rounded-embrace"
+                          >
+                            ✕
+                          </Button>
+                        )}
+                      </div>
+
+                      {/* Date Fields Row */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Birthday Field */}
+                        <div>
+                          <Label htmlFor={`birthday-${index}`} className="text-xs text-peace-600 font-supportive mb-1 block">
+                            Birthday (optional)
+                          </Label>
+                          <Input
+                            id={`birthday-${index}`}
+                            type="date"
+                            value={person.birthday || ''}
+                            onChange={(e) => updatePersonField(index, 'birthday', e.target.value)}
+                            className="bg-white/50 backdrop-blur-sm border-2 border-hope-200 rounded-embrace focus:border-hope-400 focus:ring-4 focus:ring-hope-100 transition-all duration-300"
+                          />
+                        </div>
+                        
+                        {/* Memorial Date Field - Only show for appropriate relationships */}
+                        {['mother', 'father', 'grandmother', 'grandfather', 'spouse', 'partner'].includes(person.relationship) && (
+                          <div>
+                            <Label htmlFor={`memorial-${index}`} className="text-xs text-peace-600 font-supportive mb-1 block">
+                              Memorial date (optional)
+                            </Label>
+                            <Input
+                              id={`memorial-${index}`}
+                              type="date"
+                              value={person.memorial_date || ''}
+                              onChange={(e) => updatePersonField(index, 'memorial_date', e.target.value)}
+                              className="bg-white/50 backdrop-blur-sm border-2 border-hope-200 rounded-embrace focus:border-hope-400 focus:ring-4 focus:ring-hope-100 transition-all duration-300"
+                              placeholder="If applicable"
+                            />
+                            <p className="text-xs text-peace-500 mt-1 font-supportive">
+                              Only if they have passed away
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   ))}
                   <button
@@ -455,12 +508,25 @@ export default function RoleSelector({ onComplete, onCancel, initialProfile }: R
                           <span className="font-supportive text-peace-700 block mb-2">
                             Important people in your life:
                           </span>
-                          <div className="ml-4 space-y-1">
+                          <div className="ml-4 space-y-3">
                             {importantPeople
                               .filter(p => p.name.trim() && p.relationship.trim())
                               .map((person, index) => (
-                                <div key={index} className="text-peace-700 font-compassionate">
-                                  {person.name} <span className="text-peace-500">({person.relationship})</span>
+                                <div key={index} className="text-peace-700 font-compassionate border-l-2 border-hope-200 pl-3">
+                                  <div className="font-medium">
+                                    {person.name} <span className="text-peace-500 font-supportive">({person.relationship})</span>
+                                    {person.memorial_date && <span className="text-peace-400 ml-2">🕊️</span>}
+                                  </div>
+                                  {(person.birthday || person.memorial_date) && (
+                                    <div className="text-xs text-peace-500 mt-1 space-y-1">
+                                      {person.birthday && (
+                                        <div>Birthday: {new Date(person.birthday).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</div>
+                                      )}
+                                      {person.memorial_date && (
+                                        <div>Memorial date: {new Date(person.memorial_date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</div>
+                                      )}
+                                    </div>
+                                  )}
                                 </div>
                               ))
                             }

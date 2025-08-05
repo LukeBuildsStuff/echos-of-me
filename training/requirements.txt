@@ -1,15 +1,20 @@
 # RTX 5090 Training Dependencies
 # PyTorch 2.7.0a0+ (included in NVIDIA container)
 
-# Core ML libraries
-transformers>=4.40.0
+# Core ML libraries - Updated for Mistral 7B compatibility
+transformers>=4.44.0  # Latest version for Mistral 7B support
 datasets>=2.18.0
-accelerate>=0.28.0
-peft>=0.10.0
+accelerate>=0.30.0  # Updated for better Mistral support
+peft>=0.11.0  # Latest PEFT for LoRA improvements
 bitsandbytes>=0.43.0
 
-# Flash Attention 2 for RTX 5090
-flash-attn>=2.5.6
+# Flash Attention 2 for RTX 5090 - Mistral optimized
+flash-attn>=2.5.8  # Latest for Mistral 7B flash attention
+
+# Mistral specific dependencies
+torch>=2.1.0  # Ensure compatibility with Mistral architectures
+safetensors>=0.4.0  # For safe model weight loading
+tokenizers>=0.15.0  # Latest tokenizer support
 
 # Database and utilities
 psycopg2-binary>=2.9.9
@@ -21,5 +26,6 @@ wandb>=0.16.6
 tensorboard>=2.16.2
 
 # Additional utilities
-numpy>=1.24.0
+numpy>=1.26.0  # Updated for better compatibility
 packaging>=23.0
+sentencepiece>=0.2.0  # For Mistral tokenizer support

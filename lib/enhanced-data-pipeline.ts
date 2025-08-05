@@ -250,7 +250,11 @@ export class EnhancedDataPipeline {
           dataSource: 'response',
           qualityScore: response.quality_score || this.calculateQualityScore(response.response_text),
           difficultyLevel: response.difficulty_level,
-          completionTime: response.completion_time_seconds
+          completionTime: response.completion_time_seconds,
+          temporalContext: {
+            userAgeAtTime: userProfile.birthday ? this.calculateAge(userProfile.birthday, response.created_at) : null,
+            referencedPeopleAges: this.extractTemporalReferences(response.response_text, userProfile, response.created_at)
+          }
         }
       })
     }
@@ -274,7 +278,12 @@ export class EnhancedDataPipeline {
           dataSource: 'life_entry',
           qualityScore: this.calculateQualityScore(entry.content),
           tags: entry.tags || [],
-          emotionalDepth: entry.emotional_depth
+          emotionalDepth: entry.emotional_depth,
+          temporalContext: {
+            userAgeAtTime: userProfile.birthday ? this.calculateAge(userProfile.birthday, entry.created_at) : null,
+            entryDate: entry.entry_date,
+            referencedPeopleAges: this.extractTemporalReferences(entry.content, userProfile, entry.created_at)
+          }
         }
       })
     }
@@ -298,7 +307,13 @@ export class EnhancedDataPipeline {
           dataSource: 'milestone',
           qualityScore: this.calculateQualityScore(milestone.message_content),
           milestoneType: milestone.milestone_type,
-          recipientName: milestone.recipient_name
+          recipientName: milestone.recipient_name,
+          temporalContext: {
+            userAgeAtTime: userProfile.birthday ? this.calculateAge(userProfile.birthday, milestone.created_at) : null,
+            triggerDate: milestone.trigger_date,
+            triggerAge: milestone.trigger_age,
+            referencedPeopleAges: this.extractTemporalReferences(milestone.message_content, userProfile, milestone.created_at)
+          }
         }
       })
     }
@@ -341,10 +356,14 @@ export class EnhancedDataPipeline {
       contexts.push(`with ${userProfile.cultural_background.join(' and ')} heritage`)
     }
     
-    // Important relationships for personalization
+    // Important relationships for personalization with temporal awareness
     const importantPeople = this.parseImportantPeople(userProfile.important_people)
     if (importantPeople.length > 0) {
-      contexts.push(`deeply connected to ${importantPeople.slice(0, 2).join(' and ')}`)
+      const temporalDescriptions = importantPeople.slice(0, 2).map(person => {
+        const temporalContext = this.formatTemporalContext(person, item.created_at)
+        return temporalContext ? `${person.name} (${person.relationship}${temporalContext ? ', ' + temporalContext : ''})` : `${person.name} (${person.relationship})`
+      })
+      contexts.push(`deeply connected to ${temporalDescriptions.join(' and ')}`)
     }
     
     // Data-type specific context
@@ -627,14 +646,20 @@ export class EnhancedDataPipeline {
     return Math.min(100, Math.max(0, score))
   }
 
-  private extractPeopleReferences(text: string, userProfile: any): string[] {
+  private extractPeopleReferences(text: string, userProfile: any): Array<{name: string, relationship?: string, isDeceased?: boolean, temporalContext?: string}> {
     const people = []
     
-    // Extract from important people
+    // Extract from important people with temporal context
     const importantPeople = this.parseImportantPeople(userProfile.important_people)
     for (const person of importantPeople) {
-      if (text.toLowerCase().includes(person.toLowerCase())) {
-        people.push(person)
+      if (text.toLowerCase().includes(person.name.toLowerCase())) {
+        const temporalContext = this.formatTemporalContext(person)
+        people.push({
+          name: person.name,
+          relationship: person.relationship,
+          isDeceased: !!person.memorial_date,
+          temporalContext
+        })
       }
     }
     
@@ -642,21 +667,40 @@ export class EnhancedDataPipeline {
     const relationships = ['husband', 'wife', 'son', 'daughter', 'mother', 'father', 'friend', 'colleague']
     for (const rel of relationships) {
       if (text.toLowerCase().includes(rel)) {
-        people.push(rel)
+        people.push({ name: rel, relationship: rel })
       }
     }
     
-    return [...new Set(people)]
+    return people
   }
 
-  private parseImportantPeople(importantPeopleJson: any): string[] {
+  private parseImportantPeople(importantPeopleJson: any): Array<{name: string, relationship?: string, birthday?: string, memorial_date?: string}> {
     try {
       if (importantPeopleJson && typeof importantPeopleJson === 'object') {
-        return Object.values(importantPeopleJson).map((p: any) => p.name).filter(Boolean)
+        if (Array.isArray(importantPeopleJson)) {
+          return importantPeopleJson.map((p: any) => ({
+            name: p.name,
+            relationship: p.relationship,
+            birthday: p.birthday,
+            memorial_date: p.memorial_date
+          })).filter(p => p.name)
+        } else {
+          return Object.values(importantPeopleJson).map((p: any) => ({
+            name: p.name,
+            relationship: p.relationship,
+            birthday: p.birthday,
+            memorial_date: p.memorial_date
+          })).filter(p => p.name)
+        }
       }
       if (typeof importantPeopleJson === 'string') {
         const parsed = JSON.parse(importantPeopleJson)
-        return parsed.map((p: any) => p.name).filter(Boolean)
+        return parsed.map((p: any) => ({
+          name: p.name,
+          relationship: p.relationship,
+          birthday: p.birthday,
+          memorial_date: p.memorial_date
+        })).filter(p => p.name)
       }
     } catch (e) {
       // Ignore parsing errors
@@ -669,9 +713,89 @@ export class EnhancedDataPipeline {
     
     const birth = new Date(birthday)
     const reference = new Date(referenceDate)
-    const age = reference.getFullYear() - birth.getFullYear()
+    let age = reference.getFullYear() - birth.getFullYear()
+    const monthDiff = reference.getMonth() - birth.getMonth()
+    
+    if (monthDiff < 0 || (monthDiff === 0 && reference.getDate() < birth.getDate())) {
+      age--
+    }
     
     return age
+  }
+
+  /**
+   * Calculate years since a memorial date
+   */
+  private calculateYearsSince(memorialDate: string, referenceDate?: string): number | null {
+    if (!memorialDate) return null
+    
+    const memorial = new Date(memorialDate)
+    const reference = new Date(referenceDate || new Date())
+    let years = reference.getFullYear() - memorial.getFullYear()
+    const monthDiff = reference.getMonth() - memorial.getMonth()
+    
+    if (monthDiff < 0 || (monthDiff === 0 && reference.getDate() < memorial.getDate())) {
+      years--
+    }
+    
+    return years
+  }
+
+  /**
+   * Format temporal context for a person
+   */
+  private formatTemporalContext(person: {name: string, relationship?: string, birthday?: string, memorial_date?: string}, referenceDate?: string): string {
+    const contexts = []
+    const ref = referenceDate || new Date().toISOString()
+    
+    if (person.memorial_date) {
+      const yearsSince = this.calculateYearsSince(person.memorial_date, ref)
+      if (yearsSince !== null) {
+        if (yearsSince === 0) {
+          contexts.push(`who passed away recently`)
+        } else if (yearsSince === 1) {
+          contexts.push(`who passed away a year ago`)
+        } else {
+          contexts.push(`who passed away ${yearsSince} years ago`)
+        }
+      } else {
+        contexts.push(`who has passed away`)
+      }
+    } else if (person.birthday) {
+      const age = this.calculateAge(person.birthday, ref)
+      if (age !== null) {
+        contexts.push(`who is ${age} years old`)
+      }
+    }
+    
+    return contexts.join(', ')
+  }
+
+  /**
+   * Extract temporal references from text content
+   */
+  private extractTemporalReferences(text: string, userProfile: any, referenceDate: string): Array<{name: string, age?: number, isDeceased: boolean, yearsSince?: number}> {
+    const people = this.parseImportantPeople(userProfile.important_people)
+    const temporalRefs = []
+    
+    for (const person of people) {
+      if (text.toLowerCase().includes(person.name.toLowerCase())) {
+        const ref: any = {
+          name: person.name,
+          isDeceased: !!person.memorial_date
+        }
+        
+        if (person.memorial_date) {
+          ref.yearsSince = this.calculateYearsSince(person.memorial_date, referenceDate)
+        } else if (person.birthday) {
+          ref.age = this.calculateAge(person.birthday, referenceDate)
+        }
+        
+        temporalRefs.push(ref)
+      }
+    }
+    
+    return temporalRefs
   }
 
   private calculateTimespan(examples: TrainingExample[]): number {
@@ -713,11 +837,12 @@ export class EnhancedDataPipeline {
   }
 
   private countPersonalReferences(examples: TrainingExample[], userProfile: any): number {
+    const importantPeople = this.parseImportantPeople(userProfile.important_people)
     const personalTerms = [
       userProfile.name,
       userProfile.primary_role,
       ...(userProfile.secondary_roles || []),
-      ...this.parseImportantPeople(userProfile.important_people)
+      ...importantPeople.map(p => p.name)
     ].filter(Boolean)
     
     let count = 0
@@ -726,6 +851,14 @@ export class EnhancedDataPipeline {
         if (example.output.toLowerCase().includes(term.toLowerCase())) {
           count += 5
         }
+      }
+      
+      // Bonus points for temporal awareness in text
+      const lowerText = example.output.toLowerCase()
+      if (lowerText.includes('years old') || lowerText.includes('passed away') || 
+          lowerText.includes('years ago') || lowerText.includes('when') ||
+          lowerText.includes('now') || lowerText.includes('recently')) {
+        count += 2
       }
     }
     

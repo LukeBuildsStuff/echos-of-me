@@ -1,0 +1,94 @@
+{
+  "model_config": {
+    "model_name": "mistralai/Mistral-7B-Instruct-v0.3",
+    "model_type": "mistral",
+    "max_length": 2048,
+    "chat_template": "[INST] {prompt} [/INST]",
+    "supports_flash_attention": true,
+    "recommended_dtype": "bfloat16"
+  },
+  
+  "lora_config": {
+    "r": 16,
+    "alpha": 32,
+    "dropout": 0.1,
+    "target_modules": [
+      "q_proj", 
+      "k_proj", 
+      "v_proj", 
+      "o_proj", 
+      "gate_proj", 
+      "up_proj", 
+      "down_proj"
+    ],
+    "bias": "none",
+    "task_type": "CAUSAL_LM"
+  },
+  
+  "training_config": {
+    "batch_size": 1,
+    "gradient_accumulation_steps": 8,
+    "effective_batch_size": 8,
+    "learning_rate": 1e-4,
+    "num_epochs": 3,
+    "warmup_steps": 100,
+    "max_grad_norm": 1.0,
+    "weight_decay": 0.01
+  },
+  
+  "rtx5090_optimization": {
+    "max_memory_gb": 18,
+    "expected_vram_usage_gb": 11.5,
+    "expected_vram_percentage": 47,
+    "gradient_checkpointing": true,
+    "use_4bit_quantization": true,
+    "quantization_type": "nf4",
+    "compute_dtype": "bfloat16",
+    "flash_attention_2": true
+  },
+  
+  "memory_management": {
+    "pin_memory": false,
+    "dataloader_num_workers": 0,
+    "remove_unused_columns": false,
+    "fp16": false,
+    "bf16": true
+  },
+  
+  "logging_config": {
+    "logging_steps": 10,
+    "save_steps": 100,
+    "save_total_limit": 3,
+    "report_to": "tensorboard",
+    "logging_dir": "/training/mistral_logs"
+  },
+  
+  "paths": {
+    "output_dir": "/training/mistral_checkpoints",
+    "final_model_path": "/training/mistral_final_model",
+    "log_file": "/training/mistral_training.log"
+  },
+  
+  "expected_performance": {
+    "training_time_minutes": "15-25",
+    "vram_usage_percentage": 47,
+    "tokens_per_second": "150-200",
+    "convergence_steps": "300-500"
+  },
+  
+  "validation_tests": [
+    "Tell me about yourself.",
+    "What are your hobbies and interests?", 
+    "Describe a memorable experience from your life.",
+    "What are your career aspirations?",
+    "How do you handle challenges in life?"
+  ],
+  
+  "compatibility": {
+    "pytorch_min_version": "2.1.0",
+    "transformers_min_version": "4.44.0",
+    "flash_attn_min_version": "2.5.8",
+    "cuda_compute_capability": "8.9",
+    "rtx5090_optimized": true
+  }
+}
