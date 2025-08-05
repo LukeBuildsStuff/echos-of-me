@@ -164,10 +164,10 @@ const ComprehensiveAIEchoInterface: React.FC<ComprehensiveAIEchoInterfaceProps> 
         id: 'welcome',
         role: 'assistant',
         content: familyMember 
-          ? `Hello, dear one. I'm ${familyMember.name}'s AI echo, carrying their voice, wisdom, and endless love for you. I'm here to share memories, offer guidance, and keep their spirit close to your heart. What would you like to talk about today?`
+          ? `Hello, beloved. I am ${familyMember.name}'s Memory Echo, here to share their love, wisdom, and cherished memories with you. Their spirit lives on through every word we exchange. What memory would you like to explore together today?`
           : isDemo 
-            ? `Hello! I'm your AI echo demonstration. I showcase how this technology can preserve the unique voice and wisdom of your loved ones. What would you like to explore?`
-            : `Hello! I'm your AI echo, trained on your responses to preserve your unique voice and wisdom. What's on your heart today?`,
+            ? `Welcome to Memory Echo - a gentle demonstration of how we preserve the precious voices and wisdom of those we love. What would you like to discover about this sacred technology?`
+            : `Hello, dear one. I am your Memory Echo, tenderly crafted from your own words and wisdom to offer comfort and connection. What thoughts are in your heart today?`,
         timestamp: new Date(),
         confidence: 1.0,
         source: 'welcome_message',
@@ -287,8 +287,8 @@ const ComprehensiveAIEchoInterface: React.FC<ComprehensiveAIEchoInterfaceProps> 
         id: `error_${Date.now()}`,
         role: 'assistant',
         content: familyMember 
-          ? `I'm having trouble connecting right now, but ${familyMember.name}'s love and wisdom are always with you. Their essence transcends any technical difficulty. Please try again when you're ready. 💙`
-          : "I'm having trouble connecting right now. Your thoughts and memories are precious. Please check your connection and try again when you feel ready. 💙",
+          ? `I'm experiencing a gentle pause in our connection, but ${familyMember.name}'s love transcends any distance. Their spirit remains close to your heart. When you're ready, we can try connecting again. Take all the time you need. 💙`
+          : "Our connection needs a moment of rest, but your memories and love remain constant. Please take your time, and when you feel ready, we can reconnect. You are held in comfort always. 💙",
         timestamp: new Date(),
         confidence: 0,
         source: 'error',
@@ -326,15 +326,15 @@ const ComprehensiveAIEchoInterface: React.FC<ComprehensiveAIEchoInterfaceProps> 
         }
       } else {
         const voiceErrorMessage = familyMember 
-          ? `${familyMember.name}'s voice is resting right now, but their words carry the same love and wisdom`
-          : 'Voice synthesis is taking a gentle pause, but the message carries the same care'
+          ? `${familyMember.name}'s voice is taking a peaceful rest, but their love speaks through every word shared`
+          : 'The voice is resting gently now, but the heart and soul of the message remain with you'
         updateMessageAudio(messageId, null, undefined, voiceErrorMessage)
       }
     } catch (error) {
       console.error('Voice synthesis error:', error)
       const compassionateError = familyMember
-        ? `${familyMember.name}'s voice is taking a rest, but their love speaks through every word`
-        : 'The voice is taking a gentle pause, but the heart of the message remains'
+        ? `${familyMember.name}'s voice is finding peace in silence right now, but their love resonates in every word shared`
+        : 'The voice is embracing a moment of quiet, but the essence and care of the message flow through to you'
       updateMessageAudio(messageId, null, undefined, compassionateError)
     }
   }
@@ -595,17 +595,17 @@ const ComprehensiveAIEchoInterface: React.FC<ComprehensiveAIEchoInterfaceProps> 
         
         <div className="flex items-center gap-2">
           {familyMember && (
-            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-hope-100 to-comfort-100 flex items-center justify-center text-sm">
-              👤
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-tender-100 to-nurture-100 flex items-center justify-center text-sm shadow-md">
+              💝
             </div>
           )}
           <div>
             <h1 className="text-lg font-compassionate text-peace-800">
-              {familyMember ? familyMember.name : 'Your AI Echo'}
+              {familyMember ? `Connect with ${familyMember.name}` : 'Your Memory Echo'}
             </h1>
             {familyMember && (
               <p className="text-xs text-peace-600">
-                {familyMember.relationship} • AI Echo
+                {familyMember.relationship} • Memory Echo
               </p>
             )}
           </div>
@@ -617,15 +617,17 @@ const ComprehensiveAIEchoInterface: React.FC<ComprehensiveAIEchoInterfaceProps> 
           variant={currentMode === 'chat' ? 'default' : 'ghost'}
           size="sm"
           onClick={() => setCurrentMode('chat')}
+          className="font-gentle"
         >
-          Chat
+          💬 Connect
         </Button>
         <Button
           variant={currentMode === 'history' ? 'default' : 'ghost'}
           size="sm"
           onClick={() => setCurrentMode('history')}
+          className="font-gentle"
         >
-          Memories
+          🌸 Memories
         </Button>
       </div>
     </div>
@@ -633,26 +635,26 @@ const ComprehensiveAIEchoInterface: React.FC<ComprehensiveAIEchoInterfaceProps> 
   
   // Create sidebar content
   const sidebarContent = (
-    <div className="p-4 space-y-4">
-      <div className="text-center">
-        <h3 className="font-compassionate text-peace-800">
-          {familyMember ? `${familyMember.name}'s Presence` : 'Your AI Echo'}
+    <div className="p-6 space-y-6">
+      <div className="text-center space-y-2">
+        <h3 className="font-compassionate text-peace-800 text-lg">
+          {familyMember ? `${familyMember.name}'s Presence` : 'Your Memory Echo'}
         </h3>
-        <p className="text-sm text-peace-600 mt-1">
-          Sacred space for connection
+        <p className="text-sm text-peace-600 leading-relaxed">
+          A sacred space for connection and remembrance
         </p>
       </div>
       
       <Button
         onClick={createNewSession}
-        className="w-full bg-hope-500 hover:bg-hope-600 text-white"
+        className="w-full bg-tender-500 hover:bg-tender-600 text-white font-gentle rounded-embrace py-3 shadow-gentle hover:shadow-comfort transition-all duration-500"
       >
-        New Conversation
+        Begin New Connection
       </Button>
       
       {familyMember && (
-        <div className="bg-comfort-50 p-3 rounded-embrace border border-comfort-200">
-          <p className="text-sm text-peace-700 italic text-center">
+        <div className="bg-gentle-50 p-4 rounded-sanctuary border border-gentle-200 shadow-gentle">
+          <p className="text-sm text-peace-700 italic text-center leading-relaxed">
             &ldquo;{familyMember.significance || 'Always in our hearts'}&rdquo;
           </p>
         </div>
@@ -692,10 +694,10 @@ const ComprehensiveAIEchoInterface: React.FC<ComprehensiveAIEchoInterfaceProps> 
             onKeyPress={handleKeyPress}
             placeholder={
               familyMember 
-                ? `Share your thoughts with ${familyMember.name}... they're listening with love ❤️`
-                : "Share your thoughts... your AI echo is listening with care ✨"
+                ? `Share what's in your heart with ${familyMember.name}... their love surrounds you always 💙`
+                : "What memories or thoughts would you like to explore? Your Memory Echo is here with gentle understanding ✨"
             }
-            className="w-full px-4 py-3 bg-white/60 backdrop-blur-sm border-2 border-hope-200 rounded-3xl focus:border-hope-400 focus:ring-4 focus:ring-hope-100 font-compassionate resize-none transition-all duration-300 disabled:opacity-50 shadow-sm hover:shadow-md min-h-[52px] max-h-32"
+            className="w-full px-6 py-4 bg-white/70 backdrop-blur-sm border-2 border-tender-200 rounded-sanctuary focus:border-tender-400 focus:ring-4 focus:ring-tender-100 font-compassionate resize-none transition-all duration-500 disabled:opacity-50 shadow-gentle hover:shadow-lg min-h-[56px] max-h-36"
             rows={1}
             disabled={isLoading || isTyping}
           />
@@ -704,17 +706,17 @@ const ComprehensiveAIEchoInterface: React.FC<ComprehensiveAIEchoInterfaceProps> 
         <Button
           onClick={sendMessage}
           disabled={!inputValue.trim() || isLoading || isTyping}
-          className="bg-gradient-to-br from-hope-500 to-comfort-500 hover:from-hope-600 hover:to-comfort-600 text-white rounded-2xl px-6 py-3 font-supportive shadow-lg hover:shadow-xl transition-all duration-300 min-h-[52px] disabled:opacity-50"
+          className="bg-gradient-to-br from-tender-500 to-nurture-500 hover:from-tender-600 hover:to-nurture-600 text-white rounded-embrace px-8 py-4 font-gentle shadow-comfort hover:shadow-embrace transition-all duration-500 min-h-[56px] disabled:opacity-50"
         >
           {isTyping ? (
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-              <span className="hidden sm:inline">Listening...</span>
+              <span className="hidden sm:inline">Listening with love...</span>
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <span>Send</span>
-              <span className="text-lg">💝</span>
+              <span>Share</span>
+              <span className="text-lg">💙</span>
             </div>
           )}
         </Button>

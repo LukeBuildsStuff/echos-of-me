@@ -1,219 +1,171 @@
 'use client'
 
-import { useState, useEffect } from 'react'
-import { signIn, useSession } from 'next-auth/react'
+import { useState } from 'react'
+import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { LoadingSpinner } from '@/components/ui/loading'
-import ErrorBoundary from '@/components/ErrorBoundary'
 
-function SignInContent() {
+function SignInForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const [mounted, setMounted] = useState(false)
-  const [fieldErrors, setFieldErrors] = useState<{email?: string; password?: string}>({})
   const router = useRouter()
-  const { data: session, status } = useSession()
-
-  // Prevent hydration mismatch
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  // Redirect if already authenticated - only after mounting
-  useEffect(() => {
-    if (mounted && status === 'authenticated' && session) {
-      router.push('/dashboard')
-    }
-  }, [mounted, status, session, router])
-
-  // Always show loading state during SSR and initial hydration
-  if (!mounted || status === 'loading') {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background px-4">
-        <Card className="w-full max-w-md">
-          <CardContent className="pt-8 pb-8 text-center">
-            <LoadingSpinner size="lg" className="mx-auto mb-4" />
-            <p className="text-muted-foreground">
-              {!mounted ? 'Loading...' : 'Checking authentication...'}
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-    )
-  }
-
-  // Don't render sign-in form if already authenticated
-  if (status === 'authenticated' && session) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background px-4">
-        <Card className="w-full max-w-md">
-          <CardContent className="pt-8 pb-8 text-center">
-            <LoadingSpinner size="lg" className="mx-auto mb-4" />
-            <p className="text-muted-foreground">Redirecting to dashboard...</p>
-          </CardContent>
-        </Card>
-      </div>
-    )
-  }
-
-  const validateForm = () => {
-    const errors: {email?: string; password?: string} = {}
-    
-    if (!email.trim()) {
-      errors.email = 'Email is required'
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      errors.email = 'Please enter a valid email address'
-    }
-    
-    if (!password.trim()) {
-      errors.password = 'Password is required'
-    } else if (password.length < 6) {
-      errors.password = 'Password must be at least 6 characters'
-    }
-    
-    setFieldErrors(errors)
-    return Object.keys(errors).length === 0
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (loading) return
+    
     setError('')
-    setFieldErrors({})
-
-    if (!validateForm()) {
-      return
-    }
-
     setLoading(true)
 
     try {
       const result = await signIn('credentials', {
-        email,
-        password,
+        email: email,
+        password: password,
         redirect: false,
       })
 
       if (result?.error) {
         setError('Invalid email or password. Please check your credentials and try again.')
+      } else if (result?.ok) {
+        window.location.href = '/dashboard'
       } else {
-        router.push('/dashboard')
+        setError('Authentication failed. Please try again.')
       }
     } catch (error) {
-      setError('Something went wrong. Please check your connection and try again.')
+      console.error('Signin error:', error)
+      setError('Connection error. Please check your internet and try again.')
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Welcome Back</CardTitle>
-          <CardDescription>
-            Sign in to continue building your AI echo
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="your@email.com"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value)
-                  if (fieldErrors.email) {
-                    setFieldErrors(prev => ({ ...prev, email: undefined }))
-                  }
-                }}
-                className={fieldErrors.email ? 'border-destructive focus-visible:ring-destructive' : ''}
-                aria-invalid={!!fieldErrors.email}
-                aria-describedby={fieldErrors.email ? 'email-error' : undefined}
-                required
-              />
-              {fieldErrors.email && (
-                <p id="email-error" className="text-sm text-destructive flex items-center gap-1">
-                  <span className="text-xs">⚠</span>
-                  {fieldErrors.email}
-                </p>
-              )}
+    <form onSubmit={handleSubmit} className="space-y-6">
+      {/* Email Field */}
+      <div>
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+          Email Address
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          autoComplete="email"
+          required
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value)
+            if (error) setError('')
+          }}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+          placeholder="Enter your email"
+          disabled={loading}
+        />
+      </div>
+
+      {/* Password Field */}
+      <div>
+        <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+          Password
+        </label>
+        <input
+          id="password"
+          name="password"
+          type="password"
+          autoComplete="current-password"
+          required
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value)
+            if (error) setError('')
+          }}
+          className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+          placeholder="Enter your password"
+          disabled={loading}
+        />
+      </div>
+
+      {/* Error Message */}
+      {error && (
+        <div className="rounded-md bg-red-50 border border-red-200 p-4">
+          <div className="flex">
+            <div className="flex-shrink-0">
+              <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+              </svg>
             </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
-                <Link 
-                  href="/auth/forgot-password" 
-                  className="text-xs text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20 rounded px-1"
-                >
-                  Forgot password?
-                </Link>
-              </div>
-              <Input
-                id="password"
-                type="password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value)
-                  if (fieldErrors.password) {
-                    setFieldErrors(prev => ({ ...prev, password: undefined }))
-                  }
-                }}
-                className={fieldErrors.password ? 'border-destructive focus-visible:ring-destructive' : ''}
-                aria-invalid={!!fieldErrors.password}
-                aria-describedby={fieldErrors.password ? 'password-error' : undefined}
-                required
-              />
-              {fieldErrors.password && (
-                <p id="password-error" className="text-sm text-destructive flex items-center gap-1">
-                  <span className="text-xs">⚠</span>
-                  {fieldErrors.password}
-                </p>
-              )}
+            <div className="ml-3">
+              <p className="text-sm text-red-800">{error}</p>
             </div>
-            {error && (
-              <div className="text-sm text-destructive text-center bg-destructive/10 border border-destructive/20 rounded-md p-3 flex items-center gap-2">
-                <span className="text-destructive">⚠</span>
-                <span>{error}</span>
-              </div>
-            )}
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? (
-                <div className="flex items-center gap-2">
-                  <LoadingSpinner size="sm" />
-                  <span>Signing in...</span>
-                </div>
-              ) : (
-                'Sign In'
-              )}
-            </Button>
-          </form>
-          <div className="mt-6 text-center text-sm">
-            Don&apos;t have an account?{' '}
-            <Link href="/auth/register" className="text-primary hover:underline">
-              Sign up
-            </Link>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+      )}
+
+      {/* Submit Button */}
+      <button
+        type="submit"
+        disabled={loading || !email || !password}
+        className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+      >
+        {loading ? (
+          <div className="flex items-center">
+            <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Signing in...
+          </div>
+        ) : (
+          'Sign In'
+        )}
+      </button>
+    </form>
   )
 }
 
 export default function SignIn() {
+
   return (
-    <ErrorBoundary>
-      <SignInContent />
-    </ErrorBoundary>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+            Welcome Back
+          </h1>
+          <p className="text-gray-600">
+            Sign in to continue building your AI echo
+          </p>
+        </div>
+
+        {/* Form Card */}
+        <div className="bg-white rounded-lg shadow-lg p-8">
+          <SignInForm />
+
+          {/* Register Link */}
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600">
+              Don't have an account?{' '}
+              <Link 
+                href="/auth/register" 
+                className="font-medium text-indigo-600 hover:text-indigo-500 transition-colors"
+              >
+                Sign up here
+              </Link>
+            </p>
+          </div>
+
+          {/* Demo Credentials */}
+          <div className="mt-6 p-4 bg-gray-50 rounded-md">
+            <p className="text-xs text-gray-500 font-medium mb-2">Demo Credentials:</p>
+            <p className="text-xs text-gray-600">Email: lukemoeller@yahoo.com</p>
+            <p className="text-xs text-gray-600">Password: password123</p>
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }

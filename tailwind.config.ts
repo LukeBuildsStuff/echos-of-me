@@ -70,7 +70,7 @@ const config: Config = {
         stroke: "#E2E8F0", // Slate-200
         "stroke-dark": "#334155", // Slate-700
         "bg-color-dark": "#0F172A", // Deep slate
-        // Ethereal, heavenly colors for grief-sensitive design
+        // Enhanced grief-sensitive color palette for compassionate design
         hope: {
           25: '#f8fcff',
           50: '#f0f9ff',
@@ -98,6 +98,7 @@ const config: Config = {
           900: '#581c87',
         },
         peace: {
+          25: '#fdfdfe',
           50: '#f8fafc',
           100: '#f1f5f9',
           200: '#e2e8f0',
@@ -108,6 +109,48 @@ const config: Config = {
           700: '#334155',
           800: '#1e293b',
           900: '#0f172a',
+        },
+        // Gentle warm blues for connection and trust
+        tender: {
+          25: '#f8fbff',
+          50: '#f0f8ff',
+          100: '#dff3ff',
+          200: '#b8e6ff',
+          300: '#7dd5ff',
+          400: '#42c2ff',
+          500: '#1eb4ff',
+          600: '#0091d4',
+          700: '#0073a8',
+          800: '#005f8a',
+          900: '#004d6f',
+        },
+        // Soft grays for comfort and ease
+        gentle: {
+          25: '#fefefe',
+          50: '#fafafa',
+          100: '#f5f5f5',
+          200: '#eeeeee',
+          300: '#e0e0e0',
+          400: '#bdbdbd',
+          500: '#9e9e9e',
+          600: '#757575',
+          700: '#616161',
+          800: '#424242',
+          900: '#212121',
+        },
+        // Nurturing earth tones for warmth
+        nurture: {
+          25: '#fefcf8',
+          50: '#fdf9f0',
+          100: '#fbf1e1',
+          200: '#f6e3c3',
+          300: '#f0d4a5',
+          400: '#e8c087',
+          500: '#dea76a',
+          600: '#c8955f',
+          700: '#a17c4c',
+          800: '#7a633a',
+          900: '#5c4c2c',
         },
         memory: {
           25: '#fffcf0',
@@ -211,9 +254,11 @@ const config: Config = {
         'comfort': '0.5rem',
       },
       fontFamily: {
-        gentle: ['Inter', 'system-ui', 'sans-serif'],
-        compassionate: ['Georgia', 'serif'],
-        supportive: ['Open Sans', 'sans-serif'],
+        gentle: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        compassionate: ['Georgia', 'Times New Roman', 'Times', 'serif'],
+        supportive: ['Inter', 'Helvetica Neue', 'Arial', 'sans-serif'],
+        comfort: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        tender: ['SF Pro Text', 'Inter', 'system-ui', 'sans-serif'],
       },
       spacing: {
         'comfort': '1.5rem',
@@ -227,6 +272,10 @@ const config: Config = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'heaven-gradient': 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 25%, #faf5ff 50%, #f3e8ff 75%, #f0f9ff 100%)',
+        'tender-embrace': 'linear-gradient(135deg, #f8fbff 0%, #f0f8ff 20%, #fefefe 40%, #f8fafc 60%, #f8fbff 100%)',
+        'gentle-comfort': 'linear-gradient(180deg, #fafafa 0%, #f5f5f5 50%, #fefefe 100%)',
+        'warm-memory': 'linear-gradient(135deg, #fefcf8 0%, #fdf9f0 30%, #fbf1e1 70%, #fefcf8 100%)',
+        'peaceful-connection': 'radial-gradient(ellipse at center, #f8fbff 0%, #f0f8ff 30%, #fefefe 70%, #f8fafc 100%)',
       },
       boxShadow: {
         signUp: "0px 5px 10px rgba(4, 10, 34, 0.2)",
@@ -241,6 +290,11 @@ const config: Config = {
         btn: "0px 1px 2px rgba(4, 10, 34, 0.15)",
         "btn-hover": "0px 1px 2px rgba(0, 0, 0, 0.15)",
         "btn-light": "0px 1px 2px rgba(0, 0, 0, 0.1)",
+        // Grief-sensitive gentle shadows
+        "gentle": "0px 2px 8px rgba(0, 0, 0, 0.06)",
+        "comfort": "0px 4px 12px rgba(0, 0, 0, 0.08)",
+        "embrace": "0px 6px 16px rgba(0, 0, 0, 0.10)",
+        "sanctuary": "0px 8px 24px rgba(0, 0, 0, 0.12)",
       },
       dropShadow: {
         three: "0px 5px 15px rgba(6, 8, 15, 0.05)",
@@ -268,16 +322,31 @@ const config: Config = {
         },
         'gentle-pulse': {
           '0%, 100%': { transform: 'scale(1)', opacity: '1' },
-          '50%': { transform: 'scale(1.05)', opacity: '0.95' },
+          '50%': { transform: 'scale(1.02)', opacity: '0.95' },
+        },
+        'peaceful-breathe': {
+          '0%, 100%': { transform: 'scale(1)', opacity: '0.8' },
+          '50%': { transform: 'scale(1.01)', opacity: '1' },
+        },
+        'tender-slide-up': {
+          '0%': { opacity: '0', transform: 'translateY(8px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        'gentle-fade-in': {
+          '0%': { opacity: '0' },
+          '100%': { opacity: '1' },
         }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        'float': 'float 6s ease-in-out infinite',
-        'glow': 'glow 3s ease-in-out infinite',
-        'fade-in': 'fadeIn 0.8s ease-out',
-        'gentle-pulse': 'gentle-pulse 2s ease-in-out infinite',
+        'float': 'float 8s ease-in-out infinite',
+        'glow': 'glow 4s ease-in-out infinite',
+        'fade-in': 'fadeIn 1.2s ease-out',
+        'gentle-pulse': 'gentle-pulse 3s ease-in-out infinite',
+        'peaceful-breathe': 'peaceful-breathe 4s ease-in-out infinite',
+        'tender-slide-up': 'tender-slide-up 0.8s ease-out',
+        'gentle-fade-in': 'gentle-fade-in 1s ease-out',
       },
     },
   },

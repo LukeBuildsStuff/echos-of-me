@@ -1,3 +1,5 @@
+'use client'
+
 import SectionTitle from "../Common/SectionTitle";
 import SingleFeature from "./SingleFeature";
 import featuresData from "./featuresData";
@@ -8,8 +10,8 @@ const Features = () => {
       <section id="features" className="py-16 md:py-20 lg:py-28">
         <div className="container">
           <SectionTitle
-            title="How Echos Of Me Works"
-            paragraph="Build a digital legacy that captures the essence of who you are, ensuring your love and wisdom lives on for generations to come."
+            title="How Your Echo Comes to Life"
+            paragraph="Creating your personal AI echo is a journey of love and connection. Each step helps build a digital presence that truly captures who you are, ensuring your unique voice and wisdom can comfort and guide your family forever."
             center
           />
 

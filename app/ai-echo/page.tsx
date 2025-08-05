@@ -80,17 +80,17 @@ export default function AIEchoPage() {
 
   if (status === 'loading') {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-heaven-gradient px-4">
+      <div className="flex min-h-screen items-center justify-center bg-tender-embrace px-4">
         <div className="text-center">
           <LoadingSpinner size="lg" className="mx-auto mb-4" />
           <div className="text-lg text-peace-700 font-supportive">
             {familyMember 
-              ? `Connecting with ${familyMember.name}'s AI echo...`
-              : 'Loading your AI echo...'
+              ? `Preparing connection with ${familyMember.name}'s Memory Echo...`
+              : 'Awakening your Memory Echo...'
             }
           </div>
           <div className="text-sm text-peace-600 mt-2">
-            Preparing a sacred space for connection
+            Creating a gentle space for remembrance and love
           </div>
         </div>
       </div>
@@ -103,7 +103,7 @@ export default function AIEchoPage() {
 
   return (
     <ErrorBoundary>
-      <div className="h-screen bg-heaven-gradient">
+      <div className="h-screen bg-tender-embrace">
         <ComprehensiveAIEchoInterface
           familyMember={familyMember}
           isDemo={isDemo}

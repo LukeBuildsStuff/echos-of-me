@@ -1,0 +1,67 @@
+{
+  "timestamp": "2025-08-04T18:27:07.320Z",
+  "tests": [
+    {
+      "name": "Load signin page",
+      "status": "PASS",
+      "details": "HTTP 200",
+      "timestamp": "2025-08-04T18:27:07.387Z"
+    },
+    {
+      "name": "NextAuth providers endpoint",
+      "status": "PASS",
+      "details": "HTTP 200",
+      "timestamp": "2025-08-04T18:27:07.450Z"
+    },
+    {
+      "name": "CSRF token retrieval",
+      "status": "PASS",
+      "details": "CSRF token obtained",
+      "timestamp": "2025-08-04T18:27:07.495Z"
+    },
+    {
+      "name": "Credentials authentication",
+      "status": "UNKNOWN",
+      "details": "HTTP 200",
+      "timestamp": "2025-08-04T18:27:07.522Z"
+    },
+    {
+      "name": "Session check",
+      "status": "FAIL",
+      "details": "No active session",
+      "timestamp": "2025-08-04T18:27:07.547Z"
+    }
+  ],
+  "requests": [
+    {
+      "url": "/auth/signin",
+      "method": "GET",
+      "status": 200,
+      "timestamp": "2025-08-04T18:27:07.387Z"
+    },
+    {
+      "url": "/api/auth/providers",
+      "method": "GET",
+      "status": 200,
+      "timestamp": "2025-08-04T18:27:07.450Z"
+    },
+    {
+      "url": "/api/auth/csrf",
+      "method": "GET",
+      "status": 200,
+      "timestamp": "2025-08-04T18:27:07.494Z"
+    },
+    {
+      "url": "/api/auth/callback/credentials",
+      "method": "POST",
+      "status": 200,
+      "timestamp": "2025-08-04T18:27:07.521Z"
+    },
+    {
+      "url": "/api/auth/session",
+      "method": "GET",
+      "status": 200,
+      "timestamp": "2025-08-04T18:27:07.547Z"
+    }
+  ]
+}

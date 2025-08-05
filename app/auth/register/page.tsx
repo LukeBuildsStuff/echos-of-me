@@ -111,9 +111,12 @@ function RegisterContent() {
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Create Account</CardTitle>
-          <CardDescription>
-            Start creating your AI echo today
+          <CardTitle className="text-2xl">Create Your Echo</CardTitle>
+          <CardDescription className="space-y-2">
+            <span className="block">Begin building your personal AI companion that captures your voice, wisdom, and love.</span>
+            <span className="block text-xs text-muted-foreground">
+              Your echo will learn to speak like you, offering comfort and guidance to your family for generations.
+            </span>
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -164,17 +167,17 @@ function RegisterContent() {
               {loading ? (
                 <div className="flex items-center gap-2">
                   <LoadingSpinner size="sm" />
-                  <span>Creating account...</span>
+                  <span>Creating your echo...</span>
                 </div>
               ) : (
-                'Create Account'
+                'Begin Your Echo'
               )}
             </Button>
           </form>
           <div className="mt-6 text-center text-sm">
-            Already have an account?{' '}
+            Already building your echo?{' '}
             <Link href="/auth/signin" className="text-primary hover:underline">
-              Sign in
+              Continue your journey
             </Link>
           </div>
         </CardContent>

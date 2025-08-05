@@ -3,7 +3,7 @@
 import { ErrorBoundary } from 'react-error-boundary'
 import { AdminErrorFallback } from '@/components/admin/AdminErrorFallback'
 
-export default function AdminRootLayout({
+export default function SimplifiedAdminLayout({
   children,
 }: {
   children: React.ReactNode
@@ -13,7 +13,9 @@ export default function AdminRootLayout({
       FallbackComponent={AdminErrorFallback}
       onReset={() => window.location.reload()}
     >
-      {children}
+      <div className="min-h-screen bg-gray-50">
+        {children}
+      </div>
     </ErrorBoundary>
   )
 }

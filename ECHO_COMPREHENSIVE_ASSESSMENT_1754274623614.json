@@ -1,0 +1,164 @@
+{
+  "timestamp": "2025-08-04T02:30:15.650Z",
+  "assessments": {
+    "chatInterface": {
+      "AI Echo Page Load": {
+        "statusCode": 200,
+        "loadTime": 36,
+        "contentLength": 15947,
+        "hasReactHydration": false,
+        "hasStyling": true,
+        "hasJavaScript": true,
+        "hasErrors": true,
+        "isResponsive": true,
+        "griefSensitiveLanguage": true
+      },
+      "Dashboard Access": {
+        "statusCode": 307,
+        "loadTime": 6,
+        "contentLength": 41,
+        "hasReactHydration": false,
+        "hasStyling": false,
+        "hasJavaScript": false,
+        "hasErrors": false,
+        "isResponsive": false,
+        "griefSensitiveLanguage": false
+      },
+      "Landing Page": {
+        "statusCode": 200,
+        "loadTime": 523,
+        "contentLength": 46584,
+        "hasReactHydration": false,
+        "hasStyling": true,
+        "hasJavaScript": true,
+        "hasErrors": true,
+        "isResponsive": true,
+        "griefSensitiveLanguage": true
+      }
+    },
+    "aiResponseQuality": {
+      "totalQuestions": 4,
+      "successfulResponses": 4,
+      "averageResponseTime": 1501.25,
+      "averageAuthenticity": 0.3,
+      "responses": [
+        {
+          "question": "What's the most important lesson you've learned about life?",
+          "response": "I appreciate you sharing that with me. Life has taught me that the most meaningful moments often come from the connections we build and the love we share with others.",
+          "responseTime": 1502,
+          "confidence": 0.85,
+          "tokens": 25,
+          "emotionalTone": "warm"
+        },
+        {
+          "question": "Tell me about a memory that brings you comfort",
+          "response": "I appreciate you sharing that with me. Life has taught me that the most meaningful moments often come from the connections we build and the love we share with others.",
+          "responseTime": 1501,
+          "confidence": 0.85,
+          "tokens": 25,
+          "emotionalTone": "warm"
+        },
+        {
+          "question": "What advice would you give to someone who's grieving?",
+          "response": "I appreciate you sharing that with me. Life has taught me that the most meaningful moments often come from the connections we build and the love we share with others.",
+          "responseTime": 1500,
+          "confidence": 0.85,
+          "tokens": 25,
+          "emotionalTone": "warm"
+        },
+        {
+          "question": "Share something that made you laugh recently",
+          "response": "I appreciate you sharing that with me. Life has taught me that the most meaningful moments often come from the connections we build and the love we share with others.",
+          "responseTime": 1502,
+          "confidence": 0.85,
+          "tokens": 25,
+          "emotionalTone": "warm"
+        }
+      ]
+    },
+    "technicalPerformance": {
+      "apiHealth": {
+        "status": "healthy",
+        "timestamp": "2025-08-04T02:30:22.386Z",
+        "version": "1.0.0",
+        "uptime": 177.986640899,
+        "checks": {
+          "database": "up",
+          "redis": "up",
+          "filesystem": "up",
+          "external_apis": "up"
+        },
+        "performance": {
+          "response_time_ms": 38,
+          "memory_usage_mb": 271,
+          "cpu_usage_percent": 26.62341314605876
+        }
+      },
+      "modelStatus": {
+        "error": "Unauthorized"
+      },
+      "gpuStatus": {
+        "containerRunning": true
+      },
+      "loadingTimes": {
+        "healthEndpoint": 164,
+        "homepage": 523,
+        "chatInterface": 36
+      }
+    },
+    "integrationHealth": {
+      "Auth API": {
+        "accessible": true,
+        "statusCode": 204,
+        "corsEnabled": false,
+        "contentType": "unknown"
+      },
+      "AI Echo Stream": {
+        "accessible": true,
+        "statusCode": 200,
+        "corsEnabled": "*",
+        "contentType": "unknown"
+      },
+      "Voice Synthesis": {
+        "accessible": true,
+        "statusCode": 401,
+        "corsEnabled": false,
+        "contentType": "application/json"
+      },
+      "AI Echo History": {
+        "accessible": true,
+        "statusCode": 204,
+        "corsEnabled": false,
+        "contentType": "unknown"
+      }
+    },
+    "griefSensitiveDesign": {
+      "compassionateLanguage": false,
+      "memoryPreservationThemes": false,
+      "avoidsTriggerWords": true,
+      "supportiveTone": false,
+      "accessibilityFeatures": false
+    }
+  },
+  "scores": {
+    "chatInterface": 53.333333333333336,
+    "aiQuality": 72,
+    "performance": 100,
+    "integration": 100,
+    "griefSensitive": 20
+  },
+  "overallScore": 69.06666666666668,
+  "overallStatus": "🔧 NEEDS IMPROVEMENT",
+  "summary": {
+    "strengths": [
+      "performance",
+      "integration"
+    ],
+    "weaknesses": [
+      "chatInterface",
+      "griefSensitive"
+    ],
+    "criticalIssues": 0,
+    "highPriorityRecommendations": 1
+  }
+}

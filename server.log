@@ -7,20 +7,20 @@
   - Environments: .env.local
 
  ✓ Starting...
-Error: EACCES: permission denied, unlink '/home/luke/personal-ai-clone/web/.next/_events.json'
+Error: EACCES: permission denied, unlink '/home/luke/personal-ai-clone/web/.next/server/app-paths-manifest.json'
     at async Object.unlink (node:internal/fs/promises:1070:10)
     at async unlinkPath (/home/luke/personal-ai-clone/web/node_modules/next/dist/lib/recursive-delete.js:25:13)
-    at async Promise.all (index 0)
+    at async Promise.all (index 1)
+    at async recursiveDelete (/home/luke/personal-ai-clone/web/node_modules/next/dist/lib/recursive-delete.js:51:5)
+    at async /home/luke/personal-ai-clone/web/node_modules/next/dist/lib/recursive-delete.js:68:17
+    at async Promise.all (index 1)
     at async recursiveDelete (/home/luke/personal-ai-clone/web/node_modules/next/dist/lib/recursive-delete.js:51:5)
     at async Span.traceAsyncFn (/home/luke/personal-ai-clone/web/node_modules/next/dist/trace/trace.js:154:20)
     at async HotReloaderWebpack.start (/home/luke/personal-ai-clone/web/node_modules/next/dist/server/dev/hot-reloader-webpack.js:612:9)
-    at async startWatcher (/home/luke/personal-ai-clone/web/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js:156:5)
-    at async setupDevBundler (/home/luke/personal-ai-clone/web/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js:775:20)
-    at async Span.traceAsyncFn (/home/luke/personal-ai-clone/web/node_modules/next/dist/trace/trace.js:154:20)
-    at async initialize (/home/luke/personal-ai-clone/web/node_modules/next/dist/server/lib/router-server.js:81:30) {
+    at async startWatcher (/home/luke/personal-ai-clone/web/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js:156:5) {
   errno: -13,
   code: 'EACCES',
   syscall: 'unlink',
-  path: '/home/luke/personal-ai-clone/web/.next/_events.json'
+  path: '/home/luke/personal-ai-clone/web/.next/server/app-paths-manifest.json'
 }
 [?25h

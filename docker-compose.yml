@@ -11,12 +11,12 @@ services:
     container_name: echosofme_app
     runtime: nvidia
     ports:
-      - "3001:3000"
+      - "3003:3000"
     environment:
       - NODE_ENV=development
       - DATABASE_URL=postgresql://echosofme:secure_dev_password@postgres:5432/echosofme_dev
       - REDIS_URL=redis://redis:6379
-      - NEXTAUTH_URL=http://localhost:3001
+      - NEXTAUTH_URL=http://localhost:3003
       - NEXTAUTH_SECRET=f29c73c05bc1ea75e0afacb0f85478af4443659cdb6bd6bb83f81330a226dbb0
       - RTX_TRAINING_ENABLED=true
       - RTX_GPU_MEMORY_LIMIT=24gb
@@ -159,7 +159,7 @@ services:
     image: grafana/grafana:latest
     container_name: echosofme_grafana
     ports:
-      - "3001:3000"
+      - "3002:3000"
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin

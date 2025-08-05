@@ -173,11 +173,11 @@ const StreamingMessageComponent: React.FC<StreamingMessageComponentProps> = ({
     }
   }
   
-  // Get emotion icon
+  // Get emotion icon with memory-themed alternatives
   const getEmotionIcon = () => {
     switch (message.emotion) {
-      case 'loving': return '💝'
-      case 'wise': return '🌟'
+      case 'loving': return '💙'
+      case 'wise': return '🕊️'
       case 'reflective': return '🌸'
       case 'comforting': return '🤗'
       default: return '✨'
@@ -217,16 +217,16 @@ const StreamingMessageComponent: React.FC<StreamingMessageComponentProps> = ({
   }
   
   return (
-    <div className={`${getEmotionStyling()} rounded-3xl rounded-bl-md p-4 shadow-sm border border-hope-200/50 ${className}`}>
+    <div className={`${getEmotionStyling()} rounded-sanctuary rounded-bl-embrace p-6 shadow-gentle border border-tender-200/50 ${className}`}>
       {/* Emotion indicator */}
       <div className="flex items-start gap-3">
         <div className="flex-shrink-0 text-lg opacity-70 mt-0.5">
           {getEmotionIcon()}
         </div>
         
-        <div className="flex-1 space-y-3">
+        <div className="flex-1 space-y-4">
           {/* Message content with typewriter effect */}
-          <div className="text-peace-800 font-compassionate leading-relaxed">
+          <div className="text-peace-800 font-compassionate leading-relaxed text-base">
             <TypewriterEffect
               text={message.content}
               speed={message.isComplete ? 20 : 0} // Faster for completed messages

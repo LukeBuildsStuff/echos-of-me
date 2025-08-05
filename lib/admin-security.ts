@@ -125,6 +125,20 @@ export async function verifyAdminSession(
 // Log admin actions for audit trail
 export async function logAdminAction(entry: AuditLogEntry): Promise<void> {
   try {
+    // Check if audit table exists before trying to log
+    const tableExists = await query(`
+      SELECT EXISTS (
+        SELECT FROM information_schema.tables 
+        WHERE table_schema = 'public' 
+        AND table_name = 'comprehensive_audit_log'
+      )
+    `)
+    
+    if (!tableExists.rows[0].exists) {
+      console.log('Audit table not found, skipping log entry:', entry.action_type)
+      return
+    }
+
     await query(`
       INSERT INTO comprehensive_audit_log (
         admin_user_id, admin_email, action_type, resource_type, resource_id,

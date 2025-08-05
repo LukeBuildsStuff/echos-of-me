@@ -1,3 +1,5 @@
+'use client'
+
 import Link from "next/link";
 
 const Hero = () => {
@@ -18,9 +20,9 @@ const Hero = () => {
                   Preserve Your Love, Wisdom, and Voice for Future Generations
                 </h1>
                 <p className="dark:text-body-color-dark mb-8 text-sm !leading-relaxed text-body-color sm:text-base md:text-lg lg:text-xl px-4 sm:px-0 max-w-3xl mx-auto">
-                  Create a living legacy that captures your essence — your stories, values, and voice — 
-                  so your family can always feel your presence, seek your guidance, 
-                  and remember the love that connects you across time.
+                  Create your personal AI "echo" — a digital presence that captures your essence, stories, values, and voice. 
+                  Your family can have real conversations with your echo, asking for advice, sharing their day, 
+                  or simply feeling your loving presence whenever they need it most.
                 </p>
                 <div className="flex flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0 px-4 sm:px-0 w-full">
                   <Link

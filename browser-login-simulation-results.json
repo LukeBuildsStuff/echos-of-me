@@ -1,0 +1,69 @@
+{
+  "timestamp": "2025-08-04T18:30:30.777Z",
+  "totalRequests": 8,
+  "signinVisits": 6,
+  "dashboardVisits": 1,
+  "loopIndicators": [
+    "Multiple signin page visits detected",
+    "Authenticated user served signin page without redirect"
+  ],
+  "fullHistory": [
+    {
+      "url": "http://localhost:3000/auth/signin",
+      "method": "GET",
+      "status": 200,
+      "timestamp": "2025-08-04T18:30:30.564Z",
+      "cookies": {}
+    },
+    {
+      "url": "http://localhost:3000/api/auth/callback/credentials",
+      "method": "POST",
+      "status": 302,
+      "timestamp": "2025-08-04T18:30:30.624Z",
+      "cookies": {}
+    },
+    {
+      "url": "http://localhost:3000/api/auth/signin?csrf=true",
+      "method": "GET",
+      "status": 302,
+      "timestamp": "2025-08-04T18:30:30.647Z",
+      "cookies": {}
+    },
+    {
+      "url": "http://localhost:3000/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000",
+      "method": "GET",
+      "status": 200,
+      "timestamp": "2025-08-04T18:30:30.682Z",
+      "cookies": {}
+    },
+    {
+      "url": "http://localhost:3000/auth/signin",
+      "method": "GET",
+      "status": 200,
+      "timestamp": "2025-08-04T18:30:30.714Z",
+      "cookies": {}
+    },
+    {
+      "url": "http://localhost:3000/dashboard",
+      "method": "GET",
+      "status": 307,
+      "timestamp": "2025-08-04T18:30:30.721Z",
+      "cookies": {}
+    },
+    {
+      "url": "http://localhost:3000/api/auth/signin?callbackUrl=%2Fdashboard",
+      "method": "GET",
+      "status": 302,
+      "timestamp": "2025-08-04T18:30:30.745Z",
+      "cookies": {}
+    },
+    {
+      "url": "http://localhost:3000/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2Fdashboard",
+      "method": "GET",
+      "status": 200,
+      "timestamp": "2025-08-04T18:30:30.777Z",
+      "cookies": {}
+    }
+  ],
+  "finalCookies": {}
+}

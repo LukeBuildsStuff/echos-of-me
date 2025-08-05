@@ -17,10 +17,12 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { message, isDemo = false, sessionId, familyContext, settings, includeVoice = false } = body
 
-    // Skip authentication for demo mode and testing
+    // Authentication handling - allow testing in development
     const session = await getServerSession(authOptions)
-    const allowTesting = process.env.NODE_ENV === 'development' || isDemo
-    if (!allowTesting && !session?.user?.email) {
+    const isDevelopment = process.env.NODE_ENV === 'development'
+    const allowBypass = isDevelopment || isDemo
+    
+    if (!allowBypass && !session?.user?.email) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 

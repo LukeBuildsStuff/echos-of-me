@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Signin Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+        <div>
+            <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                Form Submission Test
+            </h2>
+            <p class="mt-2 text-center text-sm text-gray-600">
+                Testing the signin form functionality
+            </p>
+        </div>
+        
+        <form id="testForm" class="mt-8 space-y-6">
+            <div class="rounded-md shadow-sm -space-y-px">
+                <div>
+                    <label for="email-address" class="sr-only">Email address</label>
+                    <input
+                        id="email-address"
+                        name="email"
+                        type="email"
+                        autocomplete="email"
+                        required
+                        class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        placeholder="Email address"
+                        value="test@example.com"
+                    />
+                </div>
+                <div>
+                    <label for="password" class="sr-only">Password</label>
+                    <input
+                        id="password"
+                        name="password"
+                        type="password"
+                        autocomplete="current-password"
+                        required
+                        class="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                        placeholder="Password"
+                        value="testpassword123"
+                    />
+                </div>
+            </div>
+
+            <div id="error" class="rounded-md bg-red-50 p-4 hidden">
+                <div class="text-sm text-red-700" id="error-text"></div>
+            </div>
+
+            <div>
+                <button
+                    type="submit"
+                    id="submit-btn"
+                    class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+                >
+                    Sign In
+                </button>
+            </div>
+        </form>
+        
+        <div id="log" class="mt-4 p-4 bg-gray-100 rounded-md">
+            <h4 class="font-medium">Debug Log:</h4>
+            <div id="log-content" class="text-sm text-gray-600 mt-2"></div>
+        </div>
+    </div>
+
+    <script>
+        function log(message) {
+            const logContent = document.getElementById('log-content');
+            const timestamp = new Date().toLocaleTimeString();
+            logContent.innerHTML += `<div>[${timestamp}] ${message}</div>`;
+            console.log(message);
+        }
+
+        async function handleSubmit(e) {
+            e.preventDefault();
+            log('Form submission started');
+            
+            const submitBtn = document.getElementById('submit-btn');
+            const errorDiv = document.getElementById('error');
+            const errorText = document.getElementById('error-text');
+            
+            // Get form data
+            const email = document.getElementById('email-address').value;
+            const password = document.getElementById('password').value;
+            
+            log(`Email: ${email}, Password length: ${password.length}`);
+            
+            // Set loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Signing in...';
+            errorDiv.classList.add('hidden');
+            
+            try {
+                log('Making API request...');
+                
+                const response = await fetch('/api/auth/simple-login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
+                
+                log(`Response status: ${response.status}`);
+                log(`Response headers: ${JSON.stringify(Object.fromEntries(response.headers.entries()))}`);
+                
+                const data = await response.json();
+                log(`Response data: ${JSON.stringify(data)}`);
+                
+                if (response.ok && data.success) {
+                    log('Login successful! Redirecting...');
+                    // Simulate redirect
+                    window.location.href = '/dashboard';
+                } else {
+                    log(`Login failed: ${data.error}`);
+                    errorText.textContent = data.error || 'Login failed';
+                    errorDiv.classList.remove('hidden');
+                }
+            } catch (error) {
+                log(`Network error: ${error.message}`);
+                errorText.textContent = 'Network error occurred';
+                errorDiv.classList.remove('hidden');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Sign In';
+                log('Form submission completed');
+            }
+        }
+
+        // Add event listener
+        document.getElementById('testForm').addEventListener('submit', handleSubmit);
+        
+        log('Test page loaded and event listeners attached');
+    </script>
+</body>
+</html>

@@ -1,3 +1,5 @@
+'use client'
+
 import { Feature } from "@/types/feature";
 
 const SingleFeature = ({ feature }: { feature: Feature }) => {

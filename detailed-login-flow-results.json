@@ -1,0 +1,143 @@
+{
+  "timestamp": "2025-08-04T18:29:44.782Z",
+  "steps": [
+    {
+      "step": "Load signin page",
+      "status": "INFO",
+      "details": "Getting signin page",
+      "timestamp": "2025-08-04T18:29:44.783Z",
+      "cookies": {}
+    },
+    {
+      "step": "Load signin page",
+      "status": "PASS",
+      "details": "HTTP 200",
+      "timestamp": "2025-08-04T18:29:44.834Z",
+      "cookies": {}
+    },
+    {
+      "step": "Get CSRF token",
+      "status": "INFO",
+      "details": "Requesting CSRF token",
+      "timestamp": "2025-08-04T18:29:44.834Z",
+      "cookies": {}
+    },
+    {
+      "step": "Get CSRF token",
+      "status": "PASS",
+      "details": "CSRF token obtained",
+      "timestamp": "2025-08-04T18:29:44.868Z",
+      "cookies": {
+        "next-auth.csrf-token": "d523c492aa9d64ba85b1ab43cc6287ff9682e70c56fa9fa203d1752b5521b66a%7Cb27f7c626c1483939c65609e786d541394566a5f1436bebe8b87ba4c5bea5ed9",
+        "next-auth.callback-url": "http%3A%2F%2Flocalhost%3A3000"
+      }
+    },
+    {
+      "step": "Submit credentials",
+      "status": "INFO",
+      "details": "Posting login form",
+      "timestamp": "2025-08-04T18:29:44.868Z",
+      "cookies": {
+        "next-auth.csrf-token": "d523c492aa9d64ba85b1ab43cc6287ff9682e70c56fa9fa203d1752b5521b66a%7Cb27f7c626c1483939c65609e786d541394566a5f1436bebe8b87ba4c5bea5ed9",
+        "next-auth.callback-url": "http%3A%2F%2Flocalhost%3A3000"
+      }
+    },
+    {
+      "step": "Submit credentials",
+      "status": "PASS",
+      "details": "Success - redirect to http://localhost:3000/dashboard",
+      "timestamp": "2025-08-04T18:29:45.153Z",
+      "cookies": {
+        "next-auth.csrf-token": "d523c492aa9d64ba85b1ab43cc6287ff9682e70c56fa9fa203d1752b5521b66a%7Cb27f7c626c1483939c65609e786d541394566a5f1436bebe8b87ba4c5bea5ed9",
+        "next-auth.callback-url": "http%3A%2F%2Flocalhost%3A3000%2Fdashboard",
+        "next-auth.session-token": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..pObST5wmvkLZVatE.XObatHCCxtuHPGlZjjxS6KLIaA5uvTR7OO1ttC_PBfm2XmYZOVoEzo_C4daZt2EZI6HHODfFWhoXrwPc4Mn2rOEXX_09bZp7r8dEGEuDNhI03bP_0AWc94nPJNTu-IoFiRwlGKwYsiVlvowoJo6cb8FHNsBg6xHHcJR4Eb-GR-ERgolNE8GqZxOmLQmbtC3sJJV4987kAjIuYPjF-gtL2cxbiILxSOZQopAlkg2RX2rMSEffRQ5gLHx-AsRzTvz4E8oydrf3LWF2dmAj0O_1Te8gR9_XMhYeM-4Ugx0udXjE-AozoDTn1EzwrKD7rjhcxi2REQQPfrJ2cS922xI9X8NzDR82w9UjdH-hr_uRPJD53jj94n6RIX0mNMR-PKnTYaGxdkZHFao.dmF3Wl5LT5B2c4mfZtIHaw"
+      }
+    },
+    {
+      "step": "Check session",
+      "status": "INFO",
+      "details": "Verifying session creation",
+      "timestamp": "2025-08-04T18:29:45.153Z",
+      "cookies": {
+        "next-auth.csrf-token": "d523c492aa9d64ba85b1ab43cc6287ff9682e70c56fa9fa203d1752b5521b66a%7Cb27f7c626c1483939c65609e786d541394566a5f1436bebe8b87ba4c5bea5ed9",
+        "next-auth.callback-url": "http%3A%2F%2Flocalhost%3A3000%2Fdashboard",
+        "next-auth.session-token": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..pObST5wmvkLZVatE.XObatHCCxtuHPGlZjjxS6KLIaA5uvTR7OO1ttC_PBfm2XmYZOVoEzo_C4daZt2EZI6HHODfFWhoXrwPc4Mn2rOEXX_09bZp7r8dEGEuDNhI03bP_0AWc94nPJNTu-IoFiRwlGKwYsiVlvowoJo6cb8FHNsBg6xHHcJR4Eb-GR-ERgolNE8GqZxOmLQmbtC3sJJV4987kAjIuYPjF-gtL2cxbiILxSOZQopAlkg2RX2rMSEffRQ5gLHx-AsRzTvz4E8oydrf3LWF2dmAj0O_1Te8gR9_XMhYeM-4Ugx0udXjE-AozoDTn1EzwrKD7rjhcxi2REQQPfrJ2cS922xI9X8NzDR82w9UjdH-hr_uRPJD53jj94n6RIX0mNMR-PKnTYaGxdkZHFao.dmF3Wl5LT5B2c4mfZtIHaw"
+      }
+    },
+    {
+      "step": "Check session",
+      "status": "PASS",
+      "details": "Valid session for lukemoeller@yahoo.com",
+      "timestamp": "2025-08-04T18:29:45.190Z",
+      "cookies": {
+        "next-auth.csrf-token": "d523c492aa9d64ba85b1ab43cc6287ff9682e70c56fa9fa203d1752b5521b66a%7Cb27f7c626c1483939c65609e786d541394566a5f1436bebe8b87ba4c5bea5ed9",
+        "next-auth.callback-url": "http%3A%2F%2Flocalhost%3A3000%2Fdashboard",
+        "next-auth.session-token": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..DRvAZju7KRPOFqQN.3STdII6onv4cvfeTyOtFHb7gUjyao-ciMPYoEvnP7d2y8wd9EolweWTJrlmBTxLPjLroXUrpuLyZjtLuuioGzJ4LflI44QchwC_YP8UZ2PonisijsV6whOiE61F264RESTj0dsqg4vO7WyrqghpJO0TT0iNJA2xA9oj7O6YnSdpBp3uExTgXBLrOsV-IHYFLP06TFgjagRsiOy2NexTdwAmiZ3bldCem3ofMgmaLXndUZBGbl3t-9ojfyzDGrUlbQNO5dFhnB-vDjc_s3amtRtG02tx41sFrq97NSf_0qz5IkU_fZRRo-qSuriGcVTcYMm7AwFRuNUAkDJAd-Lr4Y9kwSW2gsgijbqb_EtcGANL3ozPWgnFt9ayElL2Xg4yVcdbAw4z-fqE.zE4hKwYUKIwclWh56kPDEA"
+      }
+    },
+    {
+      "step": "Access dashboard",
+      "status": "INFO",
+      "details": "Testing dashboard access",
+      "timestamp": "2025-08-04T18:29:45.190Z",
+      "cookies": {
+        "next-auth.csrf-token": "d523c492aa9d64ba85b1ab43cc6287ff9682e70c56fa9fa203d1752b5521b66a%7Cb27f7c626c1483939c65609e786d541394566a5f1436bebe8b87ba4c5bea5ed9",
+        "next-auth.callback-url": "http%3A%2F%2Flocalhost%3A3000%2Fdashboard",
+        "next-auth.session-token": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..DRvAZju7KRPOFqQN.3STdII6onv4cvfeTyOtFHb7gUjyao-ciMPYoEvnP7d2y8wd9EolweWTJrlmBTxLPjLroXUrpuLyZjtLuuioGzJ4LflI44QchwC_YP8UZ2PonisijsV6whOiE61F264RESTj0dsqg4vO7WyrqghpJO0TT0iNJA2xA9oj7O6YnSdpBp3uExTgXBLrOsV-IHYFLP06TFgjagRsiOy2NexTdwAmiZ3bldCem3ofMgmaLXndUZBGbl3t-9ojfyzDGrUlbQNO5dFhnB-vDjc_s3amtRtG02tx41sFrq97NSf_0qz5IkU_fZRRo-qSuriGcVTcYMm7AwFRuNUAkDJAd-Lr4Y9kwSW2gsgijbqb_EtcGANL3ozPWgnFt9ayElL2Xg4yVcdbAw4z-fqE.zE4hKwYUKIwclWh56kPDEA"
+      }
+    },
+    {
+      "step": "Access dashboard",
+      "status": "PASS",
+      "details": "HTTP 200",
+      "timestamp": "2025-08-04T18:29:45.230Z",
+      "cookies": {
+        "next-auth.csrf-token": "d523c492aa9d64ba85b1ab43cc6287ff9682e70c56fa9fa203d1752b5521b66a%7Cb27f7c626c1483939c65609e786d541394566a5f1436bebe8b87ba4c5bea5ed9",
+        "next-auth.callback-url": "http%3A%2F%2Flocalhost%3A3000%2Fdashboard",
+        "next-auth.session-token": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..DRvAZju7KRPOFqQN.3STdII6onv4cvfeTyOtFHb7gUjyao-ciMPYoEvnP7d2y8wd9EolweWTJrlmBTxLPjLroXUrpuLyZjtLuuioGzJ4LflI44QchwC_YP8UZ2PonisijsV6whOiE61F264RESTj0dsqg4vO7WyrqghpJO0TT0iNJA2xA9oj7O6YnSdpBp3uExTgXBLrOsV-IHYFLP06TFgjagRsiOy2NexTdwAmiZ3bldCem3ofMgmaLXndUZBGbl3t-9ojfyzDGrUlbQNO5dFhnB-vDjc_s3amtRtG02tx41sFrq97NSf_0qz5IkU_fZRRo-qSuriGcVTcYMm7AwFRuNUAkDJAd-Lr4Y9kwSW2gsgijbqb_EtcGANL3ozPWgnFt9ayElL2Xg4yVcdbAw4z-fqE.zE4hKwYUKIwclWh56kPDEA"
+      }
+    },
+    {
+      "step": "Signin page when authenticated",
+      "status": "INFO",
+      "details": "Testing signin redirect",
+      "timestamp": "2025-08-04T18:29:45.231Z",
+      "cookies": {
+        "next-auth.csrf-token": "d523c492aa9d64ba85b1ab43cc6287ff9682e70c56fa9fa203d1752b5521b66a%7Cb27f7c626c1483939c65609e786d541394566a5f1436bebe8b87ba4c5bea5ed9",
+        "next-auth.callback-url": "http%3A%2F%2Flocalhost%3A3000%2Fdashboard",
+        "next-auth.session-token": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..DRvAZju7KRPOFqQN.3STdII6onv4cvfeTyOtFHb7gUjyao-ciMPYoEvnP7d2y8wd9EolweWTJrlmBTxLPjLroXUrpuLyZjtLuuioGzJ4LflI44QchwC_YP8UZ2PonisijsV6whOiE61F264RESTj0dsqg4vO7WyrqghpJO0TT0iNJA2xA9oj7O6YnSdpBp3uExTgXBLrOsV-IHYFLP06TFgjagRsiOy2NexTdwAmiZ3bldCem3ofMgmaLXndUZBGbl3t-9ojfyzDGrUlbQNO5dFhnB-vDjc_s3amtRtG02tx41sFrq97NSf_0qz5IkU_fZRRo-qSuriGcVTcYMm7AwFRuNUAkDJAd-Lr4Y9kwSW2gsgijbqb_EtcGANL3ozPWgnFt9ayElL2Xg4yVcdbAw4z-fqE.zE4hKwYUKIwclWh56kPDEA"
+      }
+    },
+    {
+      "step": "Signin page when authenticated",
+      "status": "FAIL",
+      "details": "Should redirect authenticated user, but got HTTP 200",
+      "timestamp": "2025-08-04T18:29:45.267Z",
+      "cookies": {
+        "next-auth.csrf-token": "d523c492aa9d64ba85b1ab43cc6287ff9682e70c56fa9fa203d1752b5521b66a%7Cb27f7c626c1483939c65609e786d541394566a5f1436bebe8b87ba4c5bea5ed9",
+        "next-auth.callback-url": "http%3A%2F%2Flocalhost%3A3000%2Fdashboard",
+        "next-auth.session-token": "eyJhbGciOiJkaXIiLCJlbmMiOiJBMjU2R0NNIn0..DRvAZju7KRPOFqQN.3STdII6onv4cvfeTyOtFHb7gUjyao-ciMPYoEvnP7d2y8wd9EolweWTJrlmBTxLPjLroXUrpuLyZjtLuuioGzJ4LflI44QchwC_YP8UZ2PonisijsV6whOiE61F264RESTj0dsqg4vO7WyrqghpJO0TT0iNJA2xA9oj7O6YnSdpBp3uExTgXBLrOsV-IHYFLP06TFgjagRsiOy2NexTdwAmiZ3bldCem3ofMgmaLXndUZBGbl3t-9ojfyzDGrUlbQNO5dFhnB-vDjc_s3amtRtG02tx41sFrq97NSf_0qz5IkU_fZRRo-qSuriGcVTcYMm7AwFRuNUAkDJAd-Lr4Y9kwSW2gsgijbqb_EtcGANL3ozPWgnFt9ayElL2Xg4yVcdbAw4z-fqE.zE4hKwYUKIwclWh56kPDEA"
+      }
+    }
+  ],
+  "errors": [],
+  "redirects": [],
+  "sessions": [
+    {
+      "user": {
+        "name": "Luke",
+        "email": "lukemoeller@yahoo.com",
+        "id": "1",
+        "isAdmin": false,
+        "adminRoleId": null,
+        "roleName": null,
+        "roleDisplayName": null,
+        "permissions": {},
+        "familyId": null,
+        "familyName": null,
+        "isMemorialAccount": false
+      },
+      "expires": "2025-08-05T18:29:45.188Z"
+    }
+  ]
+}
