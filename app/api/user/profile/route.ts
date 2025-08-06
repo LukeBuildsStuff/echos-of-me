@@ -39,6 +39,32 @@ export async function GET(request: NextRequest) {
 
     const profile = result.rows[0]
 
+    // Parse important_people JSON if it exists
+    let parsedImportantPeople = []
+    try {
+      if (profile.important_people) {
+        parsedImportantPeople = typeof profile.important_people === 'string' 
+          ? JSON.parse(profile.important_people)
+          : profile.important_people
+      }
+    } catch (error) {
+      console.error('Error parsing important_people JSON:', error)
+      parsedImportantPeople = []
+    }
+
+    // Parse secondary_roles if it exists
+    let parsedSecondaryRoles = []
+    try {
+      if (profile.secondary_roles) {
+        parsedSecondaryRoles = Array.isArray(profile.secondary_roles)
+          ? profile.secondary_roles
+          : JSON.parse(profile.secondary_roles)
+      }
+    } catch (error) {
+      console.error('Error parsing secondary_roles:', error)
+      parsedSecondaryRoles = []
+    }
+
     return NextResponse.json({
       success: true,
       profile: {
@@ -46,9 +72,12 @@ export async function GET(request: NextRequest) {
         email: profile.email,
         name: profile.name,
         created_at: profile.created_at,
+        birthday: profile.birthday,
         primary_role: profile.primary_role,
+        secondary_roles: parsedSecondaryRoles,
         children_birthdays: profile.children_birthdays,
-        important_people: profile.important_people
+        important_people: parsedImportantPeople,
+        cultural_background: profile.cultural_background
       }
     })
 

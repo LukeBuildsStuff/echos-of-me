@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react'
 import { useSession } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import GroupedFamilyView from '@/components/family/GroupedFamilyView'
+import QuickAddFamilyModal from '@/components/family/QuickAddFamilyModal'
 
 interface UserProfile {
   id: string
@@ -12,10 +14,19 @@ interface UserProfile {
   created_at: string
   primary_role?: string
   children_birthdays?: string[]
-  important_people?: any
+  important_people?: Array<{
+    name: string
+    relationship: string
+    birthday?: string
+    memorial_date?: string
+  }>
 }
 
-export default function UserSettings() {
+interface UserSettingsProps {
+  onNavigateToRoleSetup?: () => void
+}
+
+export default function UserSettings({ onNavigateToRoleSetup }: UserSettingsProps = {}) {
   const { data: session } = useSession()
   const [profile, setProfile] = useState<UserProfile | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -27,25 +38,58 @@ export default function UserSettings() {
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [passwordError, setPasswordError] = useState('')
+  const [showAddFamilyModal, setShowAddFamilyModal] = useState(false)
+  const [familyOperationLoading, setFamilyOperationLoading] = useState(false)
+  const [familyMessage, setFamilyMessage] = useState<{type: 'success' | 'error', text: string} | null>(null)
 
   useEffect(() => {
     loadProfile()
   }, [])
 
+  // Helper function to show family operation messages
+  const showFamilyMessage = (type: 'success' | 'error', text: string) => {
+    setFamilyMessage({ type, text })
+    setTimeout(() => setFamilyMessage(null), 5000) // Clear after 5 seconds
+  }
+
   const loadProfile = async () => {
     try {
       setIsLoading(true)
       const response = await fetch('/api/user/profile')
+      
+      if (!response.ok) {
+        console.error('Profile API returned status:', response.status)
+        // Create a minimal profile to allow family member management
+        setProfile({
+          important_people: []
+        })
+        return
+      }
+      
       const data = await response.json()
       
       if (data.success) {
-        setProfile(data.profile)
-        setEditName(data.profile.name || '')
+        // Ensure important_people is always an array
+        const profileData = {
+          ...data.profile,
+          important_people: data.profile.important_people || []
+        }
+        console.log('Loaded profile with family members:', profileData.important_people.length)
+        setProfile(profileData)
+        setEditName(profileData.name || '')
       } else {
         console.error('Failed to load profile:', data.error)
+        // Create a minimal profile to allow family member management
+        setProfile({
+          important_people: []
+        })
       }
     } catch (error) {
       console.error('Error loading profile:', error)
+      // Create a minimal profile to allow family member management even on error
+      setProfile({
+        important_people: []
+      })
     } finally {
       setIsLoading(false)
     }
@@ -122,6 +166,25 @@ export default function UserSettings() {
       setPasswordError('Network error while changing password')
     } finally {
       setIsSaving(false)
+    }
+  }
+
+  // Helper function to refresh profile data after family member operations
+  const refreshProfile = async () => {
+    try {
+      const response = await fetch('/api/user/profile')
+      const data = await response.json()
+      
+      if (data.success) {
+        const profileData = {
+          ...data.profile,
+          important_people: data.profile.important_people || []
+        }
+        console.log('Refreshed profile with family members:', profileData.important_people.length)
+        setProfile(profileData)
+      }
+    } catch (error) {
+      console.error('Error refreshing profile:', error)
     }
   }
 
@@ -336,37 +399,269 @@ export default function UserSettings() {
         </CardContent>
       </Card>
 
-      {/* Family Profile Summary */}
+      {/* Enhanced Family Profile Section */}
       <Card className="bg-gradient-to-br from-white to-comfort-50 border border-peace-200">
         <CardHeader>
           <CardTitle className="text-xl font-compassionate text-peace-800">
             👥 Family Profile
           </CardTitle>
           <CardDescription className="text-comfort text-peace-600">
-            Your family role and relationship details for personalized questions
+            Your family relationships help create personalized, meaningful conversations
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-comfort text-peace-700">
-                Primary Role: <strong>{profile?.primary_role || 'Not set'}</strong>
-              </span>
+          <div className="space-y-6">
+            {/* Primary Role Section */}
+            <div className="flex items-center justify-between p-4 bg-gradient-to-r from-hope-50 to-comfort-50 rounded-embrace border border-hope-200">
+              <div>
+                <span className="text-comfort text-peace-700">
+                  Primary Role: <strong className="text-peace-800">{profile?.primary_role || 'Not set'}</strong>
+                </span>
+                <p className="text-xs text-peace-600 mt-1">
+                  Your main relationship context for personalized questions
+                </p>
+              </div>
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => window.location.hash = 'role-setup'}
-                className="text-hope-600 hover:text-hope-700 hover:bg-hope-50"
+                onClick={() => {
+                  if (onNavigateToRoleSetup) {
+                    onNavigateToRoleSetup()
+                  } else {
+                    window.location.href = '/dashboard#role-setup'
+                    window.location.reload()
+                  }
+                }}
+                className="text-hope-600 hover:text-hope-700 hover:bg-hope-50 px-4 py-2"
               >
-                Update →
+                Update Role →
               </Button>
             </div>
-            <div className="text-comfort text-peace-600">
-              Children: {profile?.children_birthdays?.length || 0} added
-            </div>
+
+            {/* Family Operation Status Messages */}
+            {familyMessage && (
+              <div className={`p-4 rounded-embrace border-2 ${
+                familyMessage.type === 'success' 
+                  ? 'bg-green-50 border-green-200 text-green-800' 
+                  : 'bg-red-50 border-red-200 text-red-800'
+              }`}>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span>{familyMessage.type === 'success' ? '✅' : '❌'}</span>
+                    <span className="font-compassionate">{familyMessage.text}</span>
+                  </div>
+                  <button
+                    onClick={() => setFamilyMessage(null)}
+                    className="text-gray-500 hover:text-gray-700 p-1 rounded"
+                    aria-label="Dismiss message"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Loading State for Family Operations */}
+            {familyOperationLoading && (
+              <div className="p-4 rounded-embrace border-2 border-hope-200 bg-hope-50">
+                <div className="flex items-center gap-3">
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-hope-600"></div>
+                  <span className="text-hope-700 font-compassionate">Processing family member changes...</span>
+                </div>
+              </div>
+            )}
+
+            {/* Family Members Section */}
+            {profile?.important_people && Array.isArray(profile.important_people) && profile.important_people.length > 0 ? (
+              <div>
+                <div className="text-xs text-gray-500 mb-2">
+                  Debug: Showing {profile.important_people.length} family members
+                </div>
+                <GroupedFamilyView
+                  familyMembers={profile.important_people}
+                onUpdateMember={async (originalMember, updatedMember) => {
+                  setFamilyOperationLoading(true)
+                  setFamilyMessage(null)
+                  
+                  try {
+                    const response = await fetch('/api/user/family-members', {
+                      method: 'PUT',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        original: originalMember,
+                        updated: updatedMember
+                      })
+                    })
+                    
+                    const data = await response.json()
+                    if (data.success) {
+                      console.log('Update API returned family members:', data.familyMembers.length)
+                      // Update local state with proper immutability
+                      setProfile(prev => {
+                        if (!prev) {
+                          // If profile doesn't exist yet, create a minimal one with family members
+                          return {
+                            important_people: [...(data.familyMembers || [])]
+                          }
+                        }
+                        const updated = {
+                          ...prev,
+                          important_people: [...(data.familyMembers || [])]
+                        }
+                        console.log('Updated profile state with family members:', updated.important_people.length)
+                        return updated
+                      })
+                      // Also refresh from server to ensure consistency
+                      setTimeout(refreshProfile, 500)
+                      showFamilyMessage('success', `Successfully updated ${updatedMember.name}`)
+                      return true
+                    } else {
+                      console.error('Failed to update family member:', data.error)
+                      showFamilyMessage('error', `Failed to update family member: ${data.error || 'Unknown error'}`)
+                      return false
+                    }
+                  } catch (error) {
+                    console.error('Error updating family member:', error)
+                    showFamilyMessage('error', 'Network error while updating family member')
+                    return false
+                  } finally {
+                    setFamilyOperationLoading(false)
+                  }
+                }}
+                onDeleteMember={async (member) => {
+                  setFamilyOperationLoading(true)
+                  setFamilyMessage(null)
+                  
+                  try {
+                    const response = await fetch('/api/user/family-members', {
+                      method: 'DELETE',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        member: member
+                      })
+                    })
+                    
+                    const data = await response.json()
+                    if (data.success) {
+                      console.log('Delete API returned family members:', data.familyMembers.length)
+                      // Update local state with proper immutability
+                      setProfile(prev => {
+                        if (!prev) {
+                          // If profile doesn't exist yet, create a minimal one with family members
+                          return {
+                            important_people: [...(data.familyMembers || [])]
+                          }
+                        }
+                        const updated = {
+                          ...prev,
+                          important_people: [...(data.familyMembers || [])]
+                        }
+                        console.log('Updated profile state after delete:', updated.important_people.length)
+                        return updated
+                      })
+                      // Also refresh from server to ensure consistency
+                      setTimeout(refreshProfile, 500)
+                      showFamilyMessage('success', `Successfully removed ${member.name}`)
+                      return true
+                    } else {
+                      console.error('Failed to delete family member:', data.error)
+                      showFamilyMessage('error', `Failed to remove family member: ${data.error || 'Unknown error'}`)
+                      return false
+                    }
+                  } catch (error) {
+                    console.error('Error deleting family member:', error)
+                    showFamilyMessage('error', 'Network error while removing family member')
+                    return false
+                  } finally {
+                    setFamilyOperationLoading(false)
+                  }
+                }}
+                onAddMember={() => setShowAddFamilyModal(true)}
+              />
+              </div>
+            ) : (
+              <div className="text-center p-8 bg-gradient-to-r from-comfort-50 to-hope-50 rounded-embrace border border-peace-200">
+                <div className="text-xs text-gray-500 mb-2">
+                  Debug: No family members found. Profile loaded: {profile ? 'yes' : 'no'}, 
+                  Important people: {profile?.important_people ? `array with ${Array.isArray(profile.important_people) ? profile.important_people.length : 'invalid'} items` : 'null/undefined'}
+                </div>
+                <div className="text-6xl mb-4">👨‍👩‍👧‍👦</div>
+                <h3 className="text-lg font-gentle text-peace-800 mb-2">
+                  Your Family Story Awaits
+                </h3>
+                <p className="text-peace-600 font-compassionate mb-4 max-w-md mx-auto">
+                  Add the important people in your life to create more meaningful and personalized conversations
+                </p>
+                <Button
+                  onClick={() => setShowAddFamilyModal(true)}
+                  className="bg-gradient-to-r from-hope-500 to-comfort-500 hover:from-hope-600 hover:to-comfort-600 text-white px-6 py-3 rounded-embrace font-supportive"
+                >
+                  Add Your First Family Member
+                </Button>
+              </div>
+            )}
+            
+            {/* Legacy: Show children count if available */}
+            {profile?.children_birthdays && profile.children_birthdays.length > 0 && (
+              <div className="text-comfort text-peace-600 text-sm bg-memory-50 p-3 rounded-embrace border border-memory-200">
+                📊 Legacy data: {profile.children_birthdays.length} children's birthdays from previous setup
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
+
+      {/* Quick Add Family Member Modal */}
+      <QuickAddFamilyModal
+        isOpen={showAddFamilyModal}
+        onClose={() => setShowAddFamilyModal(false)}
+        onAdd={async (newMember) => {
+          setFamilyOperationLoading(true)
+          setFamilyMessage(null)
+          
+          try {
+            const response = await fetch('/api/user/family-members', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(newMember)
+            })
+            
+            const data = await response.json()
+            if (data.success) {
+              console.log('Add API returned family members:', data.familyMembers.length)
+              // Update local state with proper immutability
+              setProfile(prev => {
+                if (!prev) {
+                  // If profile doesn't exist yet, create a minimal one with family members
+                  return {
+                    important_people: [...(data.familyMembers || [])]
+                  }
+                }
+                const updated = {
+                  ...prev,
+                  important_people: [...(data.familyMembers || [])]
+                }
+                console.log('Updated profile state after add:', updated.important_people.length)
+                return updated
+              })
+              // Also refresh from server to ensure consistency
+              setTimeout(refreshProfile, 500)
+              showFamilyMessage('success', `Successfully added ${newMember.name} to your family`)
+              return true
+            } else {
+              console.error('Failed to add family member:', data.error)
+              showFamilyMessage('error', `Failed to add family member: ${data.error || 'Unknown error'}`)
+              return false
+            }
+          } catch (error) {
+            console.error('Error adding family member:', error)
+            showFamilyMessage('error', 'Network error while adding family member')
+            return false
+          } finally {
+            setFamilyOperationLoading(false)
+          }
+        }}
+      />
 
       {/* Encouragement */}
       <div className="text-center bg-gradient-to-r from-comfort-50 to-hope-50 rounded-sanctuary p-embrace">
