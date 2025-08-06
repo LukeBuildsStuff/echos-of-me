@@ -1,0 +1,23 @@
+Server running on port 3004
+Environment: development
+Unhandled error: ReferenceError: /home/luke/personal-ai-clone/web/views/data.ejs:120
+    118|                                 <div class="memory-meta">
+    119|                                     <span class="memory-category <%= response.category %>">
+ >> 120|                                         <%= getCategoryIcon(response.category) %> <%= response.category || 'Memory' %>
+    121|                                     </span>
+    122|                                     <span class="memory-date">
+    123|                                         <%= new Date(response.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %>
+
+getCategoryIcon is not defined
+    at eval ("/home/luke/personal-ai-clone/web/views/data.ejs":71:7)
+    at Array.forEach (<anonymous>)
+    at eval ("/home/luke/personal-ai-clone/web/views/data.ejs":53:34)
+    at Array.forEach (<anonymous>)
+    at eval ("/home/luke/personal-ai-clone/web/views/data.ejs":42:43)
+    at data (/home/luke/personal-ai-clone/web/node_modules/ejs/lib/ejs.js:703:17)
+    at tryHandleCache (/home/luke/personal-ai-clone/web/node_modules/ejs/lib/ejs.js:274:36)
+    at exports.renderFile [as engine] (/home/luke/personal-ai-clone/web/node_modules/ejs/lib/ejs.js:491:10)
+    at View.render (/home/luke/personal-ai-clone/web/node_modules/express/lib/view.js:139:8)
+    at tryRender (/home/luke/personal-ai-clone/web/node_modules/express/lib/application.js:627:10) {
+  path: '/home/luke/personal-ai-clone/web/views/data.ejs'
+}

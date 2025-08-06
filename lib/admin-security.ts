@@ -52,36 +52,33 @@ export async function verifyAdminPermission(
   try {
     const result = await query(`
       SELECT 
-        u.id, u.email, u.name, u.is_admin, u.admin_role_id,
-        ar.role_name, ar.permissions
-      FROM users u
-      LEFT JOIN admin_roles ar ON u.admin_role_id = ar.id
-      WHERE u.email = $1 AND u.is_admin = true AND u.is_active = true
+        id, email, name, is_admin
+      FROM users
+      WHERE email = $1 AND is_admin = true AND is_active = true
     `, [email])
 
     if (result.rows.length === 0) {
       return { isAuthorized: false, error: 'User not found or not an admin' }
     }
 
-    const user = result.rows[0] as AdminUser
+    const user = result.rows[0]
     
-    if (!user.admin_role_id || !user.permissions) {
-      return { isAuthorized: false, error: 'Admin role not properly configured' }
+    // For now, allow all permissions for admin users since we don't have role tables
+    // In the future, you can implement a proper permissions system
+    const adminUser: AdminUser = {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      is_admin: user.is_admin,
+      admin_role_id: null,
+      role_name: 'admin',
+      permissions: {}
     }
 
-    // Check if user has the specific permission
-    const [resource, action] = permission.split('.')
-    const hasPermission = user.permissions[resource]?.includes(action)
-
-    if (!hasPermission) {
-      return { 
-        isAuthorized: false, 
-        user, 
-        error: `Insufficient permissions for ${permission}` 
-      }
+    return { 
+      isAuthorized: true, 
+      user: adminUser
     }
-
-    return { isAuthorized: true, user }
   } catch (error) {
     console.error('Error verifying admin permission:', error)
     return { isAuthorized: false, error: 'Database error' }

@@ -8,13 +8,6 @@ declare module "next-auth" {
       email?: string | null
       image?: string | null
       isAdmin?: boolean
-      adminRoleId?: string
-      roleName?: string
-      roleDisplayName?: string
-      permissions?: Record<string, string[]>
-      familyId?: string
-      familyName?: string
-      isMemorialAccount?: boolean
     }
   }
 
@@ -24,13 +17,6 @@ declare module "next-auth" {
     email?: string | null
     image?: string | null
     isAdmin?: boolean
-    adminRoleId?: string
-    roleName?: string
-    roleDisplayName?: string
-    permissions?: Record<string, string[]>
-    familyId?: string
-    familyName?: string
-    isMemorialAccount?: boolean
   }
 }
 
@@ -38,12 +24,5 @@ declare module "next-auth/jwt" {
   interface JWT {
     id: string
     isAdmin?: boolean
-    adminRoleId?: string
-    roleName?: string
-    roleDisplayName?: string
-    permissions?: Record<string, string[]>
-    familyId?: string
-    familyName?: string
-    isMemorialAccount?: boolean
   }
 }

@@ -1,0 +1,587 @@
+<% 
+// Set layout variables
+const title = 'Admin Panel - Personal AI Clone'; 
+%>
+
+<div class="container">
+    <!-- Header Section -->
+    <div class="mb-8">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1>Admin Dashboard</h1>
+                <p class="text-gray-600">System overview and user management</p>
+            </div>
+            <div class="text-sm text-gray-500">
+                Last updated: <span id="last-updated">Loading...</span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- System Stats Cards -->
+    <div class="grid md:grid-cols-4 gap-6 mb-8">
+        <!-- Total Users -->
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Total Users</p>
+                    <p class="text-3xl font-bold text-primary"><%= stats.totalUsers %></p>
+                </div>
+                <div class="text-primary text-4xl">👥</div>
+            </div>
+        </div>
+        
+        <!-- Total Responses -->
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Total Responses</p>
+                    <p class="text-3xl font-bold text-secondary"><%= stats.totalResponses %></p>
+                </div>
+                <div class="text-secondary text-4xl">📝</div>
+            </div>
+        </div>
+        
+        <!-- Recent Activity -->
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600">This Week</p>
+                    <p class="text-3xl font-bold text-info"><%= stats.recentResponses %></p>
+                </div>
+                <div class="text-info text-4xl">⚡</div>
+            </div>
+        </div>
+        
+        <!-- System Health -->
+        <div class="card">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600">System Status</p>
+                    <p class="text-lg font-bold text-success" id="system-status">Healthy</p>
+                </div>
+                <div class="text-success text-4xl" id="system-icon">✅</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="grid md:grid-cols-3 gap-6 mb-8">
+        <!-- User Management -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">User Management</h3>
+                <p class="card-description">Manage user accounts and permissions</p>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="showUserList()" class="btn btn-primary btn-sm">
+                    👥 View Users
+                </button>
+                <button onclick="exportUserData()" class="btn btn-secondary btn-sm">
+                    📊 Export Data
+                </button>
+            </div>
+        </div>
+        
+        <!-- System Monitoring -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">System Monitoring</h3>
+                <p class="card-description">Monitor system health and performance</p>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="checkSystemHealth()" class="btn btn-primary btn-sm">
+                    🔍 Health Check
+                </button>
+                <button onclick="viewErrorLogs()" class="btn btn-secondary btn-sm">
+                    📋 Error Logs
+                </button>
+            </div>
+        </div>
+        
+        <!-- AI Service -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">AI Service Status</h3>
+                <p class="card-description">Monitor RTX 5090 AI integration</p>
+            </div>
+            <div class="flex gap-3">
+                <button onclick="testAIService()" class="btn btn-primary btn-sm">
+                    🤖 Test AI
+                </button>
+                <button onclick="showAIMetrics()" class="btn btn-secondary btn-sm">
+                    📈 Metrics
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Users -->
+    <div class="card mb-8">
+        <div class="card-header">
+            <h3 class="card-title">Recent Users</h3>
+            <p class="card-description">Latest user registrations and activity</p>
+        </div>
+        
+        <div class="overflow-x-auto">
+            <table class="w-full">
+                <thead>
+                    <tr class="border-b">
+                        <th class="text-left py-3 px-2">Name</th>
+                        <th class="text-left py-3 px-2">Email</th>
+                        <th class="text-left py-3 px-2">Joined</th>
+                        <th class="text-left py-3 px-2">Admin</th>
+                        <th class="text-left py-3 px-2">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (recentUsers && recentUsers.length > 0) { %>
+                        <% recentUsers.forEach(user => { %>
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="py-3 px-2">
+                                <div class="font-medium"><%= user.name || 'N/A' %></div>
+                            </td>
+                            <td class="py-3 px-2">
+                                <div class="text-sm text-gray-600"><%= user.email %></div>
+                            </td>
+                            <td class="py-3 px-2">
+                                <div class="text-sm text-gray-600">
+                                    <%= new Date(user.created_at).toLocaleDateString() %>
+                                </div>
+                            </td>
+                            <td class="py-3 px-2">
+                                <span class="px-2 py-1 text-xs rounded-full <%= user.is_admin ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' %>">
+                                    <%= user.is_admin ? 'Yes' : 'No' %>
+                                </span>
+                            </td>
+                            <td class="py-3 px-2">
+                                <button 
+                                    onclick="viewUserDetails('<%= user.id %>')" 
+                                    class="btn btn-sm btn-secondary"
+                                >
+                                    View
+                                </button>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5" class="py-8 text-center text-gray-500">
+                                No users found
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="mt-4 text-center">
+            <button onclick="showUserList()" class="btn btn-secondary">
+                View All Users
+            </button>
+        </div>
+    </div>
+    
+    <!-- Real-time System Status -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Real-time Status</h3>
+            <p class="card-description">Live system monitoring</p>
+        </div>
+        
+        <div id="status-grid" class="grid md:grid-cols-2 gap-4">
+            <!-- Database Status -->
+            <div class="p-4 bg-gray-50 rounded-lg">
+                <div class="flex items-center justify-between mb-2">
+                    <h4 class="font-medium">Database</h4>
+                    <span id="db-status" class="text-sm">Checking...</span>
+                </div>
+                <div class="text-sm text-gray-600">
+                    <div>Connection: <span id="db-connection">-</span></div>
+                    <div>Response Time: <span id="db-latency">-</span></div>
+                </div>
+            </div>
+            
+            <!-- AI Service Status -->
+            <div class="p-4 bg-gray-50 rounded-lg">
+                <div class="flex items-center justify-between mb-2">
+                    <h4 class="font-medium">AI Service (RTX 5090)</h4>
+                    <span id="ai-status" class="text-sm">Checking...</span>
+                </div>
+                <div class="text-sm text-gray-600">
+                    <div>Endpoint: <span id="ai-endpoint">localhost:8000</span></div>
+                    <div>Status: <span id="ai-health">-</span></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mt-4 text-center">
+            <button onclick="refreshSystemStatus()" class="btn btn-primary">
+                🔄 Refresh Status
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- User Details Modal -->
+<div id="user-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style="display: none; z-index: 1000;">
+    <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold">User Details</h3>
+                <button onclick="closeUserModal()" class="text-gray-500 hover:text-gray-700">✕</button>
+            </div>
+            
+            <div id="user-details-content">
+                <!-- User details will be loaded here -->
+                <div class="text-center py-8">
+                    <div class="loading mb-2"></div>
+                    <p>Loading user details...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- User List Modal -->
+<div id="user-list-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style="display: none; z-index: 1000;">
+    <div class="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold">All Users</h3>
+                <button onclick="closeUserListModal()" class="text-gray-500 hover:text-gray-700">✕</button>
+            </div>
+            
+            <div id="user-list-content">
+                <!-- User list will be loaded here -->
+                <div class="text-center py-8">
+                    <div class="loading mb-2"></div>
+                    <p>Loading user list...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize admin dashboard
+    updateLastUpdated();
+    checkSystemHealth();
+    
+    // Auto-refresh every 30 seconds
+    setInterval(() => {
+        updateLastUpdated();
+        refreshSystemStatus();
+    }, 30000);
+});
+
+function updateLastUpdated() {
+    document.getElementById('last-updated').textContent = new Date().toLocaleTimeString();
+}
+
+async function checkSystemHealth() {
+    try {
+        const response = await fetch('/api/health');
+        const data = await response.json();
+        
+        if (data.success) {
+            // Update database status
+            document.getElementById('db-status').textContent = '✅ Healthy';
+            document.getElementById('db-connection').textContent = 'Connected';
+            document.getElementById('db-latency').textContent = data.latency ? `${data.latency}ms` : 'Fast';
+            
+            // Update AI service status
+            const aiStatus = data.services?.ai || 'unknown';
+            const aiStatusElement = document.getElementById('ai-status');
+            const aiHealthElement = document.getElementById('ai-health');
+            
+            switch (aiStatus) {
+                case 'healthy':
+                    aiStatusElement.textContent = '✅ Healthy';
+                    aiHealthElement.textContent = 'Online';
+                    break;
+                case 'unhealthy':
+                    aiStatusElement.textContent = '⚠️ Unhealthy';
+                    aiHealthElement.textContent = 'Issues detected';
+                    break;
+                case 'unavailable':
+                    aiStatusElement.textContent = '❌ Offline';
+                    aiHealthElement.textContent = 'Service unavailable';
+                    break;
+                default:
+                    aiStatusElement.textContent = '❓ Unknown';
+                    aiHealthElement.textContent = 'Status unknown';
+            }
+            
+            // Update overall system status
+            const overallHealthy = data.services?.database !== 'unhealthy';
+            document.getElementById('system-status').textContent = overallHealthy ? 'Healthy' : 'Issues';
+            document.getElementById('system-icon').textContent = overallHealthy ? '✅' : '⚠️';
+            
+        } else {
+            throw new Error('Health check failed');
+        }
+    } catch (error) {
+        console.error('System health check failed:', error);
+        
+        // Update status to show error
+        document.getElementById('system-status').textContent = 'Error';
+        document.getElementById('system-icon').textContent = '❌';
+        document.getElementById('db-status').textContent = '❌ Error';
+        document.getElementById('ai-status').textContent = '❌ Error';
+    }
+}
+
+async function refreshSystemStatus() {
+    await checkSystemHealth();
+    showToast('System status refreshed', 'success');
+}
+
+async function testAIService() {
+    try {
+        showToast('Testing AI service...', 'info');
+        
+        const response = await fetch('/api/ai-echo/chat', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: 'Admin test message - please respond to confirm the AI service is working.',
+                sessionId: 'admin-test-' + Date.now()
+            })
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            showToast('AI service is working correctly!', 'success');
+        } else {
+            showToast('AI service test failed: ' + data.error, 'error');
+        }
+    } catch (error) {
+        console.error('AI service test failed:', error);
+        showToast('AI service test failed: ' + error.message, 'error');
+    }
+}
+
+async function showUserList() {
+    document.getElementById('user-list-modal').style.display = 'flex';
+    
+    try {
+        const response = await fetch('/api/admin/users?limit=100');
+        const data = await response.json();
+        
+        if (data.success) {
+            const content = document.getElementById('user-list-content');
+            content.innerHTML = `
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="border-b">
+                                <th class="text-left py-2">Name</th>
+                                <th class="text-left py-2">Email</th>
+                                <th class="text-left py-2">Responses</th>
+                                <th class="text-left py-2">Admin</th>
+                                <th class="text-left py-2">Last Active</th>
+                                <th class="text-left py-2">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.users.map(user => `
+                                <tr class="border-b hover:bg-gray-50">
+                                    <td class="py-2">${user.name || 'N/A'}</td>
+                                    <td class="py-2 text-sm">${user.email}</td>
+                                    <td class="py-2">${user.response_count || 0}</td>
+                                    <td class="py-2">
+                                        <span class="px-2 py-1 text-xs rounded-full ${user.is_admin ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}">
+                                            ${user.is_admin ? 'Yes' : 'No'}
+                                        </span>
+                                    </td>
+                                    <td class="py-2 text-sm">
+                                        ${user.last_response_at ? new Date(user.last_response_at).toLocaleDateString() : 'Never'}
+                                    </td>
+                                    <td class="py-2">
+                                        <button onclick="viewUserDetails('${user.id}')" class="btn btn-sm btn-secondary">
+                                            View
+                                        </button>
+                                    </td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        } else {
+            throw new Error(data.error);
+        }
+    } catch (error) {
+        console.error('Error loading user list:', error);
+        document.getElementById('user-list-content').innerHTML = `
+            <div class="text-center py-8 text-red-600">
+                <p>Error loading user list: ${error.message}</p>
+                <button onclick="showUserList()" class="btn btn-primary mt-4">Try Again</button>
+            </div>
+        `;
+    }
+}
+
+async function viewUserDetails(userId) {
+    // Close user list modal if open
+    closeUserListModal();
+    
+    document.getElementById('user-modal').style.display = 'flex';
+    
+    try {
+        // This would need to be implemented in the API
+        const response = await fetch(`/api/admin/users/${userId}`);
+        const data = await response.json();
+        
+        if (data.success) {
+            const user = data.user;
+            const content = document.getElementById('user-details-content');
+            content.innerHTML = `
+                <div class="space-y-4">
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <h4 class="font-medium text-gray-700">Basic Information</h4>
+                            <div class="mt-2 space-y-2 text-sm">
+                                <div><strong>Name:</strong> ${user.name || 'N/A'}</div>
+                                <div><strong>Email:</strong> ${user.email}</div>
+                                <div><strong>Role:</strong> ${user.is_admin ? 'Administrator' : 'User'}</div>
+                                <div><strong>Joined:</strong> ${new Date(user.created_at).toLocaleDateString()}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-700">Activity</h4>
+                            <div class="mt-2 space-y-2 text-sm">
+                                <div><strong>Total Responses:</strong> ${user.response_count || 0}</div>
+                                <div><strong>Last Response:</strong> ${user.last_response_at ? new Date(user.last_response_at).toLocaleDateString() : 'Never'}</div>
+                                <div><strong>Average Words:</strong> ${user.avg_word_count || 0}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="border-t pt-4">
+                        <h4 class="font-medium text-gray-700 mb-2">Admin Actions</h4>
+                        <div class="flex gap-2">
+                            <button onclick="resetUserPassword('${user.id}')" class="btn btn-sm btn-secondary">
+                                Reset Password
+                            </button>
+                            <button onclick="toggleUserAdmin('${user.id}', ${!user.is_admin})" class="btn btn-sm btn-secondary">
+                                ${user.is_admin ? 'Remove Admin' : 'Make Admin'}
+                            </button>
+                            <button onclick="exportUserData('${user.id}')" class="btn btn-sm btn-secondary">
+                                Export Data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        } else {
+            throw new Error(data.error);
+        }
+    } catch (error) {
+        console.error('Error loading user details:', error);
+        document.getElementById('user-details-content').innerHTML = `
+            <div class="text-center py-8 text-red-600">
+                <p>Error loading user details: ${error.message}</p>
+                <button onclick="viewUserDetails('${userId}')" class="btn btn-primary mt-4">Try Again</button>
+            </div>
+        `;
+    }
+}
+
+function closeUserModal() {
+    document.getElementById('user-modal').style.display = 'none';
+}
+
+function closeUserListModal() {
+    document.getElementById('user-list-modal').style.display = 'none';
+}
+
+async function exportUserData() {
+    try {
+        showToast('Preparing export...', 'info');
+        
+        const response = await fetch('/api/admin/users/export');
+        const blob = await response.blob();
+        
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `user-data-export-${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        
+        showToast('User data exported successfully!', 'success');
+    } catch (error) {
+        console.error('Export failed:', error);
+        showToast('Export failed: ' + error.message, 'error');
+    }
+}
+
+function viewErrorLogs() {
+    // This would typically open another modal or redirect to a logs page
+    showToast('Error logs feature coming soon!', 'info');
+}
+
+function showAIMetrics() {
+    // This would show AI service metrics
+    showToast('AI metrics feature coming soon!', 'info');
+}
+
+// Toast notification function
+function showToast(message, type = 'info') {
+    const toastContainer = document.getElementById('toast-container') || createToastContainer();
+    
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    
+    const colors = {
+        success: 'border-green-500 bg-green-50 text-green-800',
+        error: 'border-red-500 bg-red-50 text-red-800',
+        info: 'border-blue-500 bg-blue-50 text-blue-800',
+        warning: 'border-yellow-500 bg-yellow-50 text-yellow-800'
+    };
+    
+    toast.className = `p-4 mb-2 border-l-4 rounded shadow-sm ${colors[type]}`;
+    
+    toastContainer.appendChild(toast);
+    
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+        if (toast.parentNode) {
+            toast.parentNode.removeChild(toast);
+        }
+    }, 5000);
+}
+
+function createToastContainer() {
+    const container = document.createElement('div');
+    container.id = 'toast-container';
+    container.className = 'fixed top-4 right-4 z-50 max-w-sm';
+    document.body.appendChild(container);
+    return container;
+}
+</script>
+
+<style>
+.loading {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>

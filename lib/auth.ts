@@ -25,18 +25,13 @@ export const authOptions: NextAuthOptions = {
             return null
           }
 
-          // Enhanced user query to include admin role information
+          // Simple user query - removed non-existent table joins
           const result = await query(`
             SELECT 
-              u.id, u.email, u.name, u.password_hash, u.is_admin, u.admin_role_id,
-              u.failed_login_attempts, u.locked_until, u.memorial_account,
-              ar.role_name, ar.permissions, ar.display_name as role_display_name,
-              fm.family_id, f.family_name
-            FROM users u
-            LEFT JOIN admin_roles ar ON u.admin_role_id = ar.id
-            LEFT JOIN family_members fm ON u.id = fm.user_id AND fm.family_role = 'primary'
-            LEFT JOIN families f ON fm.family_id = f.id
-            WHERE u.email = $1 AND u.is_active = true
+              id, email, name, password_hash, is_admin,
+              failed_login_attempts, locked_until
+            FROM users
+            WHERE email = $1 AND is_active = true
           `, [credentials.email])
 
           if (result.rows.length === 0) {
@@ -127,14 +122,7 @@ export const authOptions: NextAuthOptions = {
             id: user.id.toString(),
             email: user.email,
             name: user.name,
-            isAdmin: user.is_admin || false,
-            adminRoleId: user.admin_role_id,
-            roleName: user.role_name,
-            roleDisplayName: user.role_display_name,
-            permissions: user.permissions || {},
-            familyId: user.family_id,
-            familyName: user.family_name,
-            isMemorialAccount: user.memorial_account || false
+            isAdmin: user.is_admin || false
           }
         } catch (error) {
           console.error('Auth error:', error)
@@ -168,13 +156,6 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id
         token.isAdmin = user.isAdmin
-        token.adminRoleId = user.adminRoleId
-        token.roleName = user.roleName
-        token.roleDisplayName = user.roleDisplayName
-        token.permissions = user.permissions
-        token.familyId = user.familyId
-        token.familyName = user.familyName
-        token.isMemorialAccount = user.isMemorialAccount
       }
       return token
     },
@@ -182,39 +163,11 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.id as string
         session.user.isAdmin = token.isAdmin as boolean
-        session.user.adminRoleId = token.adminRoleId as string
-        session.user.roleName = token.roleName as string
-        session.user.roleDisplayName = token.roleDisplayName as string
-        session.user.permissions = token.permissions as Record<string, string[]>
-        session.user.familyId = token.familyId as string
-        session.user.familyName = token.familyName as string
-        session.user.isMemorialAccount = token.isMemorialAccount as boolean
       }
       return session
     },
     async signIn({ user, account, profile }) {
-      // Additional validation for admin accounts
-      if (user.isAdmin) {
-        try {
-          // Verify admin role is still active and valid
-          const adminCheck = await query(`
-            SELECT ar.role_name, ar.permissions 
-            FROM users u
-            JOIN admin_roles ar ON u.admin_role_id = ar.id
-            WHERE u.id = $1 AND u.is_admin = true AND u.is_active = true
-          `, [user.id])
-
-          if (adminCheck.rows.length === 0) {
-            console.warn(`Admin user ${user.email} failed role validation`)
-            return false
-          }
-
-          return true
-        } catch (error) {
-          console.error('Admin validation error:', error)
-          return false
-        }
-      }
+      // Simple sign-in - no additional validation needed since tables don't exist
       return true
     }
   },
@@ -227,8 +180,7 @@ export const authOptions: NextAuthOptions = {
           action_type: 'logout',
           resource_type: 'authentication',
           action_details: { 
-            is_admin: token.isAdmin,
-            role: token.roleName 
+            is_admin: token.isAdmin
           },
           risk_level: 'low'
         })

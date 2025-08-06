@@ -1,0 +1,473 @@
+<% 
+// Set layout variables
+const title = 'Dashboard - Personal AI Clone'; 
+%>
+
+<div class="dashboard-container">
+    <!-- Enhanced Header Section -->
+    <div class="dashboard-header animate-slideInLeft">
+        <div class="welcome-section">
+            <div class="user-avatar animate-pulse">
+                <span class="avatar-symbol">🌱</span>
+            </div>
+            <div class="welcome-content">
+                <h1 class="welcome-title">Welcome back, <span class="user-name"><%= user.name %></span></h1>
+                <p class="welcome-subtitle memory-content">Your digital legacy grows stronger with each memory you preserve</p>
+                <div class="legacy-status">
+                    <div class="status-item">
+                        <span class="status-icon">✨</span>
+                        <span class="status-text">Building your eternal story</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Enhanced Memory Stats Cards -->
+    <div class="memory-stats-grid animate-fadeInUp animate-stagger-2">
+        <!-- Memory Garden Growth -->
+        <div class="card card-memory hover-lift animate-stagger-1">
+            <div class="stat-card-content">
+                <div class="stat-visual">
+                    <div class="progress-ring" data-value="<%= Math.min((stats.totalResponses / 100) * 100, 100) %>">
+                        <div class="progress-ring-content">
+                            <span class="ring-value"><%= stats.totalResponses %></span>
+                            <span class="ring-label">memories</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-info">
+                    <h3 class="stat-title">Memory Garden</h3>
+                    <p class="stat-description">Seeds of wisdom planted in your digital soil</p>
+                    <div class="stat-progress">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" style="width: <%= Math.min((stats.totalResponses / 100) * 100, 100) %>%"></div>
+                        </div>
+                        <span class="progress-text"><%= Math.min((stats.totalResponses / 100) * 100, 100) %>% to first milestone</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Growth -->
+        <div class="card card-memory hover-lift animate-stagger-2">
+            <div class="stat-card-content">
+                <div class="stat-visual">
+                    <div class="growth-indicator animate-pulse">
+                        <div class="growth-rings">
+                            <div class="growth-ring ring-1"></div>
+                            <div class="growth-ring ring-2"></div>
+                            <div class="growth-ring ring-3"></div>
+                        </div>
+                        <div class="growth-center">
+                            <span class="growth-value"><%= stats.recentResponses %></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-info">
+                    <h3 class="stat-title">This Week's Growth</h3>
+                    <p class="stat-description">Fresh memories added to your legacy</p>
+                    <div class="growth-trend">
+                        <span class="trend-indicator positive">🌱 Growing</span>
+                        <span class="trend-text">Keep nurturing your story</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Story Depth -->
+        <div class="card card-memory hover-lift animate-stagger-3">
+            <div class="stat-card-content">
+                <div class="stat-visual">
+                    <div class="depth-meter">
+                        <div class="depth-waves">
+                            <div class="wave wave-1"></div>
+                            <div class="wave wave-2"></div>
+                            <div class="wave wave-3"></div>
+                        </div>
+                        <div class="depth-center">
+                            <span class="depth-value"><%= stats.avgWordCount %></span>
+                            <span class="depth-unit">words</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-info">
+                    <h3 class="stat-title">Story Depth</h3>
+                    <p class="stat-description">The richness of your shared memories</p>
+                    <div class="depth-quality">
+                        <span class="quality-indicator">
+                            <% if (stats.avgWordCount > 100) { %>
+                                📖 Rich storytelling
+                            <% } else if (stats.avgWordCount > 50) { %>
+                                📝 Detailed sharing
+                            <% } else { %>
+                                ✨ Concise wisdom
+                            <% } %>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Legacy Action Cards -->
+    <div class="legacy-actions-grid animate-fadeInUp animate-stagger-3">
+        <!-- Connect with Your Legacy -->
+        <div class="card card-legacy hover-lift animate-stagger-1">
+            <div class="action-card-header">
+                <div class="action-icon animate-glow">
+                    <span class="icon-symbol">🌟</span>
+                </div>
+                <div class="action-content">
+                    <h3 class="action-title">Connect with Your Legacy</h3>
+                    <p class="action-description memory-content">
+                        Experience the magic of conversing with your digital self - a mirror of your memories and wisdom
+                    </p>
+                </div>
+            </div>
+            <div class="action-preview">
+                <div class="preview-conversation">
+                    <div class="preview-message ai">
+                        <span class="message-avatar">🌟</span>
+                        <span class="message-text">"Let me share a memory about..."</span>
+                    </div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <a href="/chat" class="btn btn-memory btn-lg hover-lift">
+                    🌌 Enter Your Memory Space
+                </a>
+                <button onclick="showChatPreview()" class="btn btn-secondary hover-lift">
+                    👁️ Preview Magic
+                </button>
+            </div>
+        </div>
+        
+        <!-- Nurture Your Garden -->
+        <div class="card card-legacy hover-lift animate-stagger-2">
+            <div class="action-card-header">
+                <div class="action-icon animate-pulse">
+                    <span class="icon-symbol">🌱</span>
+                </div>
+                <div class="action-content">
+                    <h3 class="action-title">Nurture Your Garden</h3>
+                    <p class="action-description memory-content">
+                        Plant new seeds of memory and watch your digital legacy bloom with each story you share
+                    </p>
+                </div>
+            </div>
+            <div class="action-preview">
+                <div class="garden-visualization">
+                    <div class="garden-growth">
+                        <div class="seed stage-1 <%= stats.totalResponses > 0 ? 'grown' : '' %>">🌱</div>
+                        <div class="sprout stage-2 <%= stats.totalResponses > 10 ? 'grown' : '' %>">🌿</div>
+                        <div class="plant stage-3 <%= stats.totalResponses > 50 ? 'grown' : '' %>">🌳</div>
+                    </div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <a href="/daily-question" class="btn btn-memory btn-lg hover-lift">
+                    🌱 Plant New Memories
+                </a>
+                <a href="/data" class="btn btn-secondary hover-lift">
+                    🗺️ Explore Garden
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Activity Feed -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Recent Activity</h3>
+            <p class="card-description">
+                Your latest contributions to building your digital legacy
+            </p>
+        </div>
+        
+        <div id="activity-feed">
+            <!-- Activity items will be loaded here -->
+            <div class="flex items-center justify-center py-8">
+                <div class="loading"></div>
+                <span class="ml-2 text-gray-600">Loading recent activity...</span>
+            </div>
+        </div>
+        
+        <div class="mt-6 text-center">
+            <a href="/data" class="btn btn-secondary">View All Responses</a>
+        </div>
+    </div>
+    
+    <!-- Progress Section -->
+    <div class="card mt-8">
+        <div class="card-header">
+            <h3 class="card-title">Your AI Training Progress</h3>
+            <p class="card-description">
+                The more you share, the better your AI becomes at representing you
+            </p>
+        </div>
+        
+        <!-- Progress bar -->
+        <div class="mb-4">
+            <div class="flex justify-between text-sm text-gray-600 mb-2">
+                <span>Training Data Quality</span>
+                <span id="progress-percentage">0%</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+                <div id="progress-bar" class="bg-primary h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+            </div>
+        </div>
+        
+        <!-- Milestones -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm">
+            <div class="milestone" data-threshold="10">
+                <div class="text-2xl mb-1">🌱</div>
+                <div class="font-medium">Getting Started</div>
+                <div class="text-gray-500">10+ responses</div>
+            </div>
+            <div class="milestone" data-threshold="50">
+                <div class="text-2xl mb-1">🌿</div>
+                <div class="font-medium">Growing</div>
+                <div class="text-gray-500">50+ responses</div>
+            </div>
+            <div class="milestone" data-threshold="100">
+                <div class="text-2xl mb-1">🌳</div>
+                <div class="font-medium">Established</div>
+                <div class="text-gray-500">100+ responses</div>
+            </div>
+            <div class="milestone" data-threshold="200">
+                <div class="text-2xl mb-1">🏆</div>
+                <div class="font-medium">Master</div>
+                <div class="text-gray-500">200+ responses</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Chat Preview Modal (hidden by default) -->
+<div id="chat-preview-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style="display: none; z-index: 1000;">
+    <div class="bg-white rounded-lg max-w-md w-full p-6">
+        <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold">Chat Preview</h3>
+            <button onclick="closeChatPreview()" class="text-gray-500 hover:text-gray-700">✕</button>
+        </div>
+        <div class="text-sm text-gray-600 mb-4">
+            <p>Here's a sample of what chatting with your AI might look like:</p>
+        </div>
+        <div class="bg-gray-50 p-4 rounded-lg mb-4 max-h-60 overflow-y-auto">
+            <div class="chat-message user mb-3">
+                <div class="text-xs text-gray-500 mb-1">You</div>
+                <div class="bg-primary text-white p-2 rounded-lg inline-block">
+                    Tell me about a favorite childhood memory
+                </div>
+            </div>
+            <div class="chat-message ai">
+                <div class="text-xs text-gray-500 mb-1">Your AI</div>
+                <div class="bg-gray-200 p-2 rounded-lg inline-block">
+                    <span id="preview-response">Thinking about your personality and memories to craft a response...</span>
+                </div>
+            </div>
+        </div>
+        <div class="flex gap-2">
+            <a href="/chat" class="btn btn-primary flex-1">Start Real Chat</a>
+            <button onclick="closeChatPreview()" class="btn btn-secondary">Close</button>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load recent activity
+    loadActivityFeed();
+    
+    // Update progress
+    updateProgress();
+    initializeProgressAnimations();
+    
+    // Auto-refresh activity every 5 minutes
+    setInterval(loadActivityFeed, 5 * 60 * 1000);
+});
+
+async function loadActivityFeed() {
+    try {
+        const response = await fetch('/api/responses?limit=5');
+        const data = await response.json();
+        
+        const feedContainer = document.getElementById('activity-feed');
+        
+        if (data.success && data.responses.length > 0) {
+            feedContainer.innerHTML = data.responses.map(response => `
+                <div class="border-l-4 border-primary pl-4 py-3 border-b border-gray-100 last:border-b-0">
+                    <div class="flex justify-between items-start mb-2">
+                        <h4 class="font-medium text-sm truncate">${escapeHtml(response.question_text)}</h4>
+                        <span class="text-xs text-gray-500 whitespace-nowrap ml-2">
+                            ${formatDate(response.created_at)}
+                        </span>
+                    </div>
+                    <p class="text-sm text-gray-600 line-clamp-2">
+                        ${escapeHtml(response.response_text.substring(0, 120))}${response.response_text.length > 120 ? '...' : ''}
+                    </p>
+                    <div class="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                        <span>📝 ${response.word_count} words</span>
+                        <span>📂 ${response.category || 'General'}</span>
+                    </div>
+                </div>
+            `).join('');
+        } else {
+            feedContainer.innerHTML = `
+                <div class="text-center py-8 text-gray-500">
+                    <div class="text-4xl mb-4">📝</div>
+                    <p>No responses yet. <a href="/daily-question" class="text-primary">Start by answering your first question!</a></p>
+                </div>
+            `;
+        }
+    } catch (error) {
+        console.error('Error loading activity feed:', error);
+        document.getElementById('activity-feed').innerHTML = `
+            <div class="text-center py-8 text-gray-500">
+                <p>Unable to load recent activity. <button onclick="loadActivityFeed()" class="text-primary">Try again</button></p>
+            </div>
+        `;
+    }
+}
+
+function updateProgress() {
+    const totalResponses = <%= stats.totalResponses %>;
+    const maxResponses = 200; // Maximum for progress calculation
+    const percentage = Math.min((totalResponses / maxResponses) * 100, 100);
+    
+    // Update progress bar with animation
+    const progressBar = document.getElementById('progress-bar');
+    const progressPercentage = document.getElementById('progress-percentage');
+    
+    if (progressBar && progressPercentage) {
+        // Animate progress bar
+        progressBar.style.width = '0%';
+        setTimeout(() => {
+            progressBar.style.transition = 'width 2s ease-out';
+            progressBar.style.width = percentage + '%';
+        }, 500);
+        
+        // Animate percentage counter
+        animateCounter(progressPercentage, Math.round(percentage), '%');
+    }
+    
+    // Update milestone states with enhanced animations
+    document.querySelectorAll('.milestone').forEach((milestone, index) => {
+        const threshold = parseInt(milestone.dataset.threshold);
+        setTimeout(() => {
+            if (totalResponses >= threshold) {
+                milestone.classList.add('achieved', 'animate-glow');
+                milestone.querySelector('.milestone-marker')?.classList.add('achieved');
+                milestone.querySelector('.milestone-glow')?.classList.add('active');
+            } else {
+                milestone.classList.add('upcoming');
+            }
+        }, index * 200);
+    });
+    
+    // Update progress rings
+    updateProgressRings();
+}
+
+function initializeProgressAnimations() {
+    // Animate stats cards on load
+    const statCards = document.querySelectorAll('.stat-card-content');
+    statCards.forEach((card, index) => {
+        setTimeout(() => {
+            card.classList.add('animate-fadeInMemory');
+        }, index * 300);
+    });
+    
+    // Initialize progress ring animations
+    const progressRings = document.querySelectorAll('.progress-ring');
+    progressRings.forEach(ring => {
+        const value = ring.dataset.value;
+        setTimeout(() => {
+            ring.style.setProperty('--progress', `${value}%`);
+            ring.classList.add('animate-ring');
+        }, 1000);
+    });
+}
+
+function updateProgressRings() {
+    const totalResponses = <%= stats.totalResponses %>;
+    
+    // Update memory garden ring
+    const gardenRing = document.querySelector('.progress-ring');
+    if (gardenRing) {
+        const gardenValue = Math.min((totalResponses / 100) * 100, 100);
+        gardenRing.style.setProperty('--progress', `${gardenValue}%`);
+    }
+}
+
+function animateCounter(element, target, suffix = '') {
+    let current = 0;
+    const increment = target / 50; // 50 steps
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            current = target;
+            clearInterval(timer);
+        }
+        element.textContent = Math.round(current) + suffix;
+    }, 40);
+}
+
+// Chat preview functionality
+function showChatPreview() {
+    document.getElementById('chat-preview-modal').style.display = 'flex';
+    
+    // Simulate AI response
+    setTimeout(() => {
+        const responses = [
+            "Well, I remember summer days at my grandmother's house, where the smell of fresh-baked cookies filled the air and time seemed to move slower...",
+            "You know, one memory that always brings a smile to my face is building blanket forts with my siblings on rainy afternoons...",
+            "I think about the time when I was seven and caught my first firefly in a mason jar, watching it blink like a tiny star..."
+        ];
+        
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        document.getElementById('preview-response').textContent = randomResponse;
+    }, 2000);
+}
+
+function closeChatPreview() {
+    document.getElementById('chat-preview-modal').style.display = 'none';
+    document.getElementById('preview-response').textContent = 'Thinking about your personality and memories to craft a response...';
+}
+
+// Utility functions
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+    
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffDays < 7) return `${diffDays}d ago`;
+    
+    return date.toLocaleDateString();
+}
+
+// Add CSS for line-clamp (fallback for older browsers)
+const style = document.createElement('style');
+style.textContent = `
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+`;
+document.head.appendChild(style);
+</script>

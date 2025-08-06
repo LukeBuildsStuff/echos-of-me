@@ -1,0 +1,55 @@
+{
+  "name": "personal-ai-clone-html",
+  "version": "1.0.0",
+  "description": "Personal AI Clone - Pure HTML/CSS/JavaScript implementation",
+  "main": "server/app.js",
+  "scripts": {
+    "start": "node server/app.js",
+    "dev": "nodemon server/app.js",
+    "migrate": "node scripts/migrate-db.js",
+    "seed": "node scripts/seed-questions.js",
+    "test": "node scripts/test-api.js",
+    "build": "echo 'No build step needed for pure HTML/CSS/JS'",
+    "postinstall": "node scripts/setup-database.js"
+  },
+  "keywords": [
+    "ai",
+    "personal-ai",
+    "legacy",
+    "chat",
+    "html",
+    "vanilla-javascript"
+  ],
+  "author": "Personal AI Clone Team",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "ejs": "^3.1.9",
+    "bcryptjs": "^2.4.3",
+    "pg": "^8.11.3",
+    "dotenv": "^16.3.1",
+    "node-fetch": "^2.7.0",
+    "helmet": "^7.1.0",
+    "cors": "^2.8.5",
+    "compression": "^1.7.4",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "eslint": "^8.56.0",
+    "prettier": "^3.1.1"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/personal-ai-clone"
+  },
+  "bugs": {
+    "url": "https://github.com/your-org/personal-ai-clone/issues"
+  },
+  "homepage": "https://github.com/your-org/personal-ai-clone#readme"
+}

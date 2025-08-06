@@ -26,7 +26,6 @@ export async function GET(request: NextRequest) {
         birthday,
         primary_role,
         secondary_roles,
-        children_birthdays,
         important_people,
         cultural_background
       FROM users 
@@ -75,7 +74,6 @@ export async function GET(request: NextRequest) {
         birthday: profile.birthday,
         primary_role: profile.primary_role,
         secondary_roles: parsedSecondaryRoles,
-        children_birthdays: profile.children_birthdays,
         important_people: parsedImportantPeople,
         cultural_background: profile.cultural_background
       }

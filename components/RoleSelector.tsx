@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { DateInput } from '@/components/ui/date-input'
 
 interface RoleSelectorProps {
   onComplete: (profile: UserRoleProfile) => void
@@ -304,20 +305,16 @@ export default function RoleSelector({ onComplete, onCancel, initialProfile }: R
                 </div>
 
                 {/* Birthday */}
-                <div>
-                  <label className="block text-peace-700 font-supportive mb-2">
-                    When is your birthday?
-                  </label>
-                  <input
-                    type="date"
-                    value={profile.birthday || ''}
-                    onChange={(e) => setProfile({
-                      ...profile,
-                      birthday: e.target.value
-                    })}
-                    className="w-full px-comfort py-3 bg-white/50 backdrop-blur-sm border-2 border-hope-200 rounded-embrace focus:border-hope-400 focus:ring-4 focus:ring-hope-100 font-compassionate transition-all duration-300"
-                  />
-                </div>
+                <DateInput
+                  label="When is your birthday?"
+                  value={profile.birthday || ''}
+                  onChange={(date) => setProfile({
+                    ...profile,
+                    birthday: date
+                  })}
+                  placeholder="Select your birthday"
+                  className="w-full font-compassionate"
+                />
 
                 {/* Important People */}
                 <div>
@@ -387,12 +384,11 @@ export default function RoleSelector({ onComplete, onCancel, initialProfile }: R
                           <Label htmlFor={`birthday-${index}`} className="text-xs text-peace-600 font-supportive mb-1 block">
                             Birthday (optional)
                           </Label>
-                          <Input
-                            id={`birthday-${index}`}
-                            type="date"
+                          <DateInput
                             value={person.birthday || ''}
-                            onChange={(e) => updatePersonField(index, 'birthday', e.target.value)}
-                            className="bg-white/50 backdrop-blur-sm border-2 border-hope-200 rounded-embrace focus:border-hope-400 focus:ring-4 focus:ring-hope-100 transition-all duration-300"
+                            onChange={(date) => updatePersonField(index, 'birthday', date)}
+                            placeholder="Select birthday"
+                            className="backdrop-blur-sm"
                           />
                         </div>
                         
@@ -402,13 +398,12 @@ export default function RoleSelector({ onComplete, onCancel, initialProfile }: R
                             <Label htmlFor={`memorial-${index}`} className="text-xs text-peace-600 font-supportive mb-1 block">
                               Memorial date (optional)
                             </Label>
-                            <Input
-                              id={`memorial-${index}`}
-                              type="date"
+                            <DateInput
                               value={person.memorial_date || ''}
-                              onChange={(e) => updatePersonField(index, 'memorial_date', e.target.value)}
-                              className="bg-white/50 backdrop-blur-sm border-2 border-hope-200 rounded-embrace focus:border-hope-400 focus:ring-4 focus:ring-hope-100 transition-all duration-300"
+                              onChange={(date) => updatePersonField(index, 'memorial_date', date)}
                               placeholder="If applicable"
+                              className="backdrop-blur-sm"
+                              maxDate="" // No max date restriction for memorial dates
                             />
                             <p className="text-xs text-peace-500 mt-1 font-supportive">
                               Only if they have passed away

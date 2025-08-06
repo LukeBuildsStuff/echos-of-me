@@ -13,7 +13,6 @@ interface UserProfile {
   name: string
   created_at: string
   primary_role?: string
-  children_birthdays?: string[]
   important_people?: Array<{
     name: string
     relationship: string
@@ -55,10 +54,11 @@ export default function UserSettings({ onNavigateToRoleSetup }: UserSettingsProp
   const loadProfile = async () => {
     try {
       setIsLoading(true)
+      console.log('🚀 Loading profile from /api/user/profile...')
       const response = await fetch('/api/user/profile')
       
       if (!response.ok) {
-        console.error('Profile API returned status:', response.status)
+        console.error('❌ Profile API returned status:', response.status)
         // Create a minimal profile to allow family member management
         setProfile({
           important_people: []
@@ -67,6 +67,7 @@ export default function UserSettings({ onNavigateToRoleSetup }: UserSettingsProp
       }
       
       const data = await response.json()
+      console.log('📥 Initial profile API response:', data)
       
       if (data.success) {
         // Ensure important_people is always an array
@@ -74,18 +75,19 @@ export default function UserSettings({ onNavigateToRoleSetup }: UserSettingsProp
           ...data.profile,
           important_people: data.profile.important_people || []
         }
-        console.log('Loaded profile with family members:', profileData.important_people.length)
+        console.log('✅ Loaded profile with family members:', profileData.important_people.length)
+        console.log('👨‍👩‍👧‍👦 Initial family members:', profileData.important_people)
         setProfile(profileData)
         setEditName(profileData.name || '')
       } else {
-        console.error('Failed to load profile:', data.error)
+        console.error('❌ Failed to load profile:', data.error)
         // Create a minimal profile to allow family member management
         setProfile({
           important_people: []
         })
       }
     } catch (error) {
-      console.error('Error loading profile:', error)
+      console.error('❌ Error loading profile:', error)
       // Create a minimal profile to allow family member management even on error
       setProfile({
         important_people: []
@@ -172,19 +174,30 @@ export default function UserSettings({ onNavigateToRoleSetup }: UserSettingsProp
   // Helper function to refresh profile data after family member operations
   const refreshProfile = async () => {
     try {
+      console.log('🔄 Refreshing profile...')
       const response = await fetch('/api/user/profile')
+      
+      if (!response.ok) {
+        console.error('❌ Profile refresh failed with status:', response.status)
+        return
+      }
+      
       const data = await response.json()
+      console.log('📥 Profile API response:', data)
       
       if (data.success) {
         const profileData = {
           ...data.profile,
           important_people: data.profile.important_people || []
         }
-        console.log('Refreshed profile with family members:', profileData.important_people.length)
+        console.log('✅ Refreshed profile with family members:', profileData.important_people.length)
+        console.log('👨‍👩‍👧‍👦 Family members:', profileData.important_people)
         setProfile(profileData)
+      } else {
+        console.error('❌ Profile refresh returned success:false', data.error)
       }
     } catch (error) {
-      console.error('Error refreshing profile:', error)
+      console.error('❌ Error refreshing profile:', error)
     }
   }
 
@@ -601,12 +614,6 @@ export default function UserSettings({ onNavigateToRoleSetup }: UserSettingsProp
               </div>
             )}
             
-            {/* Legacy: Show children count if available */}
-            {profile?.children_birthdays && profile.children_birthdays.length > 0 && (
-              <div className="text-comfort text-peace-600 text-sm bg-memory-50 p-3 rounded-embrace border border-memory-200">
-                📊 Legacy data: {profile.children_birthdays.length} children's birthdays from previous setup
-              </div>
-            )}
           </div>
         </CardContent>
       </Card>

@@ -69,6 +69,7 @@ export default function Dashboard() {
       console.log('Profile check response:', data) // Debug log
       
       if (data.userProfile?.primaryRole) {
+        setUserProfile(data.userProfile)
         setUserStats(prev => ({ ...prev, hasProfile: true }))
       } else {
         console.log('No primary role found, showing setup') // Debug log
@@ -106,6 +107,33 @@ export default function Dashboard() {
     }
   }
 
+  const loadFullUserProfile = async () => {
+    try {
+      // Get complete profile data for editing
+      const [roleResponse, profileResponse] = await Promise.all([
+        fetch('/api/questions/role-based'),
+        fetch('/api/user/profile')
+      ])
+      
+      const roleData = await roleResponse.json()
+      const profileData = await profileResponse.json()
+      
+      if (roleData.userProfile && profileData.success) {
+        const fullProfile = {
+          ...roleData.userProfile,
+          name: profileData.profile.name,
+          birthday: profileData.profile.birthday,
+          importantPeople: profileData.profile.important_people || []
+        }
+        setUserProfile(fullProfile)
+        return fullProfile
+      }
+    } catch (error) {
+      console.error('Failed to load full profile:', error)
+    }
+    return null
+  }
+
   const handleProfileComplete = async (profile: UserRoleProfile) => {
     try {
       console.log('Saving profile:', profile) // Debug log
@@ -123,6 +151,8 @@ export default function Dashboard() {
         setUserProfile(profile)
         setUserStats(prev => ({ ...prev, hasProfile: true }))
         setCurrentView('dashboard')
+        // Refresh user stats to reflect any changes
+        loadUserStats()
       } else {
         console.error('Failed to save profile:', result)
       }
@@ -171,7 +201,7 @@ export default function Dashboard() {
     return null
   }
 
-  // Role setup flow for new users
+  // Role setup flow for new users and profile updates
   if (currentView === 'role-setup') {
     return (
       <div className="mobile-min-vh-fix bg-background">
@@ -180,6 +210,7 @@ export default function Dashboard() {
           <RoleSelector 
             onComplete={handleProfileComplete}
             onCancel={() => setCurrentView('dashboard')}
+            initialProfile={userProfile || undefined}
           />
         </main>
       </div>
@@ -248,7 +279,10 @@ export default function Dashboard() {
           onSettingsClick={() => setCurrentView('settings')} 
         />
         <main className="mobile-header-spacing pb-8 safe-bottom">
-          <UserSettings />
+          <UserSettings onNavigateToRoleSetup={async () => {
+            await loadFullUserProfile()
+            setCurrentView('role-setup')
+          }} />
         </main>
       </div>
     )

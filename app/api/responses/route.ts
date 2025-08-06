@@ -327,7 +327,7 @@ async function generateTrainingData(userId: string, responseId: string, question
   try {
     // Get user profile for persona context
     const userProfile = await query(`
-      SELECT name, primary_role, children_birthdays 
+      SELECT name, primary_role
       FROM users 
       WHERE id = $1
     `, [userId])

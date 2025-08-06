@@ -2,12 +2,29 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { query } from '@/lib/db'
+import { z } from 'zod'
 import { 
   createQuestionSelector, 
   UserProfile,
   getQuestionPackage,
   calculateAgesFromBirthdays 
 } from '@/lib/role-question-selector'
+
+// Input validation schema
+const ImportantPersonSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  relationship: z.string().min(1, 'Relationship is required'),
+  birthday: z.string().optional(),
+  memorial_date: z.string().optional()
+})
+
+const ProfileUpdateSchema = z.object({
+  primaryRole: z.string().min(1, 'Primary role is required'),
+  secondaryRoles: z.array(z.string()).optional(),
+  name: z.string().min(1, 'Name is required'),
+  birthday: z.string().optional(),
+  importantPeople: z.array(ImportantPersonSchema).optional()
+})
 
 // GET /api/questions/role-based - Get role-based questions or user profile
 export async function GET(request: NextRequest) {
@@ -72,11 +89,35 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ userProfile: null }, { status: 200 })
     }
     
+    // Parse JSON fields safely
+    let parsedSecondaryRoles = []
+    let parsedImportantPeople = []
+    
+    try {
+      if (user.rows[0].secondary_roles) {
+        parsedSecondaryRoles = typeof user.rows[0].secondary_roles === 'string'
+          ? JSON.parse(user.rows[0].secondary_roles)
+          : user.rows[0].secondary_roles
+      }
+    } catch (error) {
+      console.error('Error parsing secondary_roles in GET:', error)
+    }
+    
+    try {
+      if (user.rows[0].important_people) {
+        parsedImportantPeople = typeof user.rows[0].important_people === 'string'
+          ? JSON.parse(user.rows[0].important_people)
+          : user.rows[0].important_people
+      }
+    } catch (error) {
+      console.error('Error parsing important_people in GET:', error)
+    }
+    
     const userProfile = {
       primaryRole: user.rows[0].primary_role,
       name: user.rows[0].name,
-      secondaryRoles: user.rows[0].secondary_roles,
-      importantPeople: user.rows[0].important_people
+      secondaryRoles: parsedSecondaryRoles,
+      importantPeople: parsedImportantPeople
     }
     
     return NextResponse.json({ userProfile })
@@ -104,13 +145,16 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     console.log('API received body:', JSON.stringify(body, null, 2))
     
+    // Validate input data
+    const validatedData = ProfileUpdateSchema.parse(body)
+    
     const {
       primaryRole,
       secondaryRoles,
       name,
       birthday,
       importantPeople
-    } = body
+    } = validatedData
 
     console.log('Updating user with email:', session.user.email)
     console.log('Data to save:', {
@@ -121,7 +165,11 @@ export async function POST(request: NextRequest) {
       importantPeople
     })
 
-    // Update user profile
+    // Safely serialize arrays and objects for database storage
+    const safeSecondaryRoles = Array.isArray(secondaryRoles) ? secondaryRoles : []
+    const safeImportantPeople = Array.isArray(importantPeople) ? importantPeople : []
+    
+    // Update user profile with transaction-like behavior
     const result = await query(`
       UPDATE users 
       SET 
@@ -132,14 +180,14 @@ export async function POST(request: NextRequest) {
         important_people = $6,
         updated_at = CURRENT_TIMESTAMP
       WHERE email = $1
-      RETURNING id
+      RETURNING id, name, primary_role, secondary_roles, important_people
     `, [
       session.user.email,
       name,
       birthday, 
       primaryRole,
-      secondaryRoles || [], // PostgreSQL array format
-      JSON.stringify(importantPeople || []) // JSON format
+      JSON.stringify(safeSecondaryRoles), // Consistent JSON serialization
+      JSON.stringify(safeImportantPeople) // Consistent JSON serialization
     ])
     
     console.log('Update result:', result.rows)
@@ -151,16 +199,32 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: 'Profile updated successfully',
-      userId: result.rows[0].id
+      userId: result.rows[0].id,
+      updatedProfile: {
+        name: result.rows[0].name,
+        primaryRole: result.rows[0].primary_role,
+        secondaryRoles: JSON.parse(result.rows[0].secondary_roles || '[]'),
+        importantPeople: JSON.parse(result.rows[0].important_people || '[]')
+      }
     })
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('=== DATABASE ERROR ===')
     console.error('Error updating user profile:', error)
     console.error('Error message:', error instanceof Error ? error.message : 'Unknown error')
-    console.error('Error code:', (error as any)?.code)
-    console.error('Error detail:', (error as any)?.detail)
+    console.error('Error code:', error?.code)
+    console.error('Error detail:', error?.detail)
     console.error('======================')
+    
+    // Handle validation errors separately
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({
+        success: false,
+        error: 'Validation failed',
+        details: error.errors
+      }, { status: 400 })
+    }
+    
     return NextResponse.json(
       { error: 'Failed to update profile' },
       { status: 500 }

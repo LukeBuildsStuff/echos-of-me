@@ -1,0 +1,1312 @@
+<% 
+// Set layout variables
+const title = 'My Data - Personal AI Clone'; 
+%>
+
+<div class="data-page-container">
+    <!-- Enhanced Header Section -->
+    <div class="data-header animate-slideInLeft">
+        <div class="header-content">
+            <div class="title-section">
+                <div class="memory-icon animate-pulse">
+                    <span class="icon-symbol">🌱</span>
+                </div>
+                <div class="title-text">
+                    <h1 class="page-title">Your Memory Garden</h1>
+                    <p class="page-subtitle memory-content">
+                        Every response is a seed planted in your digital legacy
+                        <% if (pagination.total > 0) { %>
+                            • <strong><%= pagination.total %></strong> memories preserved
+                        <% } %>
+                    </p>
+                </div>
+            </div>
+            <div class="view-controls">
+                <button id="timeline-view" class="btn btn-memory btn-sm active" onclick="switchView('timeline')">
+                    🗺️ Timeline
+                </button>
+                <button id="list-view" class="btn btn-secondary btn-sm" onclick="switchView('list')">
+                    📋 List
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Enhanced Filter and Search Controls -->
+    <div class="card card-memory mb-8 animate-fadeInUp animate-stagger-2">
+        <div class="card-header">
+            <div class="filter-header">
+                <h3 class="card-title">🔍 Explore Your Memories</h3>
+                <div class="memory-stats-mini">
+                    <span class="stat-mini">💭 <span id="visible-count"><%= responses ? responses.length : 0 %></span> visible</span>
+                </div>
+            </div>
+        </div>
+        <div class="filter-grid">
+            <div class="form-group form-group-memory">
+                <label for="category-filter" class="form-label form-label-memory">Memory Type</label>
+                <select id="category-filter" class="form-input focus-ring">
+                    <option value="">All Memories</option>
+                    <option value="personal">🏠 Personal</option>
+                    <option value="professional">💼 Professional</option>
+                    <option value="memories">💭 Memories</option>
+                    <option value="values">✨ Values</option>
+                    <option value="goals">🎯 Goals</option>
+                    <option value="relationships">👥 Relationships</option>
+                    <option value="wisdom">📖 Wisdom</option>
+                </select>
+            </div>
+            <div class="form-group form-group-memory">
+                <label for="search-input" class="form-label form-label-memory">Search Memories</label>
+                <input 
+                    type="text" 
+                    id="search-input" 
+                    class="form-input focus-ring" 
+                    placeholder="Find a memory, feeling, or moment..."
+                >
+            </div>
+            <div class="form-group form-group-memory">
+                <label for="sort-filter" class="form-label form-label-memory">Journey Order</label>
+                <select id="sort-filter" class="form-input focus-ring">
+                    <option value="newest">🕰️ Recent First</option>
+                    <option value="oldest">🌱 From the Beginning</option>
+                    <option value="longest">📜 Rich Stories</option>
+                    <option value="shortest">✨ Brief Moments</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    
+    <% if (responses && responses.length > 0) { %>
+    <!-- Timeline View -->
+    <div id="timeline-container" class="timeline-view active animate-fadeInUp animate-stagger-3">
+        <div class="timeline-spine">
+            <% 
+            // Group responses by date for timeline
+            const groupedResponses = {};
+            responses.forEach(response => {
+                const date = new Date(response.created_at);
+                const dateKey = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long' });
+                if (!groupedResponses[dateKey]) groupedResponses[dateKey] = [];
+                groupedResponses[dateKey].push(response);
+            });
+            
+            Object.keys(groupedResponses).forEach((dateKey, periodIndex) => {
+            %>
+            <div class="timeline-period animate-slideInLeft animate-stagger-<%= periodIndex + 1 %>">
+                <div class="period-marker">
+                    <div class="period-icon">
+                        <span class="season-symbol">🌿</span>
+                    </div>
+                    <h3 class="period-title"><%= dateKey %></h3>
+                </div>
+                
+                <div class="period-memories">
+                    <% groupedResponses[dateKey].forEach((response, memoryIndex) => { %>
+                    <div class="timeline-item memory-card animate-fadeInMemory animate-stagger-<%= memoryIndex + 2 %>" 
+                         data-category="<%= response.category %>" 
+                         data-id="<%= response.id %>"
+                         data-date="<%= response.created_at %>">
+                        
+                        <div class="memory-marker">
+                            <div class="marker-dot"></div>
+                            <div class="marker-line"></div>
+                        </div>
+                        
+                        <div class="memory-content card hover-lift">
+                            <div class="memory-header">
+                                <div class="memory-meta">
+                                    <span class="memory-category <%= response.category %>">
+                                        <%= (response.category === 'family' ? '👨‍👩‍👧‍👦' : response.category === 'career' ? '💼' : response.category === 'personal' ? '💭' : response.category === 'milestone' ? '🎯' : '🌟') %> <%= response.category || 'Memory' %>
+                                    </span>
+                                    <span class="memory-date">
+                                        <%= new Date(response.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) %>
+                                    </span>
+                                </div>
+                                <div class="memory-actions">
+                                    <button onclick="toggleTimelineResponse('<%= response.id %>')" 
+                                            class="btn btn-sm btn-secondary hover-lift"
+                                            id="timeline-toggle-<%= response.id %>">
+                                        👁️
+                                    </button>
+                                    <button onclick="editResponse('<%= response.id %>')" 
+                                            class="btn btn-sm btn-memory hover-lift">
+                                        ✏️
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="memory-question">
+                                <h4 class="question-text"><%= response.question_text %></h4>
+                            </div>
+                            
+                            <div class="memory-preview">
+                                <p class="preview-text"><%= response.response_text.substring(0, 150) %>...</p>
+                            </div>
+                            
+                            <div class="memory-stats">
+                                <span class="stat-item">
+                                    <span class="stat-icon">📝</span>
+                                    <span class="stat-value"><%= response.word_count %> words</span>
+                                </span>
+                                <span class="stat-item">
+                                    <span class="stat-icon">❤️</span>
+                                    <span class="stat-value">Precious memory</span>
+                                </span>
+                            </div>
+                            
+                            <!-- Full response content (hidden) -->
+                            <div id="timeline-content-<%= response.id %>" class="memory-full-content" style="display: none;">
+                                <div class="full-response memory-content">
+                                    <p><%= response.response_text %></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% }) %>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+    </div>
+    
+    <!-- List View (hidden by default) -->
+    <div id="list-container" class="list-view" style="display: none;">
+        <div class="responses-grid" id="responses-container">
+            <% responses.forEach((response, index) => { %>
+            <div class="card response-card hover-lift animate-fadeInUp animate-stagger-<%= (index % 6) + 1 %>" 
+                 data-category="<%= response.category %>" 
+                 data-id="<%= response.id %>"
+                 data-date="<%= response.created_at %>">
+                <div class="card-header">
+                    <div class="response-header-content">
+                        <div class="response-main-info">
+                            <h3 class="card-title response-question"><%= response.question_text %></h3>
+                            <div class="response-meta">
+                                <span class="meta-item category-<%= response.category %>">
+                                    <%= getCategoryIcon(response.category) %> <%= response.category || 'General' %>
+                                </span>
+                                <span class="meta-item">
+                                    📝 <%= response.word_count %> words
+                                </span>
+                                <span class="meta-item">
+                                    📅 <%= new Date(response.created_at).toLocaleDateString() %>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="response-actions">
+                            <button onclick="toggleResponse('<%= response.id %>')" 
+                                    class="btn btn-sm btn-secondary hover-lift"
+                                    id="toggle-btn-<%= response.id %>">
+                                👁️ View
+                            </button>
+                            <button onclick="editResponse('<%= response.id %>')" 
+                                    class="btn btn-sm btn-memory hover-lift">
+                                ✏️ Edit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Response preview -->
+                <div class="response-preview">
+                    <p class="preview-text"><%= response.response_text.substring(0, 120) %>...</p>
+                </div>
+                
+                <!-- Response content (initially hidden) -->
+                <div id="response-content-<%= response.id %>" class="response-content" style="display: none;">
+                    <div class="full-response-container">
+                        <div class="full-response memory-content">
+                            <p><%= response.response_text %></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+    </div>
+    
+    <!-- Pagination -->
+    <% if (pagination.totalPages > 1) { %>
+    <div class="flex items-center justify-between mt-8">
+        <div class="text-sm text-gray-600">
+            Showing <%= ((pagination.currentPage - 1) * 20) + 1 %> to 
+            <%= Math.min(pagination.currentPage * 20, pagination.total) %> of 
+            <%= pagination.total %> responses
+        </div>
+        
+        <div class="flex gap-2">
+            <% if (pagination.hasPrev) { %>
+            <a href="?page=<%= pagination.currentPage - 1 %>" class="btn btn-secondary">
+                ← Previous
+            </a>
+            <% } %>
+            
+            <!-- Page numbers (show current page and nearby pages) -->
+            <% 
+            const startPage = Math.max(1, pagination.currentPage - 2);
+            const endPage = Math.min(pagination.totalPages, pagination.currentPage + 2);
+            %>
+            
+            <% if (startPage > 1) { %>
+            <a href="?page=1" class="btn btn-secondary">1</a>
+            <% if (startPage > 2) { %>
+            <span class="flex items-center px-2">...</span>
+            <% } %>
+            <% } %>
+            
+            <% for (let i = startPage; i <= endPage; i++) { %>
+            <a 
+                href="?page=<%= i %>" 
+                class="btn <%= i === pagination.currentPage ? 'btn-primary' : 'btn-secondary' %>"
+            >
+                <%= i %>
+            </a>
+            <% } %>
+            
+            <% if (endPage < pagination.totalPages) { %>
+            <% if (endPage < pagination.totalPages - 1) { %>
+            <span class="flex items-center px-2">...</span>
+            <% } %>
+            <a href="?page=<%= pagination.totalPages %>" class="btn btn-secondary"><%= pagination.totalPages %></a>
+            <% } %>
+            
+            <% if (pagination.hasNext) { %>
+            <a href="?page=<%= pagination.currentPage + 1 %>" class="btn btn-secondary">
+                Next →
+            </a>
+            <% } %>
+        </div>
+    </div>
+    <% } %>
+    
+    <% } else { %>
+    <!-- Enhanced Empty State -->
+    <div class="empty-garden-state animate-fadeInMemory">
+        <div class="empty-garden-card card card-legacy">
+            <div class="empty-content">
+                <div class="empty-icon animate-pulse">
+                    <span class="garden-symbol">🌱</span>
+                </div>
+                <div class="empty-text">
+                    <h3 class="empty-title">Your Memory Garden Awaits</h3>
+                    <p class="empty-description memory-content">
+                        Every great legacy begins with a single story. Plant your first memory seed and watch your digital garden grow.
+                    </p>
+                </div>
+                <div class="empty-actions">
+                    <a href="/daily-question" class="btn btn-memory btn-lg hover-lift">
+                        🌱 Plant Your First Memory
+                    </a>
+                </div>
+                <div class="growth-preview">
+                    <div class="preview-stages">
+                        <div class="stage">
+                            <span class="stage-icon">🌱</span>
+                            <span class="stage-text">Plant</span>
+                        </div>
+                        <div class="stage">
+                            <span class="stage-icon">🌿</span>
+                            <span class="stage-text">Grow</span>
+                        </div>
+                        <div class="stage">
+                            <span class="stage-icon">🌳</span>
+                            <span class="stage-text">Flourish</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
+    
+    <!-- Quick Actions -->
+    <div class="fixed bottom-6 right-6 flex flex-col gap-3" style="z-index: 100;">
+        <a 
+            href="/daily-question" 
+            class="btn btn-primary rounded-full w-14 h-14 flex items-center justify-center shadow-lg"
+            title="Answer New Question"
+        >
+            ✍️
+        </a>
+        <button 
+            onclick="exportData()" 
+            class="btn btn-secondary rounded-full w-14 h-14 flex items-center justify-center shadow-lg"
+            title="Export Data"
+        >
+            📊
+        </button>
+    </div>
+</div>
+
+<!-- Edit Response Modal -->
+<div id="edit-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4" style="display: none; z-index: 1000;">
+    <div class="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold">Edit Response</h3>
+                <button onclick="closeEditModal()" class="text-gray-500 hover:text-gray-700">✕</button>
+            </div>
+            
+            <form id="edit-form">
+                <div class="form-group">
+                    <label class="form-label" id="edit-question-text">Question</label>
+                    <textarea 
+                        id="edit-response-text" 
+                        class="form-input" 
+                        rows="10" 
+                        placeholder="Your response..."
+                    ></textarea>
+                </div>
+                
+                <div class="flex gap-4 mt-6">
+                    <button type="button" onclick="saveResponse()" class="btn btn-primary">
+                        💾 Save Changes
+                    </button>
+                    <button type="button" onclick="deleteResponse()" class="btn btn-danger">
+                        🗑️ Delete Response
+                    </button>
+                    <button type="button" onclick="closeEditModal()" class="btn btn-secondary">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentEditingId = null;
+let currentView = 'timeline';
+
+// Helper function for category icons
+function getCategoryIcon(category) {
+    const icons = {
+        'personal': '🏠',
+        'professional': '💼',
+        'memories': '💭',
+        'values': '✨',
+        'goals': '🎯',
+        'relationships': '👥',
+        'wisdom': '📖'
+    };
+    return icons[category] || '💬';
+}
+
+// View switching functionality
+function switchView(view) {
+    const timelineContainer = document.getElementById('timeline-container');
+    const listContainer = document.getElementById('list-container');
+    const timelineBtn = document.getElementById('timeline-view');
+    const listBtn = document.getElementById('list-view');
+    
+    if (view === 'timeline') {
+        timelineContainer.style.display = 'block';
+        listContainer.style.display = 'none';
+        timelineBtn.classList.add('active');
+        listBtn.classList.remove('active');
+        currentView = 'timeline';
+    } else {
+        timelineContainer.style.display = 'none';
+        listContainer.style.display = 'block';
+        timelineBtn.classList.remove('active');
+        listBtn.classList.add('active');
+        currentView = 'list';
+    }
+}
+
+// Timeline-specific toggle function
+function toggleTimelineResponse(responseId) {
+    const content = document.getElementById(`timeline-content-${responseId}`);
+    const button = document.getElementById(`timeline-toggle-${responseId}`);
+    
+    if (content.style.display === 'none' || !content.style.display) {
+        content.style.display = 'block';
+        content.classList.add('animate-fadeInUp');
+        button.innerHTML = '👁️‍🗨️';
+        button.setAttribute('title', 'Hide memory');
+    } else {
+        content.style.display = 'none';
+        button.innerHTML = '👁️';
+        button.setAttribute('title', 'View memory');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize filters
+    setupFilters();
+    
+    // Add staggered animations to timeline items
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    timelineItems.forEach((item, index) => {
+        item.style.animationDelay = `${index * 0.1}s`;
+    });
+    
+    // Update visible count
+    updateVisibleCount();
+});
+
+function updateVisibleCount() {
+    const visibleCards = document.querySelectorAll('.memory-card:not([style*="display: none"]), .response-card:not([style*="display: none"])');
+    const countElement = document.getElementById('visible-count');
+    if (countElement) {
+        countElement.textContent = visibleCards.length;
+    }
+}
+
+function setupFilters() {
+    const categoryFilter = document.getElementById('category-filter');
+    const searchInput = document.getElementById('search-input');
+    const sortFilter = document.getElementById('sort-filter');
+    
+    // Filter by category
+    categoryFilter.addEventListener('change', filterResponses);
+    
+    // Search functionality
+    let searchTimeout;
+    searchInput.addEventListener('input', function() {
+        clearTimeout(searchTimeout);
+        searchTimeout = setTimeout(filterResponses, 300);
+    });
+    
+    // Sort functionality
+    sortFilter.addEventListener('change', sortResponses);
+}
+
+function filterResponses() {
+    const category = document.getElementById('category-filter').value.toLowerCase();
+    const searchTerm = document.getElementById('search-input').value.toLowerCase();
+    
+    // Filter both timeline and list views
+    const timelineCards = document.querySelectorAll('.memory-card');
+    const responseCards = document.querySelectorAll('.response-card');
+    
+    [...timelineCards, ...responseCards].forEach(card => {
+        const cardCategory = card.dataset.category?.toLowerCase() || '';
+        const cardText = card.textContent.toLowerCase();
+        
+        const matchesCategory = !category || cardCategory.includes(category);
+        const matchesSearch = !searchTerm || cardText.includes(searchTerm);
+        
+        const shouldShow = matchesCategory && matchesSearch;
+        
+        if (shouldShow) {
+            card.style.display = '';
+            card.classList.remove('filtered-out');
+        } else {
+            card.style.display = 'none';
+            card.classList.add('filtered-out');
+        }
+    });
+    
+    // Hide empty timeline periods
+    const timelinePeriods = document.querySelectorAll('.timeline-period');
+    timelinePeriods.forEach(period => {
+        const visibleMemories = period.querySelectorAll('.memory-card:not(.filtered-out)');
+        period.style.display = visibleMemories.length > 0 ? 'block' : 'none';
+    });
+    
+    updateVisibleCount();
+}
+
+function sortResponses() {
+    const sortBy = document.getElementById('sort-filter').value;
+    
+    if (currentView === 'timeline') {
+        sortTimeline(sortBy);
+    } else {
+        sortList(sortBy);
+    }
+}
+
+function sortTimeline(sortBy) {
+    const timelineSpine = document.querySelector('.timeline-spine');
+    const periods = Array.from(document.querySelectorAll('.timeline-period'));
+    
+    // Sort periods and memories within periods
+    periods.forEach(period => {
+        const memories = Array.from(period.querySelectorAll('.memory-card'));
+        const memoriesContainer = period.querySelector('.period-memories');
+        
+        memories.sort((a, b) => {
+            return sortMemoryComparison(a, b, sortBy);
+        });
+        
+        memories.forEach(memory => memoriesContainer.appendChild(memory));
+    });
+    
+    // Sort periods themselves by date
+    periods.sort((a, b) => {
+        const aDate = new Date(a.querySelector('.memory-card')?.dataset.date || 0);
+        const bDate = new Date(b.querySelector('.memory-card')?.dataset.date || 0);
+        return sortBy === 'oldest' ? aDate - bDate : bDate - aDate;
+    });
+    
+    periods.forEach(period => timelineSpine.appendChild(period));
+}
+
+function sortList(sortBy) {
+    const container = document.getElementById('responses-container');
+    const cards = Array.from(container.children);
+    
+    cards.sort((a, b) => {
+        return sortMemoryComparison(a, b, sortBy);
+    });
+    
+    cards.forEach(card => container.appendChild(card));
+}
+
+function sortMemoryComparison(a, b, sortBy) {
+    switch (sortBy) {
+        case 'oldest':
+            return new Date(a.dataset.date) - new Date(b.dataset.date);
+        case 'longest':
+            return parseInt(b.textContent.match(/(\d+) words/)?.[1] || 0) - 
+                   parseInt(a.textContent.match(/(\d+) words/)?.[1] || 0);
+        case 'shortest':
+            return parseInt(a.textContent.match(/(\d+) words/)?.[1] || 0) - 
+                   parseInt(b.textContent.match(/(\d+) words/)?.[1] || 0);
+        default: // newest
+            return new Date(b.dataset.date) - new Date(a.dataset.date);
+    }
+}
+
+function toggleResponse(responseId) {
+    const content = document.getElementById(`response-content-${responseId}`);
+    const button = document.getElementById(`toggle-btn-${responseId}`);
+    
+    if (content.style.display === 'none') {
+        content.style.display = 'block';
+        button.innerHTML = '👁️‍🗨️ Hide';
+    } else {
+        content.style.display = 'none';
+        button.innerHTML = '👁️ View';
+    }
+}
+
+function editResponse(responseId) {
+    currentEditingId = responseId;
+    
+    // Get response data from the card
+    const card = document.querySelector(`[data-id="${responseId}"]`);
+    const questionText = card.querySelector('.card-title').textContent;
+    const responseText = card.querySelector('.prose p').textContent;
+    
+    // Populate modal
+    document.getElementById('edit-question-text').textContent = questionText;
+    document.getElementById('edit-response-text').value = responseText;
+    
+    // Show modal
+    document.getElementById('edit-modal').style.display = 'flex';
+}
+
+function closeEditModal() {
+    document.getElementById('edit-modal').style.display = 'none';
+    currentEditingId = null;
+}
+
+async function saveResponse() {
+    if (!currentEditingId) return;
+    
+    const responseText = document.getElementById('edit-response-text').value.trim();
+    
+    if (!responseText) {
+        alert('Response text cannot be empty');
+        return;
+    }
+    
+    try {
+        const response = await fetch('/api/responses', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                responseId: currentEditingId,
+                responseText: responseText
+            })
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            // Update the card with new content
+            const card = document.querySelector(`[data-id="${currentEditingId}"]`);
+            card.querySelector('.prose p').textContent = responseText;
+            
+            // Update word count
+            const wordCount = responseText.split(/\s+/).filter(word => word.length > 0).length;
+            card.querySelector('[data-word-count]').textContent = `📝 ${wordCount} words`;
+            
+            closeEditModal();
+            showToast('Response updated successfully!', 'success');
+        } else {
+            alert('Error saving response: ' + result.error);
+        }
+    } catch (error) {
+        console.error('Error saving response:', error);
+        alert('Error saving response. Please try again.');
+    }
+}
+
+async function deleteResponse() {
+    if (!currentEditingId) return;
+    
+    if (!confirm('Are you sure you want to delete this response? This action cannot be undone.')) {
+        return;
+    }
+    
+    try {
+        const response = await fetch(`/api/responses?id=${currentEditingId}`, {
+            method: 'DELETE'
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+            // Remove the card from the page
+            const card = document.querySelector(`[data-id="${currentEditingId}"]`);
+            card.remove();
+            
+            closeEditModal();
+            showToast('Response deleted successfully!', 'success');
+        } else {
+            alert('Error deleting response: ' + result.error);
+        }
+    } catch (error) {
+        console.error('Error deleting response:', error);
+        alert('Error deleting response. Please try again.');
+    }
+}
+
+async function exportData() {
+    try {
+        const response = await fetch('/api/responses?limit=1000');
+        const data = await response.json();
+        
+        if (data.success) {
+            // Create CSV content
+            const csvContent = [
+                ['Date', 'Question', 'Category', 'Response', 'Word Count'].join(','),
+                ...data.responses.map(r => [
+                    new Date(r.created_at).toLocaleDateString(),
+                    `"${r.question_text.replace(/"/g, '""')}"`,
+                    r.category || 'General',
+                    `"${r.response_text.replace(/"/g, '""')}"`,
+                    r.word_count
+                ].join(','))
+            ].join('\n');
+            
+            // Download file
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `personal-ai-responses-${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            showToast('Data exported successfully!', 'success');
+        } else {
+            alert('Error exporting data: ' + data.error);
+        }
+    } catch (error) {
+        console.error('Error exporting data:', error);
+        alert('Error exporting data. Please try again.');
+    }
+}
+
+// Toast notification function
+function showToast(message, type = 'info') {
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.textContent = message;
+    
+    document.getElementById('toast-container').appendChild(toast);
+    
+    // Auto-remove after 3 seconds
+    setTimeout(() => {
+        toast.remove();
+    }, 3000);
+}
+</script>
+
+<style>
+/* Enhanced Data Page with Memory Timeline */
+.data-page-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--background) 0%, rgba(44, 107, 111, 0.02) 50%, rgba(212, 165, 116, 0.03) 100%);
+    padding: var(--space-6) var(--space-4);
+}
+
+.data-header {
+    margin-bottom: var(--space-8);
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-6);
+}
+
+.title-section {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.memory-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+}
+
+.icon-symbol {
+    font-size: 2rem;
+    color: white;
+}
+
+.page-title {
+    font-family: 'Crimson Text', serif;
+    font-size: var(--text-3xl);
+    font-weight: 600;
+    color: var(--primary);
+    margin: 0 0 var(--space-2) 0;
+}
+
+.page-subtitle {
+    color: var(--text-secondary);
+    font-size: var(--text-base);
+    margin: 0;
+    line-height: 1.6;
+}
+
+.view-controls {
+    display: flex;
+    gap: var(--space-2);
+    background: var(--surface);
+    padding: var(--space-1);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.view-controls .btn.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: var(--shadow);
+}
+
+.filter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.memory-stats-mini {
+    display: flex;
+    gap: var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+}
+
+.stat-mini {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-4);
+}
+
+/* Timeline Visualization */
+.timeline-view {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.timeline-spine {
+    position: relative;
+    padding-left: var(--space-8);
+}
+
+.timeline-spine::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: linear-gradient(to bottom, var(--primary), var(--accent), var(--secondary));
+    border-radius: 2px;
+    opacity: 0.6;
+}
+
+.timeline-period {
+    margin-bottom: var(--space-12);
+    position: relative;
+}
+
+.period-marker {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+    position: relative;
+    z-index: 2;
+}
+
+.period-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-md);
+    position: absolute;
+    left: -28px;
+}
+
+.season-symbol {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+}
+
+.period-title {
+    font-family: 'Crimson Text', serif;
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--primary);
+    margin: 0;
+    margin-left: var(--space-6);
+}
+
+.period-memories {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+}
+
+.timeline-item {
+    position: relative;
+    margin-left: var(--space-4);
+}
+
+.memory-marker {
+    position: absolute;
+    left: -32px;
+    top: var(--space-4);
+    z-index: 1;
+}
+
+.marker-dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 4px solid var(--surface);
+    box-shadow: 0 0 0 2px var(--primary);
+}
+
+.marker-line {
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--primary), transparent);
+    margin: 4px auto 0;
+}
+
+.memory-card {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-light);
+    overflow: hidden;
+    transition: var(--transition-gentle);
+    box-shadow: var(--shadow);
+}
+
+.memory-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-light);
+}
+
+.memory-content {
+    padding: var(--space-5);
+}
+
+.memory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-4);
+}
+
+.memory-meta {
+    display: flex;
+    gap: var(--space-3);
+    font-size: var(--text-xs);
+}
+
+.memory-category {
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius);
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.memory-category.personal {
+    background: rgba(255, 182, 193, 0.2);
+    color: #d63384;
+}
+
+.memory-category.professional {
+    background: rgba(79, 70, 229, 0.1);
+    color: var(--primary);
+}
+
+.memory-category.memories {
+    background: rgba(212, 165, 116, 0.2);
+    color: #d97706;
+}
+
+.memory-category.values {
+    background: rgba(139, 69, 19, 0.1);
+    color: #8b4513;
+}
+
+.memory-date {
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.memory-actions {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.memory-question .question-text {
+    font-family: 'Crimson Text', serif;
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 var(--space-3) 0;
+    line-height: 1.4;
+}
+
+.memory-preview .preview-text {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    margin: 0 0 var(--space-4) 0;
+}
+
+.memory-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--border-light);
+    font-size: var(--text-xs);
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--text-muted);
+}
+
+.stat-icon {
+    opacity: 0.7;
+}
+
+.memory-full-content {
+    margin-top: var(--space-4);
+    padding: var(--space-4);
+    background: var(--bg-memory-light);
+    border-radius: var(--radius-lg);
+    border-left: 4px solid var(--primary);
+}
+
+.full-response {
+    line-height: 1.7;
+    color: var(--text-primary);
+}
+
+.full-response p {
+    margin: 0;
+}
+
+/* List View */
+.list-view {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.responses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: var(--space-6);
+}
+
+.response-card {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-light);
+    overflow: hidden;
+    transition: var(--transition-gentle);
+}
+
+.response-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-4);
+}
+
+.response-main-info {
+    flex: 1;
+}
+
+.response-question {
+    font-family: 'Crimson Text', serif;
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 var(--space-3) 0;
+    line-height: 1.4;
+}
+
+.response-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--text-muted);
+    padding: var(--space-1) var(--space-2);
+    background: var(--gray-50);
+    border-radius: var(--radius);
+}
+
+.response-actions {
+    display: flex;
+    gap: var(--space-2);
+    flex-shrink: 0;
+}
+
+.response-preview {
+    padding: 0 var(--space-5) var(--space-5);
+}
+
+.response-preview .preview-text {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.full-response-container {
+    padding: var(--space-4) var(--space-5) var(--space-5);
+    background: var(--bg-memory-light);
+    border-top: 1px solid var(--border-light);
+}
+
+/* Enhanced Empty State */
+.empty-garden-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.empty-garden-card {
+    text-align: center;
+    padding: var(--space-8);
+}
+
+.empty-icon {
+    margin-bottom: var(--space-6);
+}
+
+.garden-symbol {
+    font-size: 4rem;
+    display: inline-block;
+}
+
+.empty-title {
+    font-family: 'Crimson Text', serif;
+    font-size: var(--text-2xl);
+    font-weight: 600;
+    color: var(--primary);
+    margin: 0 0 var(--space-4) 0;
+}
+
+.empty-description {
+    font-size: var(--text-base);
+    line-height: 1.6;
+    margin: 0 0 var(--space-6) 0;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.empty-actions {
+    margin-bottom: var(--space-6);
+}
+
+.growth-preview {
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border-light);
+}
+
+.preview-stages {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-6);
+}
+
+.stage {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.stage-icon {
+    font-size: 1.5rem;
+    opacity: 0.8;
+}
+
+.stage-text {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Toast notifications */
+.toast {
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: var(--space-4);
+    margin-bottom: var(--space-2);
+    box-shadow: var(--shadow-md);
+    animation: slideIn 0.3s ease-out;
+}
+
+.toast-success {
+    border-left: 4px solid var(--success);
+}
+
+.toast-error {
+    border-left: 4px solid var(--danger);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .data-page-container {
+        padding: var(--space-4) var(--space-2);
+    }
+    
+    .header-content {
+        flex-direction: column;
+        gap: var(--space-4);
+        text-align: center;
+    }
+    
+    .title-section {
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+    
+    .filter-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .timeline-spine {
+        padding-left: var(--space-6);
+    }
+    
+    .timeline-spine::before {
+        left: 16px;
+    }
+    
+    .period-icon {
+        left: -24px;
+        width: 40px;
+        height: 40px;
+    }
+    
+    .memory-marker {
+        left: -28px;
+    }
+    
+    .marker-dot {
+        width: 12px;
+        height: 12px;
+        border-width: 3px;
+    }
+    
+    .timeline-item {
+        margin-left: var(--space-2);
+    }
+    
+    .responses-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .response-header-content {
+        flex-direction: column;
+        gap: var(--space-3);
+    }
+    
+    .response-actions {
+        align-self: stretch;
+        justify-content: space-between;
+    }
+    
+    .preview-stages {
+        flex-direction: column;
+        gap: var(--space-4);
+    }
+}
+</style>

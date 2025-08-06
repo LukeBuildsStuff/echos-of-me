@@ -25,7 +25,6 @@ export async function GET(request: NextRequest) {
         birthday,
         primary_role,
         secondary_roles,
-        children_birthdays,
         important_people,
         cultural_background
       FROM users 
@@ -94,7 +93,7 @@ export async function GET(request: NextRequest) {
         languagePatterns: []
       },
       lifeStage: {
-        currentPhase: determineLifeStage(user.children_birthdays, user.birthday),
+        currentPhase: determineLifeStage(null, user.birthday),
         majorTransitions: [],
         currentChallenges: [],
         futureAnticipations: []

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Test Visualization</title>
+    <style>
+        body {
+            font-family: 'Monaco', 'Consolas', monospace;
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 20px;
+        }
+        .terminal {
+            background: #000;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .api-test {
+            margin: 15px 0;
+            padding: 10px;
+            border-left: 3px solid #00ff00;
+        }
+        .success { color: #00ff00; }
+        .warning { color: #ffff00; }
+        .error { color: #ff0000; }
+        .endpoint {
+            color: #00ffff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Family Member API Test Results</h1>
+    
+    <div class="terminal">
+        <div class="api-test">
+            <span class="success">✅ GET /api/user/family-members</span><br>
+            <span class="endpoint">Status:</span> <span class="success">401 (Requires Auth) - EXPECTED</span><br>
+            <span class="endpoint">Function:</span> Retrieve user's family members
+        </div>
+        
+        <div class="api-test">
+            <span class="success">✅ POST /api/user/family-members</span><br>
+            <span class="endpoint">Status:</span> <span class="success">401 (Requires Auth) - EXPECTED</span><br>
+            <span class="endpoint">Function:</span> Add new family member
+        </div>
+        
+        <div class="api-test">
+            <span class="success">✅ PUT /api/user/family-members</span><br>
+            <span class="endpoint">Status:</span> <span class="success">401 (Requires Auth) - EXPECTED</span><br>
+            <span class="endpoint">Function:</span> Update existing family member
+        </div>
+        
+        <div class="api-test">
+            <span class="success">✅ DELETE /api/user/family-members</span><br>
+            <span class="endpoint">Status:</span> <span class="success">401 (Requires Auth) - EXPECTED</span><br>
+            <span class="endpoint">Function:</span> Remove family member
+        </div>
+    </div>
+    
+    <h2>🔗 Test these APIs manually:</h2>
+    <div class="terminal">
+        <p>1. Login at: <a href="http://localhost:3003" style="color: #00ffff;">http://localhost:3003</a></p>
+        <p>2. Open browser DevTools (F12)</p>
+        <p>3. Go to Network tab</p>
+        <p>4. Perform family member operations</p>
+        <p>5. Verify API calls succeed (200 status)</p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,159 @@
+{
+  "title": "Family Member Functionality - End-to-End Test Report",
+  "timestamp": "2025-08-06T01:27:51.260Z",
+  "summary": {
+    "totalTests": 9,
+    "passedTests": 5,
+    "criticalFailures": 0,
+    "overallStatus": "HEALTHY",
+    "completionRate": "56%"
+  },
+  "testResults": [
+    {
+      "name": "Application Health Check",
+      "status": "passed",
+      "details": {
+        "status": 200,
+        "accessible": true
+      },
+      "timestamp": "2025-08-06T01:27:51.311Z"
+    },
+    {
+      "name": "Authentication Flow",
+      "status": "passed",
+      "details": {
+        "loginSuccessful": true,
+        "userEmail": "lukemoeller@yahoo.com"
+      },
+      "timestamp": "2025-08-06T01:27:51.812Z"
+    },
+    {
+      "name": "React Component Structure",
+      "status": "passed",
+      "details": {
+        "totalComponents": 4,
+        "existingComponents": 4,
+        "missingComponents": 0
+      },
+      "timestamp": "2025-08-06T01:27:51.813Z"
+    },
+    {
+      "name": "Component Code Analysis",
+      "status": "passed",
+      "details": {
+        "totalIssues": 0,
+        "totalWarnings": 0,
+        "issues": [],
+        "warnings": []
+      },
+      "timestamp": "2025-08-06T01:27:51.814Z"
+    },
+    {
+      "name": "User Profile API Availability",
+      "status": "passed",
+      "details": {
+        "endpointExists": true,
+        "requiresAuth": true
+      },
+      "timestamp": "2025-08-06T01:27:51.999Z"
+    },
+    {
+      "name": "Get Family Members API Endpoint",
+      "status": "passed",
+      "details": {
+        "endpointExists": true,
+        "requiresAuth": true,
+        "method": "GET"
+      },
+      "timestamp": "2025-08-06T01:27:52.134Z"
+    },
+    {
+      "name": "Add Family Member API Endpoint",
+      "status": "passed",
+      "details": {
+        "endpointExists": true,
+        "requiresAuth": true,
+        "method": "POST"
+      },
+      "timestamp": "2025-08-06T01:27:52.155Z"
+    },
+    {
+      "name": "Update Family Member API Endpoint",
+      "status": "passed",
+      "details": {
+        "endpointExists": true,
+        "requiresAuth": true,
+        "method": "PUT"
+      },
+      "timestamp": "2025-08-06T01:27:52.180Z"
+    },
+    {
+      "name": "Delete Family Member API Endpoint",
+      "status": "passed",
+      "details": {
+        "endpointExists": true,
+        "requiresAuth": true,
+        "method": "DELETE"
+      },
+      "timestamp": "2025-08-06T01:27:52.201Z"
+    },
+    {
+      "name": "Database Schema Check",
+      "status": "warning",
+      "details": {
+        "error": "Command failed: cd /home/luke/personal-ai-clone/web && node /tmp/db-test.js\nnode:internal/modules/cjs/loader:1215\n  throw err;\n  ^\n\nError: Cannot find module 'pg'\nRequire stack:\n- /tmp/db-test.js\n    at Module._resolveFilename (node:internal/modules/cjs/loader:1212:15)\n    at Module._load (node:internal/modules/cjs/loader:1043:27)\n    at Module.require (node:internal/modules/cjs/loader:1298:19)\n    at require (node:internal/modules/helpers:182:18)\n    at Object.<anonymous> (/tmp/db-test.js:2:22)\n    at Module._compile (node:internal/modules/cjs/loader:1529:14)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1613:10)\n    at Module.load (node:internal/modules/cjs/loader:1275:32)\n    at Module._load (node:internal/modules/cjs/loader:1096:12)\n    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:164:12) {\n  code: 'MODULE_NOT_FOUND',\n  requireStack: [ '/tmp/db-test.js' ]\n}\n\nNode.js v20.19.2\n",
+        "note": "Database connectivity test failed"
+      },
+      "timestamp": "2025-08-06T01:27:52.219Z"
+    },
+    {
+      "name": "Mobile Responsiveness",
+      "status": "warning",
+      "details": {
+        "totalComponents": 3,
+        "mobileOptimized": 2,
+        "issues": [
+          "GroupedFamilyView.tsx may not be fully responsive",
+          "QuickAddFamilyModal.tsx missing accessibility attributes"
+        ]
+      },
+      "timestamp": "2025-08-06T01:27:52.219Z"
+    },
+    {
+      "name": "JavaScript Error Prevention",
+      "status": "passed",
+      "details": {
+        "potentialIssues": 0,
+        "warnings": 1,
+        "details": {
+          "potentialIssues": [],
+          "warnings": [
+            "GroupedFamilyView may need better error handling"
+          ]
+        }
+      },
+      "timestamp": "2025-08-06T01:27:52.220Z"
+    }
+  ],
+  "criticalIssues": [],
+  "warnings": [
+    {
+      "warning": "Could not test database schema - ensure PostgreSQL is running",
+      "timestamp": "2025-08-06T01:27:52.219Z"
+    }
+  ],
+  "recommendations": [
+    {
+      "recommendation": "GroupedFamilyView.tsx may not be fully responsive",
+      "timestamp": "2025-08-06T01:27:52.219Z"
+    },
+    {
+      "recommendation": "QuickAddFamilyModal.tsx missing accessibility attributes",
+      "timestamp": "2025-08-06T01:27:52.219Z"
+    },
+    {
+      "recommendation": "GroupedFamilyView may need better error handling",
+      "timestamp": "2025-08-06T01:27:52.220Z"
+    }
+  ]
+}

@@ -209,7 +209,6 @@ export class EnhancedDataPipeline {
         important_people,
         cultural_background,
         significant_events,
-        children_birthdays,
         birthday
       FROM users
       WHERE id = $1

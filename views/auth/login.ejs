@@ -1,0 +1,394 @@
+<% 
+// Set layout variables
+const title = 'Login - Personal AI Clone';
+%>
+
+<div class="login-container animate-fadeInMemory">
+    <!-- Inspiring Quote Section -->
+    <div class="legacy-inspiration animate-slideInLeft">
+        <div class="quote-card">
+            <blockquote class="legacy-quote">
+                "The best time to plant a tree was 20 years ago. The second best time is now. The same is true for preserving your legacy."
+            </blockquote>
+            <cite class="quote-author">— Ancient Wisdom</cite>
+        </div>
+    </div>
+    
+    <!-- Login Card -->
+    <div class="card card-legacy animate-slideInRight animate-stagger-2" style="max-width: 440px; margin: 0 auto;">
+        <!-- Header -->
+        <div class="card-header text-center">
+            <div class="login-icon animate-pulse">
+                <span class="memory-symbol">🌟</span>
+            </div>
+            <h1 class="card-title" style="font-family: 'Crimson Text', serif; color: var(--primary); margin-bottom: var(--space-2);">Welcome Back</h1>
+            <p class="card-description memory-content">Continue building your digital legacy - a gift for future generations</p>
+        </div>
+        
+        <!-- Error Alert -->
+        <% if (error) { %>
+        <div class="alert alert-danger">
+            <%= error %>
+        </div>
+        <% } %>
+        
+        <!-- Login Form -->
+        <form method="POST" action="/login" id="login-form">
+            <div class="form-group form-group-memory">
+                <label for="email" class="form-label form-label-memory">Email Address</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    class="form-input focus-ring" 
+                    required 
+                    autocomplete="email"
+                    placeholder="Your gateway to preserving memories"
+                    aria-describedby="email-error"
+                >
+                <div id="email-error" class="form-error" style="display: none;"></div>
+            </div>
+            
+            <div class="form-group form-group-memory">
+                <label for="password" class="form-label form-label-memory">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    class="form-input focus-ring" 
+                    required 
+                    autocomplete="current-password"
+                    placeholder="Unlock your legacy"
+                    aria-describedby="password-error"
+                >
+                <div id="password-error" class="form-error" style="display: none;"></div>
+            </div>
+            
+            <button type="submit" class="btn btn-memory w-full btn-lg hover-lift" id="login-button">
+                <span id="login-text">🌟 Enter Your Legacy Space</span>
+                <span id="login-loading" class="loading-memory" style="display: none;">Connecting to your memories...</span>
+            </button>
+        </form>
+        
+        <!-- Memory Encouragement -->
+        <div class="mt-6 text-center memory-encouragement">
+            <div class="memory-stats animate-fadeInUp animate-stagger-3">
+                <div class="stat-item">
+                    <span class="stat-icon">💭</span>
+                    <span class="stat-text">Your memories matter</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">🌱</span>
+                    <span class="stat-text">Legacy grows with time</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-icon">✨</span>
+                    <span class="stat-text">Stories live forever</span>
+                </div>
+            </div>
+            <p class="legacy-quote mt-4">"Every memory preserved is a gift to the future."</p>
+        </div>
+    </div>
+    
+    <!-- Rotating Inspirational Messages -->
+    <div class="inspiration-rotation animate-fadeInUp animate-stagger-4">
+        <div class="inspiration-message active" data-message="1">
+            <p class="legacy-quote">"Your story is a thread in the tapestry of human experience."</p>
+        </div>
+        <div class="inspiration-message" data-message="2">
+            <p class="legacy-quote">"The memories you preserve today become tomorrow's treasures."</p>
+        </div>
+        <div class="inspiration-message" data-message="3">
+            <p class="legacy-quote">"Every voice deserves to be heard across generations."</p>
+        </div>
+    </div>
+    
+    <!-- Demo Info (for development) -->
+    <% if (process.env.NODE_ENV === 'development') { %>
+    <div class="card mt-6" style="max-width: 440px; margin: 0 auto; opacity: 0.8;">
+        <div class="card-header">
+            <h3 class="card-title text-sm">🛠️ Development Mode</h3>
+        </div>
+        <div class="text-xs text-muted">
+            <p><strong>Test Account:</strong></p>
+            <p>Email: lukemoeller@yahoo.com</p>
+            <p>Password: [Your existing password]</p>
+        </div>
+    </div>
+    <% } %>
+</div>
+
+<style>
+/* Login page specific styles */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-8) var(--space-4);
+    background: linear-gradient(135deg, var(--background) 0%, rgba(44, 107, 111, 0.03) 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.login-container::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(212, 165, 116, 0.1) 0%, transparent 70%);
+    animation: float 20s ease-in-out infinite;
+    pointer-events: none;
+}
+
+.legacy-inspiration {
+    margin-bottom: var(--space-8);
+    max-width: 500px;
+    text-align: center;
+}
+
+.quote-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    border: 1px solid rgba(44, 107, 111, 0.1);
+}
+
+.quote-author {
+    display: block;
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+    font-style: normal;
+}
+
+.login-icon {
+    margin-bottom: var(--space-4);
+}
+
+.memory-symbol {
+    font-size: 3rem;
+    display: inline-block;
+}
+
+.memory-encouragement {
+    border-top: 1px solid var(--border-light);
+    padding-top: var(--space-6);
+}
+
+.memory-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    min-width: 80px;
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+    opacity: 0.8;
+}
+
+.stat-text {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.inspiration-rotation {
+    margin-top: var(--space-8);
+    height: 60px;
+    position: relative;
+    max-width: 500px;
+    text-align: center;
+}
+
+.inspiration-message {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.inspiration-message.active {
+    opacity: 1;
+}
+
+.inspiration-message p {
+    margin: 0;
+    font-size: var(--text-sm);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+    .login-container {
+        padding: var(--space-4);
+    }
+    
+    .legacy-inspiration {
+        margin-bottom: var(--space-6);
+    }
+    
+    .memory-stats {
+        flex-direction: column;
+        gap: var(--space-2);
+    }
+    
+    .stat-item {
+        flex-direction: row;
+        justify-content: center;
+        min-width: auto;
+    }
+}
+</style>
+
+<script>
+// Enhanced login form handling with inspiration
+document.addEventListener('DOMContentLoaded', function() {
+    // Rotate inspirational messages
+    const messages = document.querySelectorAll('.inspiration-message');
+    let currentMessage = 0;
+    
+    setInterval(() => {
+        messages[currentMessage].classList.remove('active');
+        currentMessage = (currentMessage + 1) % messages.length;
+        messages[currentMessage].classList.add('active');
+    }, 4000);
+    
+    // Add entrance animations with stagger
+    const animatedElements = document.querySelectorAll('[class*="animate-"]');
+    animatedElements.forEach((el, index) => {
+        el.style.animationDelay = `${index * 0.1}s`;
+    });
+    const form = document.getElementById('login-form');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const submitButton = document.getElementById('login-button');
+    const loginText = document.getElementById('login-text');
+    const loginLoading = document.getElementById('login-loading');
+    
+    // Form validation
+    function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+    
+    function showError(fieldId, message) {
+        const errorElement = document.getElementById(fieldId + '-error');
+        const inputElement = document.getElementById(fieldId);
+        
+        errorElement.textContent = message;
+        errorElement.style.display = 'block';
+        inputElement.style.borderColor = 'var(--danger)';
+    }
+    
+    function clearError(fieldId) {
+        const errorElement = document.getElementById(fieldId + '-error');
+        const inputElement = document.getElementById(fieldId);
+        
+        errorElement.style.display = 'none';
+        inputElement.style.borderColor = '';
+    }
+    
+    // Real-time validation
+    emailInput.addEventListener('blur', function() {
+        if (this.value && !validateEmail(this.value)) {
+            showError('email', 'Please enter a valid email address');
+        } else {
+            clearError('email');
+        }
+    });
+    
+    passwordInput.addEventListener('blur', function() {
+        if (this.value && this.value.length < 6) {
+            showError('password', 'Password must be at least 6 characters');
+        } else {
+            clearError('password');
+        }
+    });
+    
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Clear previous errors
+        clearError('email');
+        clearError('password');
+        
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        
+        let hasErrors = false;
+        
+        // Validate email
+        if (!email) {
+            showError('email', 'Email is required');
+            hasErrors = true;
+        } else if (!validateEmail(email)) {
+            showError('email', 'Please enter a valid email address');
+            hasErrors = true;
+        }
+        
+        // Validate password
+        if (!password) {
+            showError('password', 'Password is required');
+            hasErrors = true;
+        } else if (password.length < 6) {
+            showError('password', 'Password must be at least 6 characters');
+            hasErrors = true;
+        }
+        
+        if (hasErrors) {
+            return;
+        }
+        
+        // Show loading state with memory theme
+        submitButton.disabled = true;
+        submitButton.classList.add('animate-pulse');
+        loginText.style.display = 'none';
+        loginLoading.style.display = 'flex';
+        loginLoading.style.alignItems = 'center';
+        loginLoading.style.justifyContent = 'center';
+        
+        // Submit form (let the browser handle the POST request)
+        this.submit();
+    });
+    
+    // Auto-focus email field
+    emailInput.focus();
+    
+    // Handle back button / form reset
+    window.addEventListener('pageshow', function() {
+        submitButton.disabled = false;
+        submitButton.classList.remove('animate-pulse');
+        loginText.style.display = 'inline';
+        loginLoading.style.display = 'none';
+    });
+    
+    // Add gentle hover effects to form inputs
+    const inputs = document.querySelectorAll('.form-input');
+    inputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.parentElement.classList.add('animate-glow');
+        });
+        
+        input.addEventListener('blur', function() {
+            this.parentElement.classList.remove('animate-glow');
+        });
+    });
+});
+</script>
